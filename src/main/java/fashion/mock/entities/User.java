@@ -1,7 +1,5 @@
 package fashion.mock.entities;
 
-
-
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;

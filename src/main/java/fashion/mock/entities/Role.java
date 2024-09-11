@@ -1,7 +1,5 @@
 package fashion.mock.entities;
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,7 +43,5 @@ public class Role {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
 
 }
-
