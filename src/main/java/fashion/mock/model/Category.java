@@ -1,7 +1,9 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +28,9 @@ public class Category {
 
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
-	
-	@OneToMany(mappedBy = "category")
-	private Product product;
+
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private List<Product> products;
 
 	public Category(Long id, String categoryName, LocalDate createdDate, LocalDate updatedDate) {
 		super();

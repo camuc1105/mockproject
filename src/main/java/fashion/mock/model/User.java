@@ -3,6 +3,7 @@ package fashion.mock.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,15 +45,15 @@ public class User {
 	private LocalDate updatedDate;
 
 	// OneToMany Relationship with UserRole
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserRole> userRoles;
 
 	// OneToMany Relationship with Order
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
 	// OneToMany Relationship with Product
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Product> products;
 
 	public User(Long id, String email, String password, String userName, String phone, String address, String status,

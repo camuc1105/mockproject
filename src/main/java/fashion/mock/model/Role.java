@@ -2,6 +2,7 @@ package fashion.mock.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Role {
 	private String role;
 
 	// OneToMany Relationship with UserRole
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
 	private List<Role> roles;
 
 	public Role(Long id, String role) {

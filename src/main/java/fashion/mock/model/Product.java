@@ -3,6 +3,7 @@ package fashion.mock.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,12 +53,15 @@ public class Product {
 
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
-	
-	@OneToMany(mappedBy = "product")
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Discount> discounts;
-	
-	@OneToMany(mappedBy = "product")
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails;
+	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<Image> images;
 
 	public Product(Long id, String productName, Category category, String color, String size, Double price,
 			Integer quantity, String description, User user, LocalDate createdDate, LocalDate updatedDate) {

@@ -1,7 +1,9 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,9 +31,9 @@ public class Payment {
 
 	@Column(name = "createdDate", nullable = false)
 	private LocalDate createdDate;
-	
-	@OneToMany(mappedBy = "payment")
-	private Payment payment;
+
+	@OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+	private List<TransactionHistory> transactionHistories;
 
 	public Payment(Long id, String paymentMethod, String description, String status, LocalDate createdDate) {
 		super();
@@ -85,6 +87,5 @@ public class Payment {
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
-	
 
 }
