@@ -1,4 +1,4 @@
-package fashion.mock.entities;
+package fashion.mock.model;
 
 import java.io.Serializable;
 import java.util.Objects;

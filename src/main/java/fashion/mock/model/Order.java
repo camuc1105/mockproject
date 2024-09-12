@@ -1,4 +1,4 @@
-package fashion.mock.entities;
+package fashion.mock.model;
 
 import java.time.LocalDate;
 
