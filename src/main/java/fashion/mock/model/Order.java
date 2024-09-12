@@ -1,6 +1,7 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,31 +10,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ORDERS")
 public class Order {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User user;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
-	@Column(name = "orderDate", nullable = false)
-	private LocalDate orderDate;
+    @Column(name = "orderDate", nullable = false)
+    private LocalDate orderDate;
 
-	@Column(name = "totalPrice", nullable = false)
-	private Double totalPrice;
+    @Column(name = "totalPrice", nullable = false)
+    private Double totalPrice;
 
-	@Column(length = 20)
-	private String status;
+    @Column(length = 20)
+    private String status;
 
-	@Column(name = "updatedDate")
-	private LocalDate updatedDate;
+    @Column(name = "updatedDate")
+    private LocalDate updatedDate;
+    
+    @OneToMany(mappedBy = "order")
+    private List<TransactionHistory> transactionHistories;
+    
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 
 	public Order(Long id, User user, LocalDate orderDate, Double totalPrice, String status, LocalDate updatedDate) {
 		super();
@@ -96,5 +104,7 @@ public class Order {
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+    
+    
 
 }

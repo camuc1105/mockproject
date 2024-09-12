@@ -1,7 +1,5 @@
 package fashion.mock.model;
 
-
-
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;

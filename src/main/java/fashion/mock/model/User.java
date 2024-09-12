@@ -1,12 +1,14 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,6 +42,18 @@ public class User {
 
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
+
+	// OneToMany Relationship with UserRole
+	@OneToMany(mappedBy = "user")
+	private List<UserRole> userRoles;
+
+	// OneToMany Relationship with Order
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
+	// OneToMany Relationship with Product
+	@OneToMany(mappedBy = "user")
+	private List<Product> products;
 
 	public User(Long id, String email, String password, String userName, String phone, String address, String status,
 			LocalDate createdDate, LocalDate updatedDate) {

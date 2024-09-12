@@ -1,6 +1,7 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -50,6 +52,12 @@ public class Product {
 
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Discount> discounts;
+	
+	@OneToMany(mappedBy = "product")
+	private List<OrderDetail> orderDetails;
 
 	public Product(Long id, String productName, Category category, String color, String size, Double price,
 			Integer quantity, String description, User user, LocalDate createdDate, LocalDate updatedDate) {

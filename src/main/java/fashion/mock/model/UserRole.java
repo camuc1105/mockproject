@@ -13,6 +13,9 @@ import jakarta.persistence.Table;
 @Table(name = "USERROLE")
 public class UserRole implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +29,9 @@ public class Payment {
 
 	@Column(name = "createdDate", nullable = false)
 	private LocalDate createdDate;
+	
+	@OneToMany(mappedBy = "payment")
+	private Payment payment;
 
 	public Payment(Long id, String paymentMethod, String description, String status, LocalDate createdDate) {
 		super();
@@ -81,5 +85,6 @@ public class Payment {
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
+	
 
 }

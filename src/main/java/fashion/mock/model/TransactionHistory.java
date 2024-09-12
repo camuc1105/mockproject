@@ -14,27 +14,27 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "TRANSACTION_HISTORY")
 public class TransactionHistory {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "orderId", nullable = false)
-	private Order order;
+    @ManyToOne
+    @JoinColumn(name = "orderId", nullable = false)
+    private Order order;
 
-	@ManyToOne
-	@JoinColumn(name = "paymentId", nullable = false)
-	private Payment payment;
+    @ManyToOne
+    @JoinColumn(name = "paymentId", nullable = false)
+    private Payment payment;
 
-	@Column(name = "transactionDate", nullable = false)
-	private LocalDate transactionDate;
+    @Column(name = "transactionDate", nullable = false)
+    private LocalDate transactionDate;
 
-	@Column(name = "transactionAmount", nullable = false)
-	private Double transactionAmount;
+    @Column(name = "transactionAmount", nullable = false)
+    private Double transactionAmount;
 
-	@Column(length = 20)
-	private String status;
+    @Column(length = 20)
+    private String status;
 
 	public TransactionHistory(Long id, Order order, Payment payment, LocalDate transactionDate,
 			Double transactionAmount, String status) {
@@ -99,4 +99,5 @@ public class TransactionHistory {
 		this.status = status;
 	}
 
+    
 }
