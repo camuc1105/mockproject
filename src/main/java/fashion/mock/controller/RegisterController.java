@@ -1,6 +1,6 @@
 package fashion.mock.controller;
 
-import fashion.mock.entities.User;
+import fashion.mock.model.User;
 import fashion.mock.service.EmailService;
 import fashion.mock.service.UserService;
 import fashion.mock.service.VerificationService;

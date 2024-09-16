@@ -1,6 +1,6 @@
 package fashion.mock.repository;
 
-import fashion.mock.entities.User;
+import fashion.mock.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

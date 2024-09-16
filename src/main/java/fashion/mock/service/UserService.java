@@ -1,6 +1,7 @@
 package fashion.mock.service;
 
-import fashion.mock.entities.User;
+
+import fashion.mock.model.User;
 import fashion.mock.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
