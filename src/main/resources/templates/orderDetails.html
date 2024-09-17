@@ -1,21 +1,11 @@
 <!-- Author Tran Thien Thanh 09/04/1996 -->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Order Details</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-</head>
+
+<head th:replace="~{/fragment/common-header :: commonHeader}"></head>
 
 <body>
-	<div class="container mt-4">
+	<main class="container mt-4">
 		<div class="row">
 			<div class="col col-8">
 				<h4>
@@ -23,10 +13,11 @@
 				</h4>
 			</div>
 			<div class="col col-4 text-right">
-				<span
-					th:class="${order.status == 'Hoàn tất' ? 'badge badge-success' : 
-					order.status == 'Đã hủy' ? 'badge badge-danger' : 'badge badge-primary'}"
-					th:text="${order.status}"></span>
+				<span th:switch="${order.status}">
+					<span th:case="'Hoàn tất'" class="badge badge-success" th:text="${order.status}"></span>
+					<span th:case="'Đã hủy'" class="badge badge-secondary" th:text="${order.status}"></span>
+					<span th:case="*" class="badge badge-primary" th:text="${order.status}"></span>
+				</span>
 			</div>
 			<div class="col col-6">
 				<p class="text-muted">
@@ -45,9 +36,9 @@
 				<div class="card h-100">
 					<div class="card-body">
 						<h5 class="card-title">Thông tin người nhận</h5>
-						<p class="card-text font-weight-bold" th:text="${order.user.userName}"></p>
-						<p class="card-text font-weight-bold" th:text="${order.user.phone}"></p>
-						<p class="card-text" th:text="${order.user.address}"></p>
+						<p class="card-text font-weight-bold" th:text="${order.user?.userName}"></p>
+						<p class="card-text font-weight-bold" th:text="${order.user?.phone}"></p>
+						<p class="card-text" th:text="${order.user?.address}"></p>
 					</div>
 				</div>
 			</div>
@@ -91,18 +82,18 @@
 						</tr>
 					</thead>
 					<tbody>
+						<!-- <tr th:if="${#lists.isEmpty(orderDetails)}">
+							<td colspan="5">Không có sản phẩm nào trong đơn hàng này.</td>
+						</tr> -->
 						<tr th:each="detail : ${orderDetails}">
 							<td><img
-								th:src="@{/imgProduct/{image}(image=${detail.product.images[0].imgLink})}"
-								alt="Ảnh sản phẩm" class="img-thumbnail" width="100"></td>
+								th:src="@{'/imgProduct/' + ${detail.product.images[0].imgLink}}"
+								th:alt="${detail.product.productName}" class="img-thumbnail" width="100">
+							</td>
 							<td>
 								<p class="productName" th:text="${detail.product.productName}"></p>
-								<p class="size">
-									Size: <span th:text="${detail.product.size}"></span>
-								</p>
-								<p class="size">
-									Màu sắc: <span th:text="${detail.product.color}"></span>
-								</p>
+								<p class="size">Kích cỡ: <span th:text="${detail.product.size}"></span></p>
+								<p class="color">Màu sắc: <span th:text="${detail.product.color}"></span></p>
 							</td>
 							<td th:text="${detail.product.price} + ' đ'"></td>
 							<td th:text="${detail.quantity}"></td>
@@ -118,18 +109,9 @@
 				</table>
 			</div>
 		</div>
-	</div>
+	</main>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
+	<div th:replace="~{/fragment/common-footer :: script}" ></div>
+	
 </body>
 </html>
