@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- <html lang="en"> -->
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thông tin khách hàng</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/navigation.css">
+<script src="/js/purchase-history.js" defer></script>
+<style>
+body, html {
+	height: 92%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background-color: #F0F0F0;
+}
+
+.wrapper {
+	display: flex;
+	min-height: 100%;
+}
+
+.sidebar {
+	width: 250px;
+	min-height: 100%;
+	background-color: white;
+	color: #000000;
+	display: flex;
+	flex-direction: column;
+	padding-top: 20px;
+}
+
+.sidebar a {
+	color: #000000;
+	text-decoration: none;
+	padding: 15px;
+	display: block;
+	font-size: 18px;
+}
+
+.sidebar a:hover {
+	background-color: #F0F0F0;
+}
+
+/* Content styles */
+.content {
+	flex-grow: 1;
+	padding: 20px;
+	overflow-y: auto;
+}
+
+.form-group .btn {
+	width: 40px;
+	height: 40px;
+}
+</style>
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+			<!-- Logo và Tên Shop -->
+			<a class="navbar-brand d-flex align-items-center" href="#"> <img
+				src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
+				alt="Logo" width="40" height="40" class="mr-2"> <span>F
+					FASHION</span>
+			</a>
+
+			<!-- Mega Menu -->
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="#">Sản phẩm
+							mới</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+					<!-- Mega Menu Áo -->
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Áo </a>
+						<div class="dropdown-menu mega-menu"
+							aria-labelledby="navbarDropdown">
+							<div class="row">
+								<!-- Cấp 2: Áo khoác -->
+								<div class="col-md-4">
+									<h6>Áo khoác</h6>
+									<!-- Cấp 3: Áo bomber, hoodie, phao -->
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Bomber</a></li>
+										<li><a class="dropdown-item" href="#">Hoodie</a></li>
+										<li><a class="dropdown-item" href="#">Áo phao</a></li>
+									</ul>
+								</div>
+								<!-- Cấp 2: Áo thun -->
+								<div class="col-md-4">
+									<h6>Áo thun</h6>
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Áo thun cổ tròn</a></li>
+										<li><a class="dropdown-item" href="#">Áo thun cổ tim</a></li>
+										<li><a class="dropdown-item" href="#">Áo thun thể
+												thao</a></li>
+										<li><a class="dropdown-item" href="#">Áo thun polo</a></li>
+
+									</ul>
+								</div>
+								<!-- Cấp 2: Áo sơ mi -->
+								<div class="col-md-4">
+									<h6>Áo sơ mi</h6>
+									<!-- Cấp 3: Các loại áo sơ mi -->
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Áo sơ mi trắng</a></li>
+										<li><a class="dropdown-item" href="#">Áo sơ mi kẻ sọc</a></li>
+										<li><a class="dropdown-item" href="#">Áo sơ mi tay
+												ngắn</a></li>
+										<li><a class="dropdown-item" href="#">Áo sơ mi caro</a></li>
+									</ul>
+								</div>
+							</div>
+						</div></li>
+
+					<!-- Mega Menu Quần -->
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Quần </a>
+						<div class="dropdown-menu mega-menu"
+							aria-labelledby="navbarDropdown">
+							<div class="row">
+								<!-- Cấp 2: Quần short -->
+								<div class="col-md-4">
+									<h6>Quần short</h6>
+									<!-- Cấp 3: Quần short kaki, thun, nỉ -->
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Quần short kaki</a></li>
+										<li><a class="dropdown-item" href="#">Quần short thun</a></li>
+										<li><a class="dropdown-item" href="#">Quần short nỉ</a></li>
+									</ul>
+								</div>
+								<!-- Cấp 2: Quần jean -->
+								<div class="col-md-4">
+									<h6>Quần jean</h6>
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Quần jean
+												slimfit</a></li>
+										<li><a class="dropdown-item" href="#">Quần jean
+												regular</a></li>
+										<li><a class="dropdown-item" href="#">Quần jean
+												skinny</a></li>
+										<li><a class="dropdown-item" href="#">Quần jean bass</a></li>
+
+									</ul>
+								</div>
+								<!-- Cấp 2: Quần sịp -->
+								<div class="col-md-4">
+									<h6>Quần sịp</h6>
+									<!-- Cấp 3: Các loại quần sịp -->
+									<ul class="list-unstyled">
+										<li><a class="dropdown-item" href="#">Quần sịp boxer</a></li>
+										<li><a class="dropdown-item" href="#">Quần sịp tam
+												giác</a></li>
+										<li><a class="dropdown-item" href="#">Quần sịp lọt
+												khe</a></li>
+									</ul>
+								</div>
+							</div>
+						</div></li>
+
+					<li class="nav-item"><a class="nav-link" href="#">Tin tức</a>
+					</li>
+				</ul>
+			</div>
+
+
+			<!-- Icon giỏ hàng, thanh tìm kiếm và thông tin tài khoản -->
+			<div
+				class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
+
+				<!-- Phần thanh tìm kiếm -->
+				<form class="form-inline my-2 my-lg-0 search-bar">
+					<input class="form-control mr-sm-2" type="search"
+						placeholder="Tìm kiếm" aria-label="Search">
+				</form>
+
+
+				<!-- Icon giỏ hàng -->
+				<a href="#" class="nav-link"> <i class="fas fa-shopping-cart"></i>
+				</a>
+
+				<!-- Thông tin tài khoản -->
+				<div class="account-info d-flex align-items-center">
+					<div class="login-box">
+						<a href="#" class="nav-link">Đăng nhập</a>
+					</div>
+					<div class="register-box">
+						<a href="#" class="nav-link">Đăng ký</a>
+					</div>
+				</div>
+
+				<!-- Nút toggle khi trên mobile -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarNav" aria-controls="navbarNav"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</div>
+	</nav>
+
+	<div class="wrapper mt-5">
+		<!-- Sidebar -->
+		<div class="sidebar mr-3 ml-5">
+			<h5
+				class="text-center font-weight-bold border-bottom pb-2 custom-border ml-2 mr-2 mb-0">TÀI
+				KHOẢN</h5>
+			<a href="/information"
+				class="d-block border-bottom py-2 ml-2 mr-2 pb-3 pt-3"><i
+				class="fas fa-user mr-2"></i> Thông tin người dùng</a> <a
+				href="/information/purchase-history"
+				class="d-block border-bottom py-2 ml-2 mr-2 pb-3 pt-3 mb-2"><i
+				class="fas fa-history mr-2"></i> Lịch sử giao dịch</a>
+		</div>
+
+		<!-- Content -->
+		<div class="content mr-5" style="background-color: white;">
+			<div class="container">
+				<h5 class="text-center font-weight-bold">LỊCH SỬ GIAO DỊCH</h5>
+				<div th:if="${transactionHistoriesPage.totalElements == 0}"
+					class="d-flex justify-content-center align-items-center"
+					style="height: 50vh;">
+					<p class="text-muted h4">Không có lịch sử giao dịch.</p>
+				</div>
+				<div th:if="${transactionHistoriesPage.totalElements > 0}">
+					<table class="table table-striped mt-3">
+						<thead>
+							<tr>
+								<th>Mã đơn hàng</th>
+								<th>Ngày đặt hàng</th>
+								<th>Ngày thanh toán</th>
+								<th>Trạng thái đơn hàng</th>
+								<th>Trạng thái thanh toán</th>
+								<th>Tổng tiền</th>
+								<th>Chi tiết</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Lặp qua danh sách transactionHistories để hiển thị dữ liệu -->
+							<tr th:each="history : ${transactionHistoriesPage.content}">
+								<td th:text="${history.orderId}">Mã đơn hàng</td>
+								<td th:text="${history.orderDate}">Ngày đặt hàng</td>
+								<td th:text="${history.transactionDate}">Ngày thanh toán</td>
+								<td th:text="${history.orderStatus}">Trạng thái đơn hàng</td>
+								<td th:text="${history.transactionStatus}">Trạng thái thanh toán</td>
+								<td th:text="${history.transactionAmount}">Tổng tiền</td>
+								<td><a
+									th:href="@{/order/details/{id}(id=${history.orderId})}"
+									class="">Xem</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- Hiển thị phân trang -->
+					<nav>
+						<ul class="pagination justify-content-end">
+							<!-- Nút "Đầu" -->
+							<li class="page-item"
+								th:classappend="${transactionHistoriesPage.first} ? 'disabled'">
+								<a class="page-link"
+								th:href="@{/information/purchase-history(page=0, size=${transactionHistoriesPage.size})}">Đầu</a>
+							</li>
+
+							<!-- Nút "Trước" -->
+							<li class="page-item"
+								th:classappend="${!transactionHistoriesPage.hasPrevious()} ? 'disabled'">
+								<a class="page-link"
+								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number - 1}, size=${transactionHistoriesPage.size})}">Trước</a>
+							</li>
+
+							<!-- Hiển thị các trang liền kề -->
+							<li class="page-item"
+								th:each="pageNum : ${#numbers.sequence(
+        transactionHistoriesPage.number == 0 ? 0 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number - 2 : transactionHistoriesPage.number - 1),
+        transactionHistoriesPage.totalPages <= 3 ? transactionHistoriesPage.totalPages - 1 : (transactionHistoriesPage.number == 0 ? 2 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number : transactionHistoriesPage.number + 1))
+    )}"
+								th:classappend="${pageNum == transactionHistoriesPage.number} ? 'active'">
+								<a class="page-link"
+								th:href="@{/information/purchase-history(page=${pageNum}, size=${transactionHistoriesPage.size})}"
+								th:text="${pageNum + 1}">1</a>
+							</li>
+
+
+							<!-- Nút "Sau" -->
+							<li class="page-item"
+								th:classappend="${!transactionHistoriesPage.hasNext()} ? 'disabled'">
+								<a class="page-link"
+								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number + 1}, size=${transactionHistoriesPage.size})}">Sau</a>
+							</li>
+
+							<!-- Nút "Cuối" -->
+							<li class="page-item"
+								th:classappend="${transactionHistoriesPage.last} ? 'disabled'">
+								<a class="page-link"
+								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.totalPages - 1}, size=${transactionHistoriesPage.size})}">Cuối</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer pt-5">
+		<div class="container">
+			<div class="row">
+				<!-- Cột 1: Thông tin shop và mạng xã hội -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Thời trang nam F Fashion</h5>
+					<p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng
+						tới phong cách nam tính, lịch lãm và trẻ trung.</p>
+					<div class="social-icons">
+						<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
+							class="fab fa-twitter"></i></a> <a href="#"><i
+							class="fab fa-instagram"></i></a> <a href="#"><i
+							class="fab fa-tiktok"></i></a> <a href="#"><i
+							class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+
+				<!-- Cột 2: Thông tin liên hệ và vận chuyển -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Thông tin liên hệ</h5>
+					<p>
+						<strong>Địa chỉ:</strong> Tầng 5, tòa nhà Manor Crown, số 32 Tố
+						Hữu, Xuân Phú, Huế
+					</p>
+					<p>
+						<strong>Điện thoại:</strong> 0905686868
+					</p>
+					<p>
+						<strong>Email:</strong> cskh@ffashion.vn
+					</p>
+				</div>
+
+				<!-- Cột 3: Nhóm liên kết -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Dịch vụ khách hàng</h5>
+					<ul class="list-unstyled">
+						<li><a href="#">Giới thiệu</a></li>
+						<li><a href="#">Chính sách đổi trả</a></li>
+						<li><a href="#">Liên hệ</a></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</footer>
+	<div class="footer-copyright text-center py-3">
+		<p class="mb-0">© 2024 F Fashion. Powered by Mock Team 2</p>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

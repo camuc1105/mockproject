@@ -1,8 +1,11 @@
+
+
 @charset "UTF-8";
 /* Chân trang */
 .footer {
     background-color: #000000;
     color:  #ffffff;
+
     margin-top: 1%;
 }
 
@@ -12,8 +15,10 @@
     color: #ffffff;
 }
 
+
 .footer p, .footer li a {
     color:  #ffffff;
+
     font-size: 14px;
     line-height: 1.6;
 }
@@ -26,10 +31,12 @@
 }
 
 .footer .social-icons a:hover {
+
     color:  #ffffff;
 }
 
 .footer .payment-icons img, .footer .shipping-icons img {
+
     width: 40px;
     margin-right: 10px;
 }
@@ -68,15 +75,19 @@
 
 /* CSS cho footer bản quyền */
 .footer-copyright {
+
     background-color: #000000 !important; /* Màu nền đen */
     color: #ffffff; /* Màu chữ trắng */
     padding: 15px 0; /* Khoảng cách trên dưới */
+r
 }
 
 /* Tùy chỉnh riêng cho đoạn văn trong phần footer */
 .footer-copyright p {
+
     margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
     font-size: 14px; /* Kích thước chữ vừa phải */
     color: #ffffff; /* Đảm bảo chữ trắng */
 }
+
 
