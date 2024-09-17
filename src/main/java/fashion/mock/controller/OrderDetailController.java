@@ -30,16 +30,15 @@ public class OrderDetailController {
 	@GetMapping("/orderDetail/{id}")
 	public String getOrderDetail(@PathVariable Long id, Model model) {
 		Optional<Order> orderOptional = orderService.getOrderById(id);
-		if (orderOptional.isPresent()) {
-			Order order = orderOptional.get();
-			List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);
-
-			model.addAttribute("order", order);
-			model.addAttribute("orderDetails", orderDetails);
-			return "orderDetails"; // Tên của file Thymeleaf HTML
-		} else {
-			return "error"; // Trả về trang lỗi nếu không tìm thấy đơn hàng
-		}
+		if (orderOptional.isEmpty()) {
+	        model.addAttribute("errorMessage", "Order not found.");
+	        return "error"; // Or a specific error page
+	    }
+	    Order order = orderOptional.get();
+	    List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);
+	    model.addAttribute("order", order);
+	    model.addAttribute("orderDetails", orderDetails);
+	    return "orderDetails";
 	}
 
 }
