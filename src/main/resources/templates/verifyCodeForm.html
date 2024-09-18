@@ -24,7 +24,7 @@
                     </form>
                     <!-- Resend code button -->
                     <div class="text-center mt-3">
-                        <form method="post" th:action="@{/resendCode}">
+                        <form method="post" th:action="@{/resendCodeForget}">
                             <!-- CSRF Token -->
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <!-- Hidden field for email -->

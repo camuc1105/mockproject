@@ -1,13 +1,15 @@
 package fashion.mock.controller;
 
-import fashion.mock.entities.User;
+import fashion.mock.model.User;
 import fashion.mock.service.EmailService;
 import fashion.mock.service.UserService;
 import fashion.mock.service.VerificationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -65,12 +67,18 @@ public class ForgetPasswordController {
         model.addAttribute("user", user);
         return "resetPasswordForm";
     }
+    @PostMapping ("/resendCodeForget")
+    public String resendCode(@ModelAttribute User user) {
+        String code = verificationService.generateAndStoreCode(user.getEmail());
+        emailService.sendVerificationCode(user.getEmail(), code);
+        return "redirect:/reset-password?email=" + user.getEmail();
+    }
 
     // Xử lý cập nhật mật khẩu
     @PostMapping("/reset-password")
     public String resetPassword(@RequestParam("email") String email,
                                 @RequestParam("password") String password) {
-        userService.updatePassword(email, password);
+        userService.updatePassword( userService.getByEmail(email), password);
         return "index";
     }
 }

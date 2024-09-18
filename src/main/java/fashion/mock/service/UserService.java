@@ -33,10 +33,10 @@ public class UserService {
         user.setStatus("Active");
         return userRepository.save(user);
     }
-    public User updatePassword(String email, String newPassword) {
-        User user = userRepository.getUserByEmail(email);
-        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        return userRepository.save(user);
+    public User updatePassword(User user, String password) {
+        user.setUpdatedDate(LocalDate.now());
+        user.setPassword(bCryptPasswordEncoder.encode(password));  // Mã hóa mật khẩu trước khi lưu
+        return userRepository.save(user);  // Lưu lại thông tin người dùng sau khi cập nhật mật khẩu
     }
     public Boolean checkEmail(String email) {
         return userRepository.existsByEmail(email);

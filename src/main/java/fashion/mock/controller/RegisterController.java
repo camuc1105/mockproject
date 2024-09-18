@@ -70,9 +70,4 @@ public class RegisterController {
             return "inputCodeVerify";
         }
     }
-    @GetMapping ("/forgetPassword")
-    public String forgetPasswordForm(Model model) {
-        model.addAttribute("user", new User());
-        return "login";
-    }
 }
