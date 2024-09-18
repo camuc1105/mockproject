@@ -1,3 +1,6 @@
+/**
+ * @author Tran Thien Thanh 09/04/1996
+ */
 package fashion.mock.service;
 
 import java.util.List;
@@ -17,7 +20,11 @@ public class OrderDetailService {
 	}
 
 	public List<OrderDetail> getOrderDetailsByOrderId(Long orderId) {
-		return orderDetailRepository.findAll().stream()
-				.filter(orderDetail -> orderDetail.getOrder().getId().equals(orderId)).toList();
+		return orderDetailRepository.findByOrderId(orderId);
 	}
+
+	public void saveOrderDetail(OrderDetail orderDetail) {
+		orderDetailRepository.save(orderDetail);
+	}
+
 }

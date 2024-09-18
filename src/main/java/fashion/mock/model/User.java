@@ -55,15 +55,12 @@ public class User {
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
 
-	// OneToMany Relationship with UserRole
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserRole> userRoles;
 
-	// OneToMany Relationship with Order
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
-	// OneToMany Relationship with Product
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Product> products;
 
@@ -157,4 +154,29 @@ public class User {
 		this.updatedDate = updatedDate;
 	}
 
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	
 }
