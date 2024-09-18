@@ -1,3 +1,7 @@
+/**
+* Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+*/
+
 package fashion.mock.model;
 
 import java.time.LocalDate;
@@ -11,27 +15,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "USERS")
 public class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@Email(message = "Email phải đúng định dạng.")
+	@NotBlank(message = "Email không được để trống.")
 	@Column(nullable = false, unique = true, length = 100)
 	private String email;
 
+	@NotBlank(message = "Mật khẩu không được để trống.")
+//	@Size(min = 8, message = "Mật khẩu phải có ít nhất 8 ký tự.")
+//	@Pattern(regexp = ".*[A-Z].*", message = "Mật khẩu phải có ít nhất 1 ký tự viết hoa.")
 	@Column(nullable = false, length = 100)
 	private String password;
 
+	@NotBlank(message = "Tên người dùng không được để trống.")
 	@Column(name = "userName", nullable = false, length = 100)
 	private String userName;
 
-	@Column(nullable = false, length = 100)
+	@NotBlank(message = "Số điện thoại không được để trống.")
+	@Pattern(regexp = "\\d{10}", message = "Số điện thoại phải có 10 chữ số.")
+	@Column(nullable = false, length = 10)
 	private String phone;
 
+	@NotBlank(message = "Địa chỉ không được để trống.")
 	@Column(nullable = false, length = 100)
 	private String address;
 
@@ -44,15 +59,12 @@ public class User {
 	@Column(name = "updatedDate")
 	private LocalDate updatedDate;
 
-	// OneToMany Relationship with UserRole
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserRole> userRoles;
 
-	// OneToMany Relationship with Order
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
-	// OneToMany Relationship with Product
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Product> products;
 
@@ -144,6 +156,30 @@ public class User {
 
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 }

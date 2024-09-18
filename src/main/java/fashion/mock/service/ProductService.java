@@ -226,3 +226,30 @@ public class ProductService {
         return Arrays.asList(color);
     }
 }
+
+
+// @Service
+// public class ProductService {
+// 	private final ProductRepository productRepository;
+
+// 	public ProductService(ProductRepository productRepository) {
+// 		this.productRepository = productRepository;
+// 	}
+
+// 	List<Product> ls = new ArrayList<Product>();
+
+// 	public List<Product> getAllProducts() {
+// 		ls = productRepository.findAll();
+// 		return ls;
+// 	}
+
+// 	public Product findProductById(Long id) {
+// 		for (Product product : ls) {
+// 			if (product.getId() == id) {
+// 				return product;
+// 			}
+// 		}
+// 		return null;
+// 	}
+// }
+

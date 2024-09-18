@@ -27,3 +27,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Page<Product> findByProductNameContainingIgnoreCaseOrderByPriceAsc(String ProductName, Pageable pageable);
     Page<Product> findByProductNameContainingIgnoreCaseOrderByPriceDesc(String nProductNameame, Pageable pageable);
 }
+
