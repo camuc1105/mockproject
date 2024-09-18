@@ -1,3 +1,6 @@
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 package fashion.mock.service;
 
 import java.time.LocalDate;
@@ -31,6 +34,9 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	@Transactional
 	public User addUserWithRoles(User user, List<Long> roleIds) {
 		validateUser(user);
@@ -46,27 +52,24 @@ public class UserService {
 		return savedUser;
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	@Transactional
 	public User updateUserWithRoles(User user, List<Long> roleIds) {
 		User existingUser = userRepository.findById(user.getId())
 				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng với ID: " + user.getId()));
-
 		validateUserUpdate(user, existingUser);
-
-		// Update user fields
 		existingUser.setEmail(user.getEmail().trim());
 		existingUser.setUserName(user.getUserName().trim());
 		existingUser.setPhone(user.getPhone());
 		existingUser.setAddress(user.getAddress());
 		existingUser.setStatus(user.getStatus());
 		existingUser.setUpdatedDate(LocalDate.now());
-
-		// Update password only if provided
 		if (user.getPassword() != null && !user.getPassword().isEmpty()) {
 			existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 
-		// Update roles
 		userRoleRepository.deleteByUser(existingUser);
 		List<Role> roles = roleRepository.findAllById(roleIds);
 		List<UserRole> userRoles = roles.stream().map(role -> new UserRole(existingUser, role))
@@ -76,6 +79,9 @@ public class UserService {
 		return userRepository.save(existingUser);
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	private void validateUser(User user) {
 		if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
 			throw new IllegalArgumentException("Tên người dùng không được để trống");
@@ -101,6 +107,9 @@ public class UserService {
 		user.setEmail(trimmedEmail);
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	private void validateUserUpdate(User user, User existingUser) {
 		if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
 			throw new IllegalArgumentException("Tên người dùng không được để trống");
@@ -123,18 +132,30 @@ public class UserService {
 		}
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	public Page<User> getAllUsers(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	public Optional<User> getUserById(Long id) {
 		return userRepository.findById(id);
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	public Page<User> searchUsers(String searchTerm, Pageable pageable) {
 		if (searchTerm == null || searchTerm.trim().isEmpty()) {
 			return userRepository.findAll(pageable);
@@ -142,6 +163,9 @@ public class UserService {
 		return userRepository.searchByNameOrEmail(searchTerm.trim(), pageable);
 	}
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 	public boolean deleteUser(Long id) {
 		if (userRepository.existsById(id)) {
 			userRepository.deleteById(id);

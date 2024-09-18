@@ -1,3 +1,6 @@
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 package fashion.mock.model;
 
 import java.io.Serializable;

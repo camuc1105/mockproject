@@ -1,8 +1,10 @@
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 package fashion.mock.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import fashion.mock.model.Category;
 import fashion.mock.service.CategoryService;
 
@@ -25,7 +26,10 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-    
+
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     @GetMapping("/nav")
     public String listNavigation(Model model) {
         // Lấy tất cả danh mục
@@ -47,19 +51,14 @@ public class CategoryController {
         return "navigation";
     }
 
-    // Hiển thị danh sách category
-//  @GetMapping
-//  public String listCategories(Model model) {
-//      List<Category> categories = categoryService.getAllCategories();
-//      model.addAttribute("categories", categories);
-//      return "adminlistcategory";
-//  } 
-    
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     // Hiển thị danh sách category
     @GetMapping
     public String listCategories(Model model, 
                                  @RequestParam(defaultValue = "0") int page, 
-                                 @RequestParam(defaultValue = "3") int size) {
+                                 @RequestParam(defaultValue = "5") int size) {
         Page<Category> categoryPage = categoryService.getAllCategories(PageRequest.of(page, size));
         model.addAttribute("categories", categoryPage.getContent());
         model.addAttribute("currentPage", page);
@@ -68,6 +67,9 @@ public class CategoryController {
         return "adminlistcategory";
     }
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     // Hiển thị form thêm mới category
     @GetMapping("/new")
     public String showAddCategoryForm(Model model) {
@@ -75,6 +77,9 @@ public class CategoryController {
         return "adminformcategory";
     }
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     // Hiển thị form sửa category
     @GetMapping("/edit/{id}")
     public String showUpdateCategoryForm(@PathVariable Long id, Model model) {
@@ -84,7 +89,10 @@ public class CategoryController {
         return "adminformcategory";
     }
 
-//    // Xử lý thêm category
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
+    // Xử lý thêm category
     @PostMapping
     public String addCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
         try {
@@ -98,7 +106,10 @@ public class CategoryController {
         }
     }
 
-//    // Xử lý cập nhật category
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
+    // Xử lý cập nhật category
     @PostMapping("/update")
     public String updateCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
         try {
@@ -112,6 +123,9 @@ public class CategoryController {
         }
     }
 
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     // Xóa category
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
@@ -126,11 +140,14 @@ public class CategoryController {
         return "redirect:/categories";
     }
     
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
     // Tìm kiếm
     @GetMapping("/search")
     public String searchCategories(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
                                    @RequestParam(defaultValue = "0") int page, 
-                                   @RequestParam(defaultValue = "3") int size,
+                                   @RequestParam(defaultValue = "5") int size,
                                    Model model) {
     	  if (page < 0) {
     	        page = 0;

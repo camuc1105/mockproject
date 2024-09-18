@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
@@ -190,12 +191,40 @@
     <!-- Bootstrap JS and dependencies -->
     <script  th:src="@{/js/jquery-3.7.1.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+   <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script> -->
+    
     <script>
-      $(document).ready(function () {
+/*       $(document).ready(function () {
         $(".has-submenu").click(function () {
           $(this).next(".submenu").slideToggle();
         });
-      });
+      }); */
+      
+      $(document).ready(function () {
+    	    // Hiển thị submenu khi click
+    	    $(".has-submenu").click(function () {
+    	      $(this).next(".submenu").slideToggle();
+    	    });
+
+    	    // Thiết lập validate cho form
+    	    $("form").validate({
+    	      rules: {
+    	        categoryName: {
+    	          required: true,   // Bắt buộc phải nhập
+    	          maxlength: 25     // Không được vượt quá 25 ký tự
+    	        }
+    	      },
+    	      messages: {
+    	        categoryName: {
+    	          required: "Tên danh mục không được để trống111",
+    	          maxlength: "Tên danh mục không được vượt quá 25 ký tự"
+    	        }
+    	      },
+    	      submitHandler: function (form) {
+    	        form.submit();  // Nếu hợp lệ, submit form
+    	      }
+    	    });
+    	  });
     </script>
   </body>
 </html>
