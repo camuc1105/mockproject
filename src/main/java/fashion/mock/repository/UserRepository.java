@@ -1,3 +1,4 @@
+
 /**
  * Author: Ngô Văn Quốc Thắng 11/05/1996
  */
@@ -18,3 +19,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("SELECT u FROM User u WHERE LOWER(u.userName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
 	Page<User> searchByNameOrEmail(@Param("searchTerm") String searchTerm, Pageable pageable);
 }
+
