@@ -1,6 +1,7 @@
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
+/**
+ * Author: Ngô Văn Quốc Thắng 11/05/1996
+ * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+ */
 package fashion.mock.service;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import fashion.mock.model.Role;
@@ -33,6 +35,38 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+  
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  public UserService() {
+      this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+  }
+  
+  /**
+     * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+     */
+    public User createUser(User user) {
+        String encoderPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setStatus("unActive");
+        user.setCreatedDate(LocalDate.now());
+        user.setPassword(encoderPassword);
+        return userRepository.save(user);
+    }  
+  public User getByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+    public User activeUser(User user) {
+        user.setStatus("Active");
+        return userRepository.save(user);
+    }
+    public User updatePassword(User user, String password) {
+        user.setUpdatedDate(LocalDate.now());
+        user.setPassword(bCryptPasswordEncoder.encode(password));  // Mã hóa mật khẩu trước khi lưu
+        return userRepository.save(user);  // Lưu lại thông tin người dùng sau khi cập nhật mật khẩu
+    }
+    public Boolean checkEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
@@ -175,3 +209,4 @@ public class UserService {
 		}
 	}
 }
+

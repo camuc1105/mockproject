@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
@@ -32,6 +34,24 @@ public class SecurityConfig {
 
 		return http.build();
 	}
+  
+  /**
+     * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+     */
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests((requests) -> requests
+        .requestMatchers("/register", "/save", "/forgot-password", "/verify-code", "/reset-password" ).permitAll()  // Cho phép truy cập không cần đăng nhập
+        .anyRequest().authenticated()
+            )
+            .formLogin((form) -> form
+                    .loginPage("/login")  // Trang login tùy chỉnh
+                    .permitAll()
+            )
+            .logout((logout) -> logout.permitAll());
+
+    return http.build();
+}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
