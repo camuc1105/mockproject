@@ -3,7 +3,6 @@
  */
 package fashion.mock.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +14,17 @@ import fashion.mock.service.ProductService;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-	@Autowired
-	ProductService service;
-	@Autowired
-	private CartItemService cartItemService;
+	private  final ProductService productService;
+	private  final CartItemService cartItemService;
+
+	public ProductController(ProductService productService, CartItemService cartItemService) {
+		this.productService = productService;
+		this.cartItemService = cartItemService;
+	}
 
 	@GetMapping("/view")
 	public String viewProducts(Model model) {
-		model.addAttribute("products", service.getAllProducts());
+		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("totalItems", cartItemService.getCount());
 		return "product-view";
 

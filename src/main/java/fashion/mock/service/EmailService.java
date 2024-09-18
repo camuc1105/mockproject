@@ -1,3 +1,6 @@
+/**
+* Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+*/
 package fashion.mock.service;
 
 import org.springframework.mail.SimpleMailMessage;

@@ -65,7 +65,11 @@
 					Tổng tiền: <span id="cart-total">0</span>
 				</p>
 				<hr />
-				<a class="btn btn-primary btn-sm" href="#">Thanh toán</a>
+				 <!-- Form để gửi thông tin giỏ hàng -->
+                <form id="cart-form" th:action="@{/payment}" method="post">
+                    <input type="hidden" name="cartItems" id="cart-items">
+                    <button type="submit" class="btn btn-primary btn-sm">Thanh toán</button>
+                </form>
 			</div>
 		</div>
 	</div>
