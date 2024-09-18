@@ -11,7 +11,7 @@ import fashion.mock.model.UserRoleId;
 
 public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleId> {
 	void deleteByUser(User user);
-	
+
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */

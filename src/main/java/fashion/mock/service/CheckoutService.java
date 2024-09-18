@@ -18,7 +18,8 @@ public class CheckoutService {
 	private final CheckoutRepository checkoutRepository;
 	private final TransactionHistoryRepository transactionHistoryRepository;
 
-	public CheckoutService(CheckoutRepository checkoutRepository, TransactionHistoryRepository transactionHistoryRepository) {
+	public CheckoutService(CheckoutRepository checkoutRepository,
+			TransactionHistoryRepository transactionHistoryRepository) {
 		this.checkoutRepository = checkoutRepository;
 		this.transactionHistoryRepository = transactionHistoryRepository;
 	}
@@ -34,5 +35,5 @@ public class CheckoutService {
 	public void saveTransactionHistory(TransactionHistory transactionHistory) {
 		transactionHistoryRepository.save(transactionHistory);
 	}
-	
+
 }

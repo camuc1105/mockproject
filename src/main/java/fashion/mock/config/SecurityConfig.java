@@ -14,44 +14,44 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http.authorizeHttpRequests(authorize -> authorize
+//				.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**", "/register", "/save",
+//						"/forgot-password", "/verify-code", "/reset-password", "/users/**", "/products/**",
+//						"/categories/**", "/product/**", "/inputCode", "/inputCode?email=", "/resendCode", "/inputCode",
+//						"/verify", "/phuc")
+//				.permitAll() // Allow access to static resources and public endpoints
+//				.anyRequest().authenticated() // All other requests require authentication
+//		).formLogin(formLogin -> formLogin.loginPage("/login").permitAll()) // Custom login page// Allow everyone to
+//																			// access the login page
+//				.logout(logout -> logout.permitAll()); // Allow everyone to log out
+//
+//		return http.build();
+//	}
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**",
-						"/fontawesome-free-5.15.4-web/**")
-				.permitAll().requestMatchers("/", "/trangchu", "/login", "/register").permitAll()
-				.requestMatchers("/users/**", "/products/**", "/categories/**").permitAll() // Cho phép truy cập không
-																							// cần đăng
-																							// nhập/reset-password
-				.anyRequest().authenticated() // Các request khác cần đăng nhập
-		).formLogin(formLogin -> formLogin.loginPage("/trangchu") // Trang đăng nhập tùy chỉnh
-				.permitAll() // Cho phép tất cả mọi người truy cập trang đăng nhập
-		).logout(logout -> logout.permitAll() // Cho phép tất cả mọi người đăng xuất
-		);
-
+		http.authorizeHttpRequests((requests) -> requests.requestMatchers("/register", "/save", "/forgot-password",
+				"/verify-code", "/reset-password", "/product/**","/css/**", "/js/**", "/images/**").permitAll().anyRequest().authenticated())
+				.formLogin((form) -> form.loginPage("/login").permitAll()).logout((logout) -> logout.permitAll());
 		return http.build();
 	}
-  
-  /**
-     * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
-     */
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((requests) -> requests
-        .requestMatchers("/register", "/save", "/forgot-password", "/verify-code", "/reset-password" ).permitAll()  // Cho phép truy cập không cần đăng nhập
-        .anyRequest().authenticated()
-            )
-            .formLogin((form) -> form
-                    .loginPage("/login")  // Trang login tùy chỉnh
-                    .permitAll()
-            )
-            .logout((logout) -> logout.permitAll());
 
-    return http.build();
-}
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http.authorizeHttpRequests((requests) -> requests
+//				.requestMatchers("/register", "/save", "/forgot-password", "/verify-code", "/reset-password")
+//				.permitAll() // Cho phép truy cập không cần đăng nhập
+//				.anyRequest().authenticated()).formLogin((form) -> form.loginPage("/login") // Trang login tùy chỉnh
+//						.permitAll())
+//				.logout((logout) -> logout.permitAll());
+//
+//		return http.build();
+//	}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996

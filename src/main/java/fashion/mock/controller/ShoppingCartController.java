@@ -5,7 +5,6 @@ package fashion.mock.controller;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,31 +19,33 @@ import fashion.mock.service.CartItemService;
 import fashion.mock.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/shopping-cart")
 public class ShoppingCartController {
-	@Autowired
-	private ProductService productService;
-	@Autowired
-	private CartItemService cartItemService;
+	private final ProductService productService;
+	private final CartItemService cartItemService;
+
+	public ShoppingCartController(ProductService productService, CartItemService cartItemService) {
+		this.productService = productService;
+		this.cartItemService = cartItemService;
+	}
 
 	@GetMapping("/view")
-	public String viewCart(Model model,HttpSession session) {	
-		  // Lấy giỏ hàng từ session hoặc khởi tạo mới nếu chưa có
+	public String viewCart(Model model, HttpSession session) {
+		// Lấy giỏ hàng từ session hoặc khởi tạo mới nếu chưa có
 		@SuppressWarnings("unchecked")
 		Collection<CartItem> cartItems = (Collection<CartItem>) session.getAttribute("cartItems");
-        if (cartItems == null) {
-            cartItems = cartItemService.getAllItems();     
-            session.setAttribute("cartItems", cartItems);
-        }
-        model.addAttribute("totalItems", cartItemService.getCount());
-        model.addAttribute("cartItems", cartItems);
-        return "cart-item";  // Trả về trang giỏ hàng
+		if (cartItems == null) {
+			cartItems = cartItemService.getAllItems();
+			session.setAttribute("cartItems", cartItems);
+		}
+		model.addAttribute("totalItems", cartItemService.getCount());
+		model.addAttribute("cartItems", cartItems);
+		return "cart-item"; // Trả về trang giỏ hàng
 	}
 
 	@GetMapping("/add/{id}")
-	public String addCart(@PathVariable long id,Model model) {
+	public String addCart(@PathVariable long id, Model model) {
 		Product product = productService.findProductById(id);
 		if (product != null) {
 			CartItem item = new CartItem();
@@ -54,7 +55,7 @@ public class ShoppingCartController {
 			item.setQuantity(1);
 			cartItemService.add(item);
 		}
-		
+
 		return "redirect:/shopping-cart/view";
 	}
 

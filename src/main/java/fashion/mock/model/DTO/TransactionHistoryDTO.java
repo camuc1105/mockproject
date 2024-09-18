@@ -1,3 +1,6 @@
+/**
+ * @author Duong Van Luc 01/07/2000
+ */
 package fashion.mock.model.DTO;
 
 import java.time.LocalDate;

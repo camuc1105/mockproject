@@ -6,7 +6,6 @@ package fashion.mock.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fashion.mock.model.Product;
@@ -14,8 +13,12 @@ import fashion.mock.repository.ProductRepository;
 
 @Service
 public class ProductService {
-	@Autowired
-	private ProductRepository productRepository;
+	private final ProductRepository productRepository;
+
+	public ProductService(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
+
 	List<Product> ls = new ArrayList<Product>();
 
 	public List<Product> getAllProducts() {

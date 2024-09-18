@@ -1,3 +1,7 @@
+/**
+* Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+*/
+
 package fashion.mock.model;
 
 import java.time.LocalDate;
@@ -28,8 +32,8 @@ public class User {
 	private String email;
 
 	@NotBlank(message = "Mật khẩu không được để trống.")
-	@Size(min = 8, message = "Mật khẩu phải có ít nhất 8 ký tự.")
-	@Pattern(regexp = ".*[A-Z].*", message = "Mật khẩu phải có ít nhất 1 ký tự viết hoa.")
+//	@Size(min = 8, message = "Mật khẩu phải có ít nhất 8 ký tự.")
+//	@Pattern(regexp = ".*[A-Z].*", message = "Mật khẩu phải có ít nhất 1 ký tự viết hoa.")
 	@Column(nullable = false, length = 100)
 	private String password;
 
@@ -178,5 +182,4 @@ public class User {
 		this.products = products;
 	}
 
-	
 }
