@@ -128,3 +128,4 @@ public class CategoryService {
 		return categoryRepository.searchByName(searchTerm.trim(), pageable);
 	}
 }
+
