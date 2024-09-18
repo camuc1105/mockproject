@@ -26,7 +26,7 @@ public class Image {
 	@Column(name = "imgLink", nullable = false, length = 255)
 	private String imgLink;
 
-	@Column(name = "createdDate", nullable = false)
+	@Column(name = "createdDate")
 	private LocalDate createdDate;
 
 	public Image(Long id, Product product, String imgLink, LocalDate createdDate) {
