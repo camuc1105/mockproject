@@ -1,41 +1,39 @@
+/**
+ * Author: Ngô Văn Quốc Thắng 11/05/1996
+ */
 package fashion.mock.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USERROLE")
+@IdClass(UserRoleId.class)
 public class UserRole implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "userId", insertable = false, updatable = false)
+	@JoinColumn(name = "userId")
 	private User user;
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "roleId", insertable = false, updatable = false)
+	@JoinColumn(name = "roleId")
 	private Role role;
 
-	public UserRole(User user, Role role) {
-		super();
-		this.user = user;
-		this.role = role;
+	public UserRole() {
 	}
 
-	public UserRole() {
-		super();
+	public UserRole(User user, Role role) {
+		this.user = user;
+		this.role = role;
 	}
 
 	public User getUser() {
@@ -56,12 +54,10 @@ public class UserRole implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
+		if (this == o)
 			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
+		if (o == null || getClass() != o.getClass())
 			return false;
-		}
 		UserRole userRole = (UserRole) o;
 		return Objects.equals(user, userRole.user) && Objects.equals(role, userRole.role);
 	}
