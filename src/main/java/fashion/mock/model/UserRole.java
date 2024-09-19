@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "USERROLE")
+@IdClass(UserRoleId.class)
 public class UserRole implements Serializable {
 
 	/**
@@ -14,21 +15,18 @@ public class UserRole implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private UserRoleId id;
-	@MapsId("userId")
+	@Id
 	@ManyToOne
 	@JoinColumn(name = "userId", insertable = false, updatable = false)
 	private User user;
 
-	@MapsId("roleId")
+	@Id
 	@ManyToOne
 	@JoinColumn(name = "roleId", insertable = false, updatable = false)
 	private Role role;
 
 	public UserRole(User user, Role role) {
 		super();
-		this.id = new UserRoleId(user.getId(), role.getId());
 		this.user = user;
 		this.role = role;
 	}
@@ -57,11 +55,11 @@ public class UserRole implements Serializable {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof UserRole userRole)) return false;
-		return Objects.equals(id, userRole.id);
+		return Objects.equals(getUser(), userRole.getUser()) && Objects.equals(getRole(), userRole.getRole());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(getUser(), getRole());
 	}
 }

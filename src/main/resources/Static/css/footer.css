@@ -1,0 +1,84 @@
+/**
+ * Trần Thảo
+ */
+/* Chân trang */
+.footer {
+    background-color: #000000;
+    color:  #ffffff;
+    margin-top: 1%;
+}
+
+.footer h5 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.footer p, .footer li a {
+    color:  #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer .social-icons a {
+    margin-right: 15px;
+    color: #333;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.footer .social-icons a:hover {
+    color:  #ffffff;
+}
+
+.footer .payment-icons img, .footer .shipping-icons img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.footer .list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.footer .list-unstyled li a:hover {
+    text-decoration: underline;
+    color: #28a745;
+}
+
+.footer .input-group input {
+    border-radius: 0;
+}
+
+.footer .input-group-append .btn {
+    background-color: #333;
+    color: #fff;
+    border-radius: 0;
+}
+
+.footer .input-group-append .btn:hover {
+    background-color: #28a745;
+}
+
+.footer .text-center {
+    background-color: #f8f9fa;
+    font-size: 14px;
+}
+
+.footer img {
+    max-width: 100px;
+}
+
+/* CSS cho footer bản quyền */
+.footer-copyright {
+    background-color: #000000 !important; /* Màu nền đen */
+    color: #ffffff; /* Màu chữ trắng */
+    padding: 15px 0; /* Khoảng cách trên dưới */
+}
+
+/* Tùy chỉnh riêng cho đoạn văn trong phần footer */
+.footer-copyright p {
+    margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
+    font-size: 14px; /* Kích thước chữ vừa phải */
+    color: #ffffff; /* Đảm bảo chữ trắng */
+}
+

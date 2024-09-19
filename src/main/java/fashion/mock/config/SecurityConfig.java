@@ -1,6 +1,8 @@
+/**
+ * Trần Thảo
+ */
 package fashion.mock.config;
 
-import fashion.mock.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/home").permitAll() // Cho phép truy cập không cần xác thực
+                        .requestMatchers("/login", "/home", "/css/**").permitAll() // Cho phép truy cập không cần xác thực
                         .requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
                         .anyRequest().authenticated() // Các yêu cầu khác phải xác thực
                 )
@@ -34,7 +36,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login") // Chuyển hướng sau khi đăng xuất
+                        .logoutSuccessUrl("/home") // Chuyển hướng sau khi đăng xuất
                         .permitAll()
                 );
         return http.build();
