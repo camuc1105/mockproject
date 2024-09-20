@@ -1,8 +1,8 @@
+/**
+ * @author Duong Van Luc 01/07/2000
+ */
 package fashion.mock.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +19,26 @@ import fashion.mock.service.PurchaseHistoryService;
 @RequestMapping("/information")
 public class PurchaseHistoryController {
 
-    @Autowired
-    private PurchaseHistoryService purchaseHistoryService;
+	private final PurchaseHistoryService purchaseHistoryService;
 
-    @GetMapping("purchase-history")
-    public String viewPurchaseHistory(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            Model model) {
+	public PurchaseHistoryController(PurchaseHistoryService purchaseHistoryService) {
+		this.purchaseHistoryService = purchaseHistoryService;
+	}
 
-        Pageable pageable = PageRequest.of(page, size);
-        Page<TransactionHistoryDTO> transactionHistoriesPage = purchaseHistoryService.findAllTransactionHistories(pageable);
+	@GetMapping("purchase-history")
+	public String viewPurchaseHistory(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, Model model) {
 
-        model.addAttribute("transactionHistoriesPage", transactionHistoriesPage);
-        return "purchase-history";
-    }
+		Pageable pageable = PageRequest.of(page, size);
+		Page<TransactionHistoryDTO> transactionHistoriesPage = purchaseHistoryService
+				.findAllTransactionHistories(pageable);
 
-    @GetMapping("customer-information")
-    public String viewCustomerInformation(Model model) {
-        return "customer-information";
-    }
+		model.addAttribute("transactionHistoriesPage", transactionHistoriesPage);
+		return "purchase-history";
+	}
+
+	@GetMapping("customer-information")
+	public String viewCustomerInformation(Model model) {
+		return "customer-information";
+	}
 }

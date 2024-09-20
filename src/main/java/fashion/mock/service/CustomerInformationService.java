@@ -3,9 +3,11 @@
  */
 package fashion.mock.service;
 
+
 import java.time.LocalDate;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import fashion.mock.model.User;
@@ -13,8 +15,10 @@ import fashion.mock.repository.CustomerInformationRepository;
 
 @Service
 public class CustomerInformationService {
+
     
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	private final CustomerInformationRepository customerInformationRepository;
 
 	public CustomerInformationService(CustomerInformationRepository customerInformationRepository) {

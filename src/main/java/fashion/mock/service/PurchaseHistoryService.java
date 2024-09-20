@@ -3,6 +3,7 @@
  */
 package fashion.mock.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +15,13 @@ import fashion.mock.repository.PurchaseHistoryRepository;
 @Service
 public class PurchaseHistoryService {
 
-    @Autowired
-    private PurchaseHistoryRepository purchaseHistoryRepository;
-    
-    public Page<TransactionHistoryDTO> findAllTransactionHistories(Pageable pageable) {
-        return purchaseHistoryRepository.findAllTransactionHistories(pageable);
-    }
+	private final PurchaseHistoryRepository purchaseHistoryRepository;
+
+	public PurchaseHistoryService(PurchaseHistoryRepository purchaseHistoryRepository) {
+		this.purchaseHistoryRepository = purchaseHistoryRepository;
+	}
+
+	public Page<TransactionHistoryDTO> findAllTransactionHistories(Pageable pageable) {
+		return purchaseHistoryRepository.findAllTransactionHistories(pageable);
+	}
 }

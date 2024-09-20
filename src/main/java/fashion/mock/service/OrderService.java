@@ -29,12 +29,12 @@ public class OrderService {
 	}
 
 	public Optional<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
-    }
+		return orderRepository.findById(id);
+	}
 
-    public User findUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
-    }
+	public User findUserById(Long userId) {
+		return userRepository.findById(userId).orElse(null);
+	}
 
 	public Order saveOrder(Order order) {
 		return orderRepository.save(order);

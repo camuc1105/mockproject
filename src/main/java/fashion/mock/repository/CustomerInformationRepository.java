@@ -10,5 +10,5 @@ import fashion.mock.model.User;
 
 @Repository
 public interface CustomerInformationRepository extends JpaRepository<User, Long> {
-    
+
 }

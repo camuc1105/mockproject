@@ -54,39 +54,38 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/checkout/submit")
-	public String submitCheckout(
-			@RequestParam("userId") Long userId,
-			@RequestParam("paymentMethod") String paymentMethod, 
-			@RequestParam("shippingMethod") String shippingMethod,
+	public String submitCheckout(@RequestParam("userId") Long userId,
+			@RequestParam("paymentMethod") String paymentMethod, @RequestParam("shippingMethod") String shippingMethod,
 			@RequestParam("totalPrice") Double totalPrice, @RequestParam("orderDetails") List<OrderDetail> orderDetails,
 			Model model) {
-		
+
 		// Create new Order
-        Order order = new Order();
-        order.setUser(orderService.findUserById(userId)); // Assuming you have a method to get the User by ID
-        order.setOrderDate(LocalDate.now());
-        order.setTotalPrice(totalPrice);
-        order.setStatus("Đang xử lý");
-        
-        Order savedOrder = orderService.saveOrder(order); // Save the new Order
+		Order order = new Order();
+		order.setUser(orderService.findUserById(userId)); // Assuming you have a method to get the User by ID
+		order.setOrderDate(LocalDate.now());
+		order.setTotalPrice(totalPrice);
+		order.setStatus("Đang xử lý");
 
-        // Create new OrderDetails
-        for (OrderDetail orderDetail : orderDetails) {
-            orderDetail.setOrder(savedOrder); // Associate the OrderDetail with the new Order
-            orderDetailService.saveOrderDetail(orderDetail);
-        }
-		
+		Order savedOrder = orderService.saveOrder(order); // Save the new Order
+
+		// Create new OrderDetails
+		for (OrderDetail orderDetail : orderDetails) {
+			orderDetail.setOrder(savedOrder); // Associate the OrderDetail with the new Order
+			orderDetailService.saveOrderDetail(orderDetail);
+		}
+
 		// Create TransactionHistory
-        TransactionHistory transactionHistory = new TransactionHistory();
-        transactionHistory.setOrder(savedOrder);
-        transactionHistory.setTransactionAmount(totalPrice);
-        transactionHistory.setPayment(checkoutService.findPaymentByMethod(paymentMethod)); // Assuming you have a method to get Payment by method
-        transactionHistory.setStatus(paymentMethod.equals("Tien mat") ? "Chua thanh toan" : "Da thanh toan");
-        transactionHistory.setTransactionDate(paymentMethod.equals("Tien mat") ? null : LocalDate.now());
-        checkoutService.saveTransactionHistory(transactionHistory);
+		TransactionHistory transactionHistory = new TransactionHistory();
+		transactionHistory.setOrder(savedOrder);
+		transactionHistory.setTransactionAmount(totalPrice);
+		transactionHistory.setPayment(checkoutService.findPaymentByMethod(paymentMethod)); // Assuming you have a method
+																							// to get Payment by method
+		transactionHistory.setStatus(paymentMethod.equals("Tien mat") ? "Chua thanh toan" : "Da thanh toan");
+		transactionHistory.setTransactionDate(paymentMethod.equals("Tien mat") ? null : LocalDate.now());
+		checkoutService.saveTransactionHistory(transactionHistory);
 
-        model.addAttribute("order", savedOrder);
-        return "confirmation"; // Redirect to a confirmation page or similar
+		model.addAttribute("order", savedOrder);
+		return "confirmation"; // Redirect to a confirmation page or similar
 	}
 
 }
