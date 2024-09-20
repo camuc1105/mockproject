@@ -127,25 +127,11 @@ public class ProductController {
         boolean deleted = productService.deleteImage(imageId);
         return "{\"success\":" + deleted + "}";
     }
-}
-
-/*
-@Controller
-@RequestMapping("/product")
-public class ProductController {
-	private  final ProductService productService;
-	private  final CartItemService cartItemService;
-
-	public ProductController(ProductService productService, CartItemService cartItemService) {
-		this.productService = productService;
-		this.cartItemService = cartItemService;
-	}
 
 	@GetMapping("/view")
 	public String viewProducts(Model model) {
 		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("totalItems", cartItemService.getCount());
 		return "product-view";
-
 	}
-} */
+}
