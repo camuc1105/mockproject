@@ -1,8 +1,10 @@
+/**
+ * @author Duong Van Luc 01/07/2000
+ */
 package fashion.mock.controller;
 
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,23 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fashion.mock.model.User;
 import fashion.mock.service.CustomerInformationService;
 
-/**
- * @author Duong Van Luc 01/07/2000
- */
-
 @Controller
 @RequestMapping("/information")
 public class CustomerInformationController {
 
-    @Autowired
-    private CustomerInformationService customerInformationService;
+    private final CustomerInformationService customerInformationService;
+
+    public CustomerInformationController(CustomerInformationService customerInformationService) {
+        this.customerInformationService = customerInformationService;
+    }
 
     @GetMapping("")
     public String userProfile(Model model) {
-        // Giả sử lấy thông tin người dùng với ID cố định (hoặc có thể từ session)
-        User user = customerInformationService.getUserById(1L); 
+        User user = customerInformationService.getUserById(2L); 
         model.addAttribute("user", user);
-        System.out.println(user);
         return "customer-information";
     }
 
@@ -43,7 +42,7 @@ public class CustomerInformationController {
             return "Mật khẩu mới không khớp!";
         }
 
-        boolean isPasswordChanged = customerInformationService.changePassword(1L, oldPassword, newPassword);
+        boolean isPasswordChanged = customerInformationService.changePassword(2L, oldPassword, newPassword);
         if (!isPasswordChanged) {
             return "Mật khẩu cũ không đúng!";
         }
@@ -51,13 +50,12 @@ public class CustomerInformationController {
         return "Mật khẩu đã được thay đổi thành công!";
     }
 
-    // Cập nhật thông tin người dùng (tên, địa chỉ, số điện thoại)
     @PostMapping("/update-info")
     @ResponseBody
     public String updateUserInfo(@RequestParam("field") String field,
                                  @RequestParam("value") String value) {
-        // Xử lý cập nhật theo từng trường (field)
-        User user = customerInformationService.getUserById(1L);  // Giả sử lấy người dùng với ID cố định
+
+        User user = customerInformationService.getUserById(2L);
 
         switch (field) {
             case "name":
@@ -74,7 +72,6 @@ public class CustomerInformationController {
         }
         
         user.setUpdatedDate(LocalDate.now());
-        // Cập nhật thông tin người dùng
         customerInformationService.updateUserInfo(user);
 
         return "Cập nhật thành công!";
