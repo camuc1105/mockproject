@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Discount Management</title>
+    
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />    
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" style="height: 100vh">
+            <div class="col-md-2 sidebar">
+                <!-- Sidebar content (same as in the category template) -->
+                <div class="logo nav-item "><a href="admin.html">Quản lý</a></div>
+
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-box"></i> Sản Phẩm</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/products/new">Thêm sản phẩm</a></div>
+                    <div class="nav-item"><a href="/products">Hiển thị sản phẩm</a></div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-box"></i> Danh Mục</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item">
+                        <a href="/categories/new">Thêm danh mục</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="/categories">Hiển thị danh mục</a>
+                    </div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-users"></i> Người dùng</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/users/new">Thêm người dùng</a></div>
+                    <div class="nav-item"><a href="/users">Hiển thị người dùng</a></div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-percent"></i> Giảm giá</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/discounts/new">Thêm giảm giá</a></div>
+                    <div class="nav-item"><a href="/discounts">Hiển thị giảm giá</a></div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="header">
+                    <h1>Giảm giá</h1>
+                </div>
+                <!-- Hiển thị thông báo thành công và lỗi -->
+                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                    <span th:text="${successMessage}"></span>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+
+                <form th:action="@{${discount.id == null ? '/discounts' : '/discounts/update'}}" th:object="${discount}" method="post">
+                    <input type="hidden" name="id" th:value="${discount.id}" />
+                    
+                    <div class="form-group">
+                        <label for="productName">Tên Sản Phẩm:</label>
+                        <select class="form-control" id="productName" name="productName" th:field="*{productName}">
+                            <option value="">Chọn sản phẩm</option>
+                            <option th:each="product : ${products}" th:value="${product.productName}" th:text="${product.productName}"></option>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discountPercent">Phần trăm giảm giá:</label>
+                        <input class="form-control" type="number" id="discountPercent" name="discountPercent" 
+                               th:value="${discount.discountPercent}" min="0" max="100" step="0.01" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('discountPercent')}" th:errors="*{discountPercent}"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="startDate">Ngày bắt đầu:</label>
+                        <input class="form-control" type="date" id="startDate" name="startDate" th:value="${discount.startDate}" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">Ngày kết thúc:</label>
+                        <input class="form-control" type="date" id="endDate" name="endDate" th:value="${discount.endDate}" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></small>
+                    </div>
+                    
+                    <div class="form-group" th:if="${discount.createdDate != null}">
+                        <label for="createdDate">Ngày Tạo:</label>
+                        <input class="form-control" type="date" id="createdDate" name="createdDate" th:value="${discount.createdDate}" readonly />
+                    </div>
+                    
+                    <div class="form-group" th:if="${discount.updatedDate != null}">
+                        <label for="updatedDate">Ngày Cập Nhật:</label>
+                        <input class="form-control" type="date" id="updatedDate" name="updatedDate" th:value="${discount.updatedDate}" readonly />
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="btn btn-success" th:text="${discount.id == null ? 'Thêm' : 'Cập Nhật'}"></button>
+                        <a href="/discounts" class="btn btn-secondary">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script th:src="@{/js/jquery-3.7.1.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    
+    <script>
+      $(document).ready(function () {
+        // Hiển thị submenu khi click
+        $(".has-submenu").click(function () {
+          $(this).next(".submenu").slideToggle();
+        });
+
+      });
+    </script>
+</body>
+</html>

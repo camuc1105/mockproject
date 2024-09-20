@@ -1,6 +1,7 @@
 package fashion.mock.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -225,31 +226,21 @@ public class ProductService {
         }
         return Arrays.asList(color);
     }
-}
 
+ 	List<Product> ls = new ArrayList<Product>();
 
-// @Service
-// public class ProductService {
-// 	private final ProductRepository productRepository;
+ 	public List<Product> getAllProducts() {
+ 		ls = productRepository.findAll();
+ 		return ls;
+ 	}
 
-// 	public ProductService(ProductRepository productRepository) {
-// 		this.productRepository = productRepository;
-// 	}
-
-// 	List<Product> ls = new ArrayList<Product>();
-
-// 	public List<Product> getAllProducts() {
-// 		ls = productRepository.findAll();
-// 		return ls;
-// 	}
-
-// 	public Product findProductById(Long id) {
-// 		for (Product product : ls) {
-// 			if (product.getId() == id) {
-// 				return product;
-// 			}
-// 		}
-// 		return null;
-// 	}
-// }
+ 	public Product findProductById(Long id) {
+ 		for (Product product : ls) {
+ 			if (product.getId() == id) {
+ 				return product;
+ 			}
+ 		}
+ 		return null;
+ 	}
+ }
 
