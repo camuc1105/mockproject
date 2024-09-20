@@ -26,8 +26,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+  private final CategoryService categoryService;
+
+	public CategoryController(CategoryService categoryService) {
+		this.categoryService = categoryService;
+	}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
