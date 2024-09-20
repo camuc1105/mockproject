@@ -16,4 +16,10 @@ import java.util.Optional;
 public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleId> {
     List<UserRole> findByUser(User user);
     List<UserRole> findByRole(Role role);
+  /**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
+  void deleteByUser(User user);
+	List<UserRole> findByUser(User user);
 }
+

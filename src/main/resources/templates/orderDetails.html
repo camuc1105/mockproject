@@ -1,0 +1,117 @@
+<!-- Author Tran Thien Thanh 09/04/1996 -->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragment/common-header :: commonHeader}"></head>
+
+<body>
+	<main class="container mt-4">
+		<div class="row">
+			<div class="col col-8">
+				<h4>
+					Mã đơn hàng # <span th:text="${order.id}"></span>
+				</h4>
+			</div>
+			<div class="col col-4 text-right">
+				<span th:switch="${order.status}">
+					<span th:case="'Hoàn tất'" class="badge badge-success" th:text="${order.status}"></span>
+					<span th:case="'Đã hủy'" class="badge badge-secondary" th:text="${order.status}"></span>
+					<span th:case="*" class="badge badge-primary" th:text="${order.status}"></span>
+				</span>
+			</div>
+			<div class="col col-6">
+				<p class="text-muted">
+					Ngày đặt hàng: <span th:text="${order.orderDate}"></span>
+				</p>
+			</div>
+			<div class="col col-6 text-right">
+				<p class="text-muted">
+					Cập nhật lần cuối: <span th:text="${order.updatedDate}"></span>
+				</p>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">Thông tin người nhận</h5>
+						<p class="card-text font-weight-bold" th:text="${order.user?.userName}"></p>
+						<p class="card-text font-weight-bold" th:text="${order.user?.phone}"></p>
+						<p class="card-text" th:text="${order.user?.address}"></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">Phương thức thanh toán</h5>
+						<!-- Lấy phương thức thanh toán từ TransactionHistory -->
+						<p class="card-text"
+							th:text="${order.transactionHistories[0].payment.paymentMethod}"></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">Tổng tiền</h5>
+						<p class="card-text">
+							<strong th:text="${order.totalPrice} + ' đ'"></strong>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+			<div class="col-12">
+				<h4>
+					Sản phẩm (<span th:text="${orderDetails.size()}"></span>)
+				</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Hình ảnh</th>
+							<th>Sản phẩm</th>
+							<th>Đơn giá</th>
+							<th>Số lượng</th>
+							<th>Thành tiền</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <tr th:if="${#lists.isEmpty(orderDetails)}">
+							<td colspan="5">Không có sản phẩm nào trong đơn hàng này.</td>
+						</tr> -->
+						<tr th:each="detail : ${orderDetails}">
+							<td><img
+								th:src="@{'/imgProduct/' + ${detail.product.images[0].imgLink}}"
+								th:alt="${detail.product.productName}" class="img-thumbnail" width="100">
+							</td>
+							<td>
+								<p class="productName" th:text="${detail.product.productName}"></p>
+								<p class="size">Kích cỡ: <span th:text="${detail.product.size}"></span></p>
+								<p class="color">Màu sắc: <span th:text="${detail.product.color}"></span></p>
+							</td>
+							<td th:text="${detail.product.price} + ' đ'"></td>
+							<td th:text="${detail.quantity}"></td>
+							<td th:text="${detail.subTotal} + ' đ'"></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="text-right font-weight-bold">Tổng tiền:</td>
+							<td><strong th:text="${order.totalPrice} + ' đ'"></strong></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</main>
+
+	<div th:replace="~{/fragment/common-footer :: script}" ></div>
+	
+</body>
+</html>

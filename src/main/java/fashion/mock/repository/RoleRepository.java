@@ -12,4 +12,9 @@ import java.util.Optional;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findByRole(String role);
+  /**
+   * Author: Ngô Văn Quốc Thắng 11/05/1996
+ */
+  	Role findByRole(String role);
 }
+

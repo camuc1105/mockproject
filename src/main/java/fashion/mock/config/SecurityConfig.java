@@ -1,11 +1,13 @@
 /**
  * Trần Thảo
+ * Author: Ngô Văn Quốc Thắng 11/05/1996
  */
 package fashion.mock.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +27,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/home/**", "/css/**", "/js/**", "/login/**").permitAll() // Cho phép truy cập không cần xác thực
+                        .requestMatchers("/home/**", "/css/**", "/js/**", "/login/**","/register", "/save", "/forgot-password",
+				"/verify-code", "/reset-password", "/products/**","/css/**", "/js/**", "/images/**", "/shop/**","/categories/**",
+				,"/users/**", "/discounts/**").permitAll() // Cho phép truy cập không cần xác thực
                         .requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
                         .anyRequest().authenticated() // Các yêu cầu khác phải xác thực
                 )
@@ -40,5 +44,7 @@ public class SecurityConfig {
                         .permitAll()
                 );
         return http.build();
+      
     }
+
 }
