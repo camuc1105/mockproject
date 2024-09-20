@@ -2,6 +2,7 @@ package fashion.mock.model;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "CATEGORY")
@@ -19,7 +22,9 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "categoryName", nullable = false, unique = true, length = 100)
+	@NotBlank(message = "Tên danh mục không được để trống")
+	@Size(max = 25, message = "Tên danh mục không được dài quá 25 ký tự")
+	@Column(name = "categoryName", nullable = false, unique = true, length = 25)
 	private String categoryName;
 
 	@Column(name = "createdDate", nullable = false)
