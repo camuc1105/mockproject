@@ -1,3 +1,4 @@
+<!-- Author: Lê Nguyên Minh Quý 27/06/1998 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,6 +7,7 @@
     <title>Admin Dashboard - Product Management</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link href="/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
     	:root {
         --primary-color: #4a90e2;
@@ -156,9 +158,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="size">Size:</label>
-                            <input class="form-control" type="text" id="size" name="size" th:value="${product.size}" required />
-                        </div>
+						    <label for="size">Size:</label>
+						    <select class="form-control" id="size" name="size" required>
+						        <option value="S" th:selected="${product.size == 'S'}">S</option>
+						        <option value="M" th:selected="${product.size == 'M'}">M</option>
+						        <option value="L" th:selected="${product.size == 'L'}">L</option>
+						        <option value="XL" th:selected="${product.size == 'XL'}">XL</option>
+						        <option value="2XL" th:selected="${product.size == '2XL'}">2XL</option>
+						        <option value="3XL" th:selected="${product.size == '3XL'}">3XL</option>
+						    </select>
+						</div>
                     </div>
                     
                     <!-- Description -->
