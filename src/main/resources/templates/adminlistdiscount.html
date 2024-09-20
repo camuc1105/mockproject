@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Discount Management</title>
+    
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" style="height: 100vh">
+            <div class="col-md-2 sidebar">
+                <div class="logo nav-item"><a href="admin.html">Quản lý</a></div>
+
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-box"></i> Sản Phẩm</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/products/new">Thêm sản phẩm</a></div>
+                    <div class="nav-item"><a href="/products">Hiển thị sản phẩm</a></div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-box"></i> Danh Mục</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/categories/new">Thêm danh mục</a></div>
+                    <div class="nav-item"><a href="/categories">Hiển thị danh mục</a></div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-percent"></i> Giảm Giá</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/discounts/new">Thêm giảm giá</a></div>
+                    <div class="nav-item"><a href="/discounts">Hiển thị giảm giá</a></div>
+                </div>
+                <div class="nav-item has-submenu">
+                    <a href="#"><i class="fas fa-users"></i> Người dùng</a>
+                </div>
+                <div class="submenu">
+                    <div class="nav-item"><a href="/users/new">Thêm người dùng</a></div>
+                    <div class="nav-item"><a href="/users">Hiển thị người dùng</a></div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="header">
+                    <h1>Giảm Giá</h1>
+                </div>
+                <form th:action="@{/discounts/search}" method="get" class="form-inline mb-4">
+                    <div class="col-md-10 form-group" style="padding: 0">
+                        <input type="text" name="searchTerm" th:value="${searchTerm}" class="form-control w-100" style="padding: 22px 10px" placeholder="Nhập tên sản phẩm để tìm kiếm..." />
+                    </div>
+                    <div class="col-md-2 form-group" style="padding: 0">
+                        <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                    </div>
+                </form>
+
+                <div>
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Phần Trăm Giảm Giá</th>
+                                <th>Ngày Bắt Đầu</th>
+                                <th>Ngày Kết Thúc</th>
+                                <th>Ngày Tạo</th>
+                                <th>Ngày Cập Nhật</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="discount : ${discounts}">
+                                <td th:text="${discount.id}"></td>
+                                <td th:text="${discount.product.productName}"></td>
+                                <td th:text="${discount.discountPercent + '%'}"></td>
+                                <td th:text="${discount.startDate}"></td>
+                                <td th:text="${discount.endDate}"></td>
+                                <td th:text="${discount.createdDate}"></td>
+                                <td th:text="${discount.updatedDate != null ? discount.updatedDate : 'Chưa cập nhật'}"></td>
+                                <td>
+                                    <a th:href="@{'/discounts/edit/' + ${discount.id}}" class="btn btn-warning btn-sm">Sửa</a>
+                                    <a th:href="@{'/discounts/delete/' + ${discount.id}}" class="btn btn-danger btn-sm delete-discount">Xóa</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${#lists.isEmpty(discounts)}" class="alert alert-info">Không có giảm giá nào.</div>
+                </div>
+                <div th:if="${totalItems > 0}" class="d-flex justify-content-center mt-3">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                                <a class="page-link" th:href="@{${searchTerm != null ? '/discounts/search' : '/discounts'}(page=${currentPage - 1}, size=${5}, searchTerm=${searchTerm})}">Previous</a>
+                            </li>
+                            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNum == currentPage ? 'active' : ''}">
+                                <a class="page-link" th:href="@{${searchTerm != null ? '/discounts/search' : '/discounts'}(page=${pageNum}, size=${5}, searchTerm=${searchTerm})}" th:text="${pageNum + 1}"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                <a class="page-link" th:href="@{${searchTerm != null ? '/discounts/search' : '/discounts'}(page=${currentPage + 1}, size=${5}, searchTerm=${searchTerm})}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script th:src="@{/js/jquery-3.7.1.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $(".has-submenu").click(function() {
+                $(this).next(".submenu").slideToggle();
+            });
+
+            // Xử lý thông báo
+            var message = /*[[${message}]]*/ null;
+            var messageType = /*[[${messageType}]]*/ null;
+            
+            if (message) {
+                Swal.fire({
+                    title: messageType === 'error' ? 'Lỗi!' : 'Thành công!',
+                    text: message,
+                    icon: messageType,
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            // Xử lý xóa giảm giá
+            $(".delete-discount").click(function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).attr('href');
+                
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý, xóa!',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

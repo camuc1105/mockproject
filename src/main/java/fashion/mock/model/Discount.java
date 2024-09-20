@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "DISCOUNT")
@@ -19,24 +23,32 @@ public class Discount {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "productId", nullable = false)
-	private Product product;
-
-	@Column(name = "discountPercent", nullable = false)
+	@NotNull(message = "Phần trăm giảm giá không được để trống")
+	@Min(value = 0, message = "Phần trăm giảm giá phải lớn hơn hoặc bằng 0")
+	@Max(value = 100, message = "Phần trăm giảm giá phải nhỏ hơn hoặc bằng 100")
+	@Column(name = "discount_percent", nullable = false)
 	private Double discountPercent;
 
-	@Column(name = "startDate", nullable = false)
+	@NotNull(message = "Ngày bắt đầu không được để trống")
+	@Column(name = "start_date", nullable = false)
 	private LocalDate startDate;
 
-	@Column(name = "endDate", nullable = false)
+	@NotNull(message = "Ngày kết thúc không được để trống")
+	@Column(name = "end_date", nullable = false)
 	private LocalDate endDate;
 
-	@Column(name = "createdDate", nullable = false)
+	@Column(name = "created_date", nullable = false)
 	private LocalDate createdDate;
 
-	@Column(name = "updatedDate")
+	@Column(name = "updated_date")
 	private LocalDate updatedDate;
+
+	@ManyToOne
+	@JoinColumn(name = "product_id", nullable = false)
+	private Product product;
+
+	@Transient
+	private String productName;
 
 	public Discount(Long id, Product product, Double discountPercent, LocalDate startDate, LocalDate endDate,
 			LocalDate createdDate, LocalDate updatedDate) {
@@ -108,6 +120,14 @@ public class Discount {
 
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 }

@@ -4,6 +4,7 @@
 package fashion.mock.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -232,6 +233,7 @@ public class ProductService {
         }
         return Arrays.asList(color);
     }
+
     public boolean isProductOnDiscount(Product product) {
         LocalDate now = LocalDate.now();
         return product.getDiscounts().stream()
@@ -256,6 +258,22 @@ public class ProductService {
         return product.getPrice();
     }
 }
+//huan
+ 	List<Product> ls = new ArrayList<Product>();
 
+ 	public List<Product> getAllProducts() {
+ 		ls = productRepository.findAll();
+ 		return ls;
+ 	}
+
+ 	public Product findProductById(Long id) {
+ 		for (Product product : ls) {
+ 			if (product.getId() == id) {
+ 				return product;
+ 			}
+ 		}
+ 		return null;
+ 	}
+ }
 
 
