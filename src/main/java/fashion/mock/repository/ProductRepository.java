@@ -1,3 +1,6 @@
+/**
+ * Author: Le Nguyen Minh Quy
+ */
 package fashion.mock.repository;
 
 import org.springframework.data.domain.Page;

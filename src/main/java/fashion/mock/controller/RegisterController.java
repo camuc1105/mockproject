@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fashion.mock.model.User;
@@ -19,6 +18,7 @@ import fashion.mock.service.VerificationService;
 import jakarta.validation.Valid;
 
 @Controller
+
 public class RegisterController {
 	private final UserService userService;
 	private final EmailService emailService;

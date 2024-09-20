@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fashion.mock.model.Order;
@@ -23,6 +24,7 @@ import fashion.mock.service.OrderDetailService;
 import fashion.mock.service.OrderService;
 
 @Controller
+@RequestMapping("/checkout")
 public class CheckoutController {
 
 	private final OrderService orderService;
@@ -36,7 +38,7 @@ public class CheckoutController {
 		this.checkoutService = checkoutService;
 	}
 
-	@GetMapping("/checkout/{id}")
+	@GetMapping("/{id}")
 	public String getCheckoutPage(@PathVariable Long id, Model model) {
 		Optional<Order> orderOptional = orderService.getOrderById(id);
 		if (orderOptional.isPresent()) {
@@ -53,7 +55,7 @@ public class CheckoutController {
 		}
 	}
 
-	@PostMapping("/checkout/submit")
+	@PostMapping("/submit")
 	public String submitCheckout(@RequestParam("userId") Long userId,
 			@RequestParam("paymentMethod") String paymentMethod, @RequestParam("shippingMethod") String shippingMethod,
 			@RequestParam("totalPrice") Double totalPrice, @RequestParam("orderDetails") List<OrderDetail> orderDetails,

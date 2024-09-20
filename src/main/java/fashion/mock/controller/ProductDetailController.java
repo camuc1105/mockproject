@@ -1,3 +1,6 @@
+/**
+ * Author: Le Nguyen Minh Quy
+ */
 package fashion.mock.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
