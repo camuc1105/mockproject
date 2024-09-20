@@ -1,3 +1,6 @@
+/**
+ * Author: Lê Nguyên Minh Quý 27/06/1998
+ */
 package fashion.mock.controller;
 
 import fashion.mock.model.Product;
