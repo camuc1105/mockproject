@@ -24,7 +24,7 @@ public class Role {
 
 	// OneToMany Relationship with UserRole
 	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-	private List<Role> roles;
+	private List<UserRole> userRoles;
 
 	public Role(Long id, String role) {
 		super();

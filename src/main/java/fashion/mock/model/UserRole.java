@@ -11,7 +11,6 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 @Entity
 @Table(name = "USERROLE")
 @IdClass(UserRoleId.class)
@@ -60,10 +59,10 @@ public class UserRole implements Serializable {
 			return false;
 		UserRole userRole = (UserRole) o;
 		return Objects.equals(user, userRole.user) && Objects.equals(role, userRole.role);
-	}
 
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(user, role);
+		return Objects.hash(getUser(), getRole());
 	}
 }

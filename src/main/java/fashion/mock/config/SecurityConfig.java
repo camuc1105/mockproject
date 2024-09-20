@@ -1,4 +1,5 @@
 /**
+ * Trần Thảo
  * Author: Ngô Văn Quốc Thắng 11/05/1996
  */
 package fashion.mock.config;
@@ -6,62 +7,44 @@ package fashion.mock.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
+    // Định nghĩa bean PasswordEncoder
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//		http.authorizeHttpRequests(authorize -> authorize
-//				.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**", "/register", "/save",
-//						"/forgot-password", "/verify-code", "/reset-password", "/users/**", "/products/**",
-//						"/categories/**", "/product/**", "/inputCode", "/inputCode?email=", "/resendCode", "/inputCode",
-//						"/verify", "/phuc")
-//				.permitAll() // Allow access to static resources and public endpoints
-//				.anyRequest().authenticated() // All other requests require authentication
-//		).formLogin(formLogin -> formLogin.loginPage("/login").permitAll()) // Custom login page// Allow everyone to
-//																			// access the login page
-//				.logout(logout -> logout.permitAll()); // Allow everyone to log out
-//
-//		return http.build();
-//	}
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((requests) -> requests.requestMatchers("/register", "/save", "/forgot-password",
+    // Định nghĩa bean SecurityFilterChain
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/home/**", "/css/**", "/js/**", "/login/**","/register", "/save", "/forgot-password",
 				"/verify-code", "/reset-password", "/products/**","/css/**", "/js/**", "/images/**", "/shop/**","/categories/**",
-				"/verify-code", "/reset-password", "/product/**","/css/**", "/js/**", "/images/**"
-				,"/users/**", "/products/**", "/categories/**", "/discounts/**").permitAll().anyRequest().authenticated())
-
-				.formLogin((form) -> form.loginPage("/login").permitAll()).logout((logout) -> logout.permitAll());
-		return http.build();
-	}
-
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//		http.authorizeHttpRequests((requests) -> requests
-//				.requestMatchers("/register", "/save", "/forgot-password", "/verify-code", "/reset-password")
-//				.permitAll() // Cho phép truy cập không cần đăng nhập
-//				.anyRequest().authenticated()).formLogin((form) -> form.loginPage("/login") // Trang login tùy chỉnh
-//						.permitAll())
-//				.logout((logout) -> logout.permitAll());
-//
-//		return http.build();
-//	}
-
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+				,"/users/**", "/discounts/**").permitAll() // Cho phép truy cập không cần xác thực
+                        .requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
+                        .anyRequest().authenticated() // Các yêu cầu khác phải xác thực
+                )
+                .formLogin(form -> form
+                        .loginPage("/login/loginform") // Trang đăng nhập tùy chỉnh
+                        .defaultSuccessUrl("/home", true) // Chuyển hướng sau khi đăng nhập thành công
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/home") // Chuyển hướng sau khi đăng xuất
+                        .permitAll()
+                );
+        return http.build();
+      
+    }
 
 }

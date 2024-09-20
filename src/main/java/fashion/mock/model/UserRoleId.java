@@ -20,6 +20,22 @@ public class UserRoleId implements Serializable {
         this.user = user;
         this.role = role;
     }
+    public Long getUser() {
+        return user;
+    }
+
+    public void setUser(Long user) {
+        this.user = user;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -28,6 +44,7 @@ public class UserRoleId implements Serializable {
         UserRoleId that = (UserRoleId) o;
         return Objects.equals(user, that.user) &&
                Objects.equals(role, that.role);
+
     }
 
     @Override

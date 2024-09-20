@@ -1,6 +1,8 @@
 /**
+/**
  * Author: Ngô Văn Quốc Thắng 11/05/1996
  * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
+ * Trần Thảo
  */
 package fashion.mock.service;
 
@@ -39,7 +41,18 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 		this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	}
-
+  /**
+ * Trần Thảo
+ */
+    public boolean getEmail (String email){
+        return userRepository.existsByEmail(email);
+    }
+    public boolean getPassword (String password)  {
+        return userRepository.existsByPassword(password);
+    }
+    public User getStatus(String email){
+        return userRepository.findUserByEmail(email);
+    }
 	/**
 	 * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
 	 */

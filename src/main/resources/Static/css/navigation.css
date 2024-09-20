@@ -1,0 +1,188 @@
+/**
+ * Trần Thảo
+ */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #000000;
+    z-index: 1000; /* Đảm bảo navbar có độ ưu tiên cao hơn */
+}
+
+.navbar-brand, .navbar-nav .nav-link, .navbar-icons .nav-link {
+    color: #ffffff !important;
+}
+.navbar-brand:hover, .navbar-nav .nav-link:hover, .navbar-icons .nav-link:hover {
+    color: #dcdcdc !important;
+}
+.navbar-toggler {
+    border-color: #ffffff;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Mega Menu Style */
+.mega-menu {
+    position: absolute;
+    width: 700px;  /* Chiều rộng của mega menu */
+    padding: 20px;
+    left: 0; /* Canh trái */
+    top: 100%; /* Xuất hiện ngay dưới menu chính */
+    background-color: #f8f9fa; /* Màu nền */
+    display: none; /* Ban đầu sẽ ẩn */
+    z-index: 999; /* Đảm bảo mega menu không đè lên navbar */
+}
+
+.mega-menu.show {
+    display: block; /* Hiển thị menu khi được kích hoạt */
+}
+
+.mega-menu .row {
+    display: flex;
+}
+
+.mega-menu h6 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mega-menu a {
+    color: #000;
+}
+
+.mega-menu a:hover {
+    color: #555;
+    text-decoration: none;
+}
+
+.mega-menu .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+/* Căn chỉnh menu cấp 3 thẳng hàng với menu cấp 2 */
+.mega-menu .col-md-4 {
+    padding-right: 20px; /* Căn chỉnh khoảng cách giữa các cột */
+}
+
+.mega-menu .list-unstyled li {
+    margin-bottom: 5px; /* Khoảng cách giữa các mục */
+}
+
+/* Thêm khoảng cách giữa các cấp menu */
+.mega-menu .list-unstyled li a {
+    display: block;
+    padding: 5px 0;
+    text-align: left; /* Căn chỉnh lại nội dung cho thẳng hàng */
+}
+
+/* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
+body {
+    padding-top: 50px; /* Khoảng cách dựa trên chiều cao của navbar */
+}
+
+/* Căn menu về bên trái và icon về bên phải */
+.navbar-nav {
+    margin-left: 0; /* Đảm bảo menu nằm về bên trái */
+}
+.navbar-icons {
+    margin-left: auto; /* Đẩy icon về bên phải */
+}
+
+/* Điều chỉnh padding cho navbar để không quá sát các cạnh */
+.navbar .nav-link {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+
+/* Style cho phần giỏ hàng và tài khoản */
+.navbar-icons .form-inline {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.navbar-icons .dropdown-toggle {
+    color: #fff;
+    padding-left: 0;
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+/* Chỉnh kích thước của nút tìm kiếm */
+.search-bar button {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Căn chỉnh thanh tìm kiếm và nút tìm kiếm */
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Đảm bảo nút tìm kiếm và input nằm cạnh nhau */
+.search-bar input.form-control {
+    width: auto;
+    max-width: 200px; /* Điều chỉnh độ rộng tối đa của thanh tìm kiếm */
+    margin-right: 10px;
+}
+
+/* Khi màn hình nhỏ, thu nhỏ lại thanh tìm kiếm */
+@media (max-width: 768px) {
+    .search-bar input.form-control {
+        width: 100px;
+        margin-right: 5px;
+    }
+
+    .search-bar button {
+        padding: 0.3rem 0.6rem; /* Điều chỉnh kích thước nút nhỏ hơn */
+    }
+}
+
+/* Đặt khung bao quanh phần đăng nhập và đăng ký */
+.account-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* CSS cho hộp đăng nhập */
+.login-box a {
+    font-weight: bold;
+    color: #000; /* Màu chữ đen cho phù hợp */
+    text-decoration: none;
+}
+
+.login-box a:hover {
+    color: #555; /* Màu khi hover */
+}
+
+/* CSS cho hộp đăng ký */
+.register-box a {
+    font-weight: bold;
+    color: #000; /* Màu chữ đen */
+    text-decoration: none;
+}
+
+.register-box a:hover {
+    color: #555; /* Màu khi hover */
+}
+
+
+/* Thay đổi màu của nút toggle */
+.navbar-toggler {
+    background-color: transparent; /* Đảm bảo nút không có nền */
+    border: none; /* Loại bỏ border */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}

@@ -1,11 +1,20 @@
 /**
- * Author: Ngô Văn Quốc Thắng 11/05/1996
+ * Trần Thảo
  */
 package fashion.mock.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import fashion.mock.model.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
+@Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-	Role findByRole(String role);
+    Optional<Role> findByRole(String role);
+  /**
+   * Author: Ngô Văn Quốc Thắng 11/05/1996
+ */
+  	Role findByRole(String role);
 }
+
