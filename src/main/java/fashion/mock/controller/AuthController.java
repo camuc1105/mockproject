@@ -56,7 +56,7 @@ public class AuthController {
             model.addAttribute("errorStatus", "Tài khoản này chưa được active!");
             return "login";
         }
-        session.setAttribute("user", user1);
+        session.setAttribute("user", user);
         return "redirect:/home";
     }
 
