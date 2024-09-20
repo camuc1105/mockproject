@@ -25,12 +25,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/home", "/css/**").permitAll() // Cho phép truy cập không cần xác thực
+                        .requestMatchers("/home/**", "/css/**", "/js/**", "/login/**").permitAll() // Cho phép truy cập không cần xác thực
                         .requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
                         .anyRequest().authenticated() // Các yêu cầu khác phải xác thực
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Trang đăng nhập tùy chỉnh
+                        .loginPage("/login/loginform") // Trang đăng nhập tùy chỉnh
                         .defaultSuccessUrl("/home", true) // Chuyển hướng sau khi đăng nhập thành công
                         .permitAll()
                 )

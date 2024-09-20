@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="navigation.css">
+    <link rel="stylesheet" th:href="@{/css/navigation.css}">
 
     <!-- Font Awesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -22,6 +22,7 @@
 
 <body>
 <!-- Navbar -->
+<div th:fragment="navigation">
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <!-- Logo và Tên Shop -->
@@ -139,7 +140,7 @@
 
             <!-- Phần thanh tìm kiếm -->
             <form class="form-inline my-2 my-lg-0 search-bar">
-                <input class="form-control mr-sm-4" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
             </form>
 
@@ -151,11 +152,31 @@
 
             <!-- Thông tin tài khoản -->
             <div class="account-info d-flex align-items-center">
-                <div class="login-box">
-                    <a href="#" class="nav-link">Đăng nhập</a>
+                <!-- Đây là menu dropdown cho người dùng đã đăng nhập -->
+                <div class="user-dropdown dropdown" id="userDropdownMenu"> <!-- Thêm 'd-none' để ẩn mặc định -->
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="userDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!-- Avatar -->
+                        <img id="userAvatar" src="/path_to_avatar" alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
+                        <!-- Tên đăng nhập -->
+                        <span id="username"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Trang cá nhân</a>
+                        <a class="dropdown-item" href="#">Cài đặt</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" id="logoutBtn">Đăng xuất</a>
+                    </div>
                 </div>
-                <div class="register-box">
-                    <a href="#" class="nav-link">Đăng ký</a>
+
+                <!-- Liên kết Đăng nhập và Đăng ký (hiển thị khi chưa đăng nhập) -->
+                <div class="auth-links d-flex" id="guestMenu"> <!-- Thêm wrapper cho liên kết đăng nhập/đăng ký -->
+                    <div class="login-box">
+                        <a href="/home/login" class="nav-link">Đăng nhập</a>
+                    </div>
+                    <div class="register-box">
+                        <a href="/home/register" class="nav-link">Đăng ký</a>
+                    </div>
                 </div>
             </div>
 
@@ -167,6 +188,7 @@
         </div>
     </div>
 </nav>
+</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -178,6 +200,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script th:src="@{/js/navigation.js}"></script>
 </body>
 
 </html>

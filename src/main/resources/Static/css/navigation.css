@@ -78,7 +78,6 @@
     text-align: left; /* Căn chỉnh lại nội dung cho thẳng hàng */
 }
 
-
 /* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
 body {
     padding-top: 50px; /* Khoảng cách dựa trên chiều cao của navbar */

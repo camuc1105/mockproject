@@ -3,6 +3,7 @@
  */
 package fashion.mock.service;
 
+import fashion.mock.model.User;
 import fashion.mock.repository.UserRepository;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,15 +18,12 @@ private final UserRepository userRepository;
         this.userRepository = userRepository;
     }
     public boolean getEmail (String email){
-        if(!userRepository.existsByEmail(email)){
-            throw new UsernameNotFoundException("Không tìm thấy người dùng với email: " + email);
-        }
-       return true;
+        return userRepository.existsByEmail(email);
     }
-    public boolean getPassword (String password) throws AuthenticationException {
-        if(!userRepository.existsByPassword(password)){
-            throw new AuthenticationException("Sai mật khẩu");
-        }
-        return true;
+    public boolean getPassword (String password)  {
+        return userRepository.existsByPassword(password);
+    }
+    public User getStatus(String email){
+        return userRepository.findUserByEmail(email);
     }
 }

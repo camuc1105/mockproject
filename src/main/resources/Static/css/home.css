@@ -78,7 +78,6 @@
     text-align: left; /* Căn chỉnh lại nội dung cho thẳng hàng */
 }
 
-
 /* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
 body {
     padding-top: 50px; /* Khoảng cách dựa trên chiều cao của navbar */
@@ -188,6 +187,9 @@ body {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
 }
 
+/**
+ * Trần Thảo
+ */
 /* Lưới sản phẩm */
 .product-grid {
     display: grid;
@@ -293,7 +295,9 @@ body {
         max-width: 100%; /* Banner sẽ chiếm toàn bộ chiều rộng màn hình trên thiết bị nhỏ */
     }
 }
-
+/**
+ * Trần Thảo
+ */
 /* Chân trang */
 .footer {
     background-color: #000000;
@@ -374,4 +378,6 @@ body {
     font-size: 14px; /* Kích thước chữ vừa phải */
     color: #ffffff; /* Đảm bảo chữ trắng */
 }
+
+
 
