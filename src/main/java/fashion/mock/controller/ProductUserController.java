@@ -1,5 +1,5 @@
 /**
- * Author: Lê Nguyên Minh Quý 27/06/1998
+ * Author: Le Nguyen Minh Quy
  */
 package fashion.mock.controller;
 

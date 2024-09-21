@@ -172,11 +172,11 @@ public class UserService {
 			throw new IllegalArgumentException("Email không được để trống");
 		}
 
-		String trimmedEmail = user.getEmail().trim();
-		User userWithSameEmail = userRepository.findByEmail(trimmedEmail);
-		if (userWithSameEmail != null && !userWithSameEmail.getId().equals(existingUser.getId())) {
-			throw new IllegalArgumentException("Email đã tồn tại");
-		}
+//		String trimmedEmail = user.getEmail().trim();
+//		User userWithSameEmail = userRepository.findByEmail(trimmedEmail);
+//		if (userWithSameEmail != null && !userWithSameEmail.getId().equals(existingUser.getId())) {
+//			throw new IllegalArgumentException("Email đã tồn tại");
+//		}
 	}
 
 	/**

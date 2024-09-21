@@ -1,3 +1,6 @@
+/**
+ * Author: Le Nguyen Minh Quy
+ */
 package fashion.mock.repository;
 
 import fashion.mock.model.Image;

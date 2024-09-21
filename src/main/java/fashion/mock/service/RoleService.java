@@ -36,9 +36,9 @@ public class RoleService {
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
-	public Role getRoleByName(String roleName) {
-		return roleRepository.findByRole(roleName);
-	}
+//	public Role getRoleByName(String roleName) {
+//		return roleRepository.findByRole(roleName);
+//	}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996

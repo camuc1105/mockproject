@@ -5,547 +5,414 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Trang Chủ</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Trang Chủ</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+<!-- Custom CSS -->
+<link rel="stylesheet" th:href="@{/css/home.css}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 
 <body>
-<!--<div th:replace="~{/navigation :: navigation}"></div>-->
-<!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <!-- Logo và Tên Shop -->
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
-                     alt="Logo" width="40" height="40" class="mr-2">
-                <span>F FASHION</span>
-            </a>
+	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	<!-- Slider ngay dưới Navbar -->
+	<div id="bannerCarousel" class="carousel slide" data-ride="carousel"
+		data-interval="3000">
+		<!-- Indicators (dấu chấm dưới slide) -->
+		<ol class="carousel-indicators">
+			<li data-target="#bannerCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#bannerCarousel" data-slide-to="1"></li>
+			<li data-target="#bannerCarousel" data-slide-to="2"></li>
+		</ol>
 
-            <!-- Mega Menu -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sản phẩm mới</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sale</a>
-                    </li>
-                    <!-- Mega Menu Áo -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Áo
-                        </a>
-                        <div class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown">
-                            <div class="row">
-                                <!-- Cấp 2: Áo khoác -->
-                                <div class="col-md-4">
-                                    <h6>Áo khoác</h6>
-                                    <!-- Cấp 3: Áo bomber, hoodie, phao -->
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Bomber</a></li>
-                                        <li><a class="dropdown-item" href="#">Hoodie</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo phao</a></li>
-                                    </ul>
-                                </div>
-                                <!-- Cấp 2: Áo thun -->
-                                <div class="col-md-4">
-                                    <h6>Áo thun</h6>
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Áo thun cổ tròn</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo thun cổ tim</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo thun thể thao</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo thun polo</a></li>
+		<!-- Slide nội dung -->
+		<div class="carousel-inner">
+			<!-- Slide 1 -->
+			<div class="carousel-item active">
+				<a href=""> <img
+					src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0uc2rhb10jxqf7urrl1800x833.png"
+					class="d-block w-100" alt="Banner 1">
+				</a>
+			</div>
+			<!-- Slide 2 -->
+			<div class="carousel-item">
+				<a href=""> <img
+					src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0uckftlxhlop5o9d6j1920X864.png"
+					class="d-block w-100" alt="Banner 2">
+				</a>
+			</div>
+			<!-- Slide 3 -->
+			<div class="carousel-item">
+				<a href=""> <img
+					src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0ucrxyqu1s2wveobgf1920x864%20(1).png"
+					class="d-block w-100" alt="Banner 3">
+				</a>
+			</div>
+		</div>
 
-                                    </ul>
-                                </div>
-                                <!-- Cấp 2: Áo sơ mi -->
-                                <div class="col-md-4">
-                                    <h6>Áo sơ mi</h6>
-                                    <!-- Cấp 3: Các loại áo sơ mi -->
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Áo sơ mi trắng</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo sơ mi kẻ sọc</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo sơ mi tay ngắn</a></li>
-                                        <li><a class="dropdown-item" href="#">Áo sơ mi caro</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+		<!-- Điều khiển Previous/Next -->
+		<a class="carousel-control-prev" href="#bannerCarousel" role="button"
+			data-slide="prev"> <span class="carousel-control-prev-icon"
+			aria-hidden="true"></span> <span class="sr-only">Previous</span>
+		</a> <a class="carousel-control-next" href="#bannerCarousel" role="button"
+			data-slide="next"> <span class="carousel-control-next-icon"
+			aria-hidden="true"></span> <span class="sr-only">Next</span>
+		</a>
+	</div>
 
-                    <!-- Mega Menu Quần -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Quần
-                        </a>
-                        <div class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown">
-                            <div class="row">
-                                <!-- Cấp 2: Quần short -->
-                                <div class="col-md-4">
-                                    <h6>Quần short</h6>
-                                    <!-- Cấp 3: Quần short kaki, thun, nỉ -->
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Quần short kaki</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần short thun</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần short nỉ</a></li>
-                                    </ul>
-                                </div>
-                                <!-- Cấp 2: Quần jean -->
-                                <div class="col-md-4">
-                                    <h6>Quần jean</h6>
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Quần jean slimfit</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần jean regular</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần jean skinny</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần jean bass</a></li>
+	<div class="product-grid">
+		<!-- Sản phẩm 1 -->
+		<div class="product-card">
+			<a href="danh-muc-1.html"> <img
+				src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20AO%20GIO.png"
+				alt="Sản phẩm 1">
+			</a>
+		</div>
 
-                                    </ul>
-                                </div>
-                                <!-- Cấp 2: Quần sịp -->
-                                <div class="col-md-4">
-                                    <h6>Quần sịp</h6>
-                                    <!-- Cấp 3: Các loại quần sịp -->
-                                    <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">Quần sịp boxer</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần sịp tam giác</a></li>
-                                        <li><a class="dropdown-item" href="#">Quần sịp lọt khe</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+		<!-- Sản phẩm 2 -->
+		<div class="product-card">
+			<a href="danh-muc-2.html"> <img
+				src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20AO%20POLO.png"
+				alt="Sản phẩm 2">
+			</a>
+		</div>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Tin tức</a>
-                    </li>
-                </ul>
-            </div>
+		<!-- Sản phẩm 3 -->
+		<div class="product-card">
+			<a href="danh-muc-3.html"> <img
+				src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20JEANS%20(1).png"
+				alt="Sản phẩm 3">
+			</a>
+		</div>
 
+		<!-- Sản phẩm 4 -->
+		<div class="product-card">
+			<a href="danh-muc-4.html"> <img
+				src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20%C3%81O%20THUN%20(1).png"
+				alt="Sản phẩm 4">
+			</a>
+		</div>
+	</div>
 
-            <!-- Icon giỏ hàng, thanh tìm kiếm và thông tin tài khoản -->
-            <div class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
+	<!-- Phần hiển thị sản phẩm mới -->
+	<div class="container mt-5">
+		<h2 class="text-center mb-4">Sản Phẩm Mới</h2>
+		<div class="row">
+			<!-- Sản phẩm 1 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://pos.nvncdn.com/2865a9-85186/ps/20231128_wU369kJfDn.jpeg"
+						class="card-img-top" alt="Sản phẩm 1">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Sản phẩm 1</h5>
+						<p class="card-text">
+							<strong>500,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-                <!-- Phần thanh tìm kiếm -->
-                <form class="form-inline my-2 my-lg-0 search-bar">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
-                </form>
+			<!-- Sản phẩm 2 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_HLJolgFNjuex8VLY7p3tmrA6.jpg"
+						class="card-img-top" alt="Sản phẩm 2">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Sản phẩm 2</h5>
+						<p class="card-text">
+							<strong>750,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
+			<!-- Sản phẩm 3 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_GA0Nu1VqVkxcCmg9dyoVJVwE.jpg"
+						class="card-img-top" alt="Sản phẩm 3">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Sản phẩm 3</h5>
+						<p class="card-text">
+							<strong>600,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-                <!-- Icon giỏ hàng -->
-                <a href="#" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
+			<!-- Sản phẩm 4 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_DkZrbu7YLaO74VaYUDc0n12l.jpg"
+						class="card-img-top" alt="Sản phẩm 4">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Sản phẩm 4</h5>
+						<p class="card-text">
+							<strong>850,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                <!-- Thông tin tài khoản -->
-                <div class="account-info d-flex align-items-center">
-                    <!-- Đây là menu dropdown cho người dùng đã đăng nhập -->
-                    <div th:if="${user!=null}">
-                    <div class="user-dropdown dropdown" id="userDropdownMenu"> <!-- Thêm 'd-none' để ẩn mặc định -->
+	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
+	<div class="container text-center mt-4">
+		<a href="all-products.html" class="btn btn-outline-success btn-lg">Xem
+			Thêm</a>
+	</div>
 
-                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="userDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <!-- Avatar -->
-                            <img id="userAvatar" src="https://tintuc.dienthoaigiakho.vn/wp-content/uploads/2024/01/c39af4399a87bc3d7701101b728cddc9.jpg" alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
-                            <!-- Tên đăng nhập -->
-                            <span id="username"></span>
-                        </a>
+	<!-- Ảnh banner -->
+	<div class="banner">
+		<a href="danh-muc-yody-sport.html"> <img
+			src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/media/collections/POLO%20COOL.png"
+			alt="Tuần lễ tri ân cùng YODY Sport">
+		</a>
+	</div>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">Trang cá nhân</a>
-                            <a class="dropdown-item" href="#">Lịch sử đơn hàng</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{/logout}" id="logoutBtn">Đăng xuất</a>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                <!-- đã đag nhập -->
-                    <!-- Liên kết Đăng nhập và Đăng ký (hiển thị khi chưa đăng nhập) -->
-                <div th:if="${user == null}">
-                    <div class="auth-links d-flex" id="guestMenu"> <!-- Thêm wrapper cho liên kết đăng nhập/đăng ký -->
-                        <div class="login-box">
-                            <a href="/login/loginform" class="nav-link">Đăng nhập</a>
-                        </div>
-                        <div class="register-box">
-                            <a href="/home/register" class="nav-link">Đăng ký</a>
-                        </div>
-                    </div>
-                </div>
-                </div>
+	<!-- Phần hiển thị danh mục áo sơ mi -->
+	<div class="container mt-5">
+		<h2 class="text-center mb-4">Áo sơ mi</h2>
+		<div class="row">
+			<!-- Sản phẩm 1 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230668dt._4.jpg"
+						class="card-img-top" alt="Áo sơ mi 1">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Áo sơ mi 1</h5>
+						<p class="card-text">
+							<strong>1,000,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-                <!-- Nút toggle khi trên mobile -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-<!-- Slider ngay dưới Navbar -->
-<div id="bannerCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
-    <!-- Indicators (dấu chấm dưới slide) -->
-    <ol class="carousel-indicators">
-        <li data-target="#bannerCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#bannerCarousel" data-slide-to="1"></li>
-        <li data-target="#bannerCarousel" data-slide-to="2"></li>
-    </ol>
+			<!-- Sản phẩm 2 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230701dt._32_1.jpg"
+						class="card-img-top" alt="Áo sơ mi 2">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Áo sơ mi 2</h5>
+						<p class="card-text">
+							<strong>850,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- Slide nội dung -->
-    <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <a href="">
-                <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0uc2rhb10jxqf7urrl1800x833.png"
-                     class="d-block w-100" alt="Banner 1">
-            </a>
-        </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <a href="">
-                <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0uckftlxhlop5o9d6j1920X864.png"
-                     class="d-block w-100" alt="Banner 2">
-            </a>
-        </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <a href="">
-                <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/fit-in/filters:format(webp)/products/m0ucrxyqu1s2wveobgf1920x864%20(1).png"
-                     class="d-block w-100" alt="Banner 3">
-            </a>
-        </div>
-    </div>
+			<!-- Sản phẩm 3 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/d/s/dsc08349.jpg"
+						class="card-img-top" alt="Áo sơ mi 3">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Áo sơ mi 3</h5>
+						<p class="card-text">
+							<strong>750,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- Điều khiển Previous/Next -->
-    <a class="carousel-control-prev" href="#bannerCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#bannerCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+			<!-- Sản phẩm 4 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230315dt._08_2.jpg"
+						class="card-img-top" alt="Áo sơ mi 4">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Áo sơ mi 4</h5>
+						<p class="card-text">
+							<strong>900,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
+	<div class="container text-center mt-4">
+		<a href="all-products.html" class="btn btn-outline-success btn-lg">Xem
+			Thêm</a>
+	</div>
 
-<div class="product-grid">
-    <!-- Sản phẩm 1 -->
-    <div class="product-card">
-        <a href="danh-muc-1.html">
-            <img src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20AO%20GIO.png"
-                 alt="Sản phẩm 1">
-        </a>
-    </div>
+	<!-- Phần hiển thị sản phẩm Quần sịp -->
+	<div class="container mt-5">
+		<h2 class="text-center mb-4">Quần sịp</h2>
+		<div class="row">
+			<!-- Sản phẩm 1 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlr232435.png"
+						class="card-img-top" alt="Quần sịp 1">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Quần sịp 1</h5>
+						<p class="card-text">
+							<strong>105,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- Sản phẩm 2 -->
-    <div class="product-card">
-        <a href="danh-muc-2.html">
-            <img src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20AO%20POLO.png"
-                 alt="Sản phẩm 2">
-        </a>
-    </div>
+			<!-- Sản phẩm 2 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlr232434_3.png"
+						class="card-img-top" alt="Quần sịp 2">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Quần sịp 2</h5>
+						<p class="card-text">
+							<strong>105,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- Sản phẩm 3 -->
-    <div class="product-card">
-        <a href="danh-muc-3.html">
-            <img src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20JEANS%20(1).png"
-                 alt="Sản phẩm 3">
-        </a>
-    </div>
+			<!-- Sản phẩm 3 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlbr221100.png"
+						class="card-img-top" alt="Quần sịp 3">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Quần sịp 3</h5>
+						<p class="card-text">
+							<strong>120,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- Sản phẩm 4 -->
-    <div class="product-card">
-        <a href="danh-muc-4.html">
-            <img src="https://m.yodycdn.com/fit-in/filters:format(webp)//products/SECTION%20BANNER%20-%20%C3%81O%20THUN%20(1).png"
-                 alt="Sản phẩm 4">
-        </a>
-    </div>
-</div>
+			<!-- Sản phẩm 4 -->
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<a href="product-detail.html"> <img
+						src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlbr221092.png"
+						class="card-img-top" alt="Quần sịp 4">
+					</a>
+					<div class="card-body text-center">
+						<h5 class="card-title">Quần sịp 4</h5>
+						<p class="card-text">
+							<strong>120,000đ</strong>
+						</p>
+						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
+	<div class="container text-center mt-4">
+		<a href="all-products.html" class="btn btn-outline-success btn-lg">Xem
+			Thêm</a>
+	</div>
+	<!-- Footer -->
+	<footer class="footer pt-5">
+		<div class="container">
+			<div class="row">
+				<!-- Cột 1: Thông tin shop và mạng xã hội -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Thời trang nam F Fashion</h5>
+					<p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng
+						tới phong cách nam tính, lịch lãm và trẻ trung.</p>
+					<div class="social-icons">
+						<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
+							class="fab fa-twitter"></i></a> <a href="#"><i
+							class="fab fa-instagram"></i></a> <a href="#"><i
+							class="fab fa-tiktok"></i></a> <a href="#"><i
+							class="fab fa-youtube"></i></a>
+					</div>
+				</div>
 
-<!-- Phần hiển thị sản phẩm mới -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Sản Phẩm Mới</h2>
-    <div class="row">
-        <!-- Sản phẩm 1 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://pos.nvncdn.com/2865a9-85186/ps/20231128_wU369kJfDn.jpeg" class="card-img-top"
-                         alt="Sản phẩm 1">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Sản phẩm 1</h5>
-                    <p class="card-text"><strong>500,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
+				<!-- Cột 2: Thông tin liên hệ và vận chuyển -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Thông tin liên hệ</h5>
+					<p>
+						<strong>Địa chỉ:</strong> Tầng 5, tòa nhà Manor Crown, số 32 Tố
+						Hữu, Xuân Phú, Huế
+					</p>
+					<p>
+						<strong>Điện thoại:</strong> 0905686868
+					</p>
+					<p>
+						<strong>Email:</strong> cskh@ffashion.vn
+					</p>
+				</div>
 
-        <!-- Sản phẩm 2 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_HLJolgFNjuex8VLY7p3tmrA6.jpg"
-                         class="card-img-top" alt="Sản phẩm 2">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Sản phẩm 2</h5>
-                    <p class="card-text"><strong>750,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_GA0Nu1VqVkxcCmg9dyoVJVwE.jpg"
-                         class="card-img-top" alt="Sản phẩm 3">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Sản phẩm 3</h5>
-                    <p class="card-text"><strong>600,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 4 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_DkZrbu7YLaO74VaYUDc0n12l.jpg"
-                         class="card-img-top" alt="Sản phẩm 4">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Sản phẩm 4</h5>
-                    <p class="card-text"><strong>850,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Nút Xem Thêm cho tất cả sản phẩm -->
-<div class="container text-center mt-4">
-    <a href="all-products.html" class="btn btn-outline-success btn-lg">Xem Thêm</a>
-</div>
-
-<!-- Ảnh banner -->
-<div class="banner">
-    <a href="danh-muc-yody-sport.html">
-        <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/media/collections/POLO%20COOL.png"
-             alt="Tuần lễ tri ân cùng YODY Sport">
-    </a>
-</div>
-
-<!-- Phần hiển thị danh mục áo sơ mi -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Áo sơ mi</h2>
-    <div class="row">
-        <!-- Sản phẩm 1 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230668dt._4.jpg"
-                         class="card-img-top" alt="Áo sơ mi 1">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Áo sơ mi 1</h5>
-                    <p class="card-text"><strong>1,000,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 2 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230701dt._32_1.jpg"
-                         class="card-img-top" alt="Áo sơ mi 2">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Áo sơ mi 2</h5>
-                    <p class="card-text"><strong>850,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/d/s/dsc08349.jpg"
-                         class="card-img-top" alt="Áo sơ mi 3">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Áo sơ mi 3</h5>
-                    <p class="card-text"><strong>750,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 4 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/r/ar230315dt._08_2.jpg"
-                         class="card-img-top" alt="Áo sơ mi 4">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Áo sơ mi 4</h5>
-                    <p class="card-text"><strong>900,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Nút Xem Thêm cho tất cả sản phẩm -->
-<div class="container text-center mt-4">
-    <a href="all-products.html" class="btn btn-outline-success btn-lg">Xem Thêm</a>
-</div>
-
-<!-- Phần hiển thị sản phẩm Quần sịp -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Quần sịp</h2>
-    <div class="row">
-        <!-- Sản phẩm 1 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlr232435.png"
-                         class="card-img-top" alt="Quần sịp 1">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quần sịp 1</h5>
-                    <p class="card-text"><strong>105,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 2 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlr232434_3.png"
-                         class="card-img-top" alt="Quần sịp 2">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quần sịp 2</h5>
-                    <p class="card-text"><strong>105,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlbr221100.png"
-                         class="card-img-top" alt="Quần sịp 3">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quần sịp 3</h5>
-                    <p class="card-text"><strong>120,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 4 -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <a href="product-detail.html">
-                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/q/l/qlbr221092.png"
-                         class="card-img-top" alt="Quần sịp 4">
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quần sịp 4</h5>
-                    <p class="card-text"><strong>120,000đ</strong></p>
-                    <a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Nút Xem Thêm cho tất cả sản phẩm -->
-<div class="container text-center mt-4">
-    <a href="all-products.html" class="btn btn-outline-success btn-lg">Xem Thêm</a>
-</div>
-<!-- Footer -->
-    <footer class="footer pt-5">
-        <div class="container">
-            <div class="row">
-                <!-- Cột 1: Thông tin shop và mạng xã hội -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="font-weight-bold">Thời trang nam F Fashion</h5>
-                    <p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng tới phong cách nam tính, lịch lãm và
-                        trẻ trung.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <!-- Cột 2: Thông tin liên hệ và vận chuyển -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="font-weight-bold">Thông tin liên hệ</h5>
-                    <p><strong>Địa chỉ:</strong> Tầng 5, tòa nhà Manor Crown, số 32 Tố Hữu, Xuân Phú, Huế</p>
-                    <p><strong>Điện thoại:</strong> 0905686868</p>
-                    <p><strong>Email:</strong> cskh@ffashion.vn</p>
-                </div>
-
-                <!-- Cột 3: Nhóm liên kết -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="font-weight-bold">Dịch vụ khách hàng</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright text-center py-3">
-            <p class="mb-0">© 2024 F Fashion. Powered by Mock Team 2</p>
-        </div>
-    </footer>
-<!--<div th:replace="~{/footer :: footer}"></div>-->
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+				<!-- Cột 3: Nhóm liên kết -->
+				<div class="col-lg-4 col-md-6 mb-4">
+					<h5 class="font-weight-bold">Dịch vụ khách hàng</h5>
+					<ul class="list-unstyled">
+						<li><a href="#">Giới thiệu</a></li>
+						<li><a href="#">Chính sách đổi trả</a></li>
+						<li><a href="#">Liên hệ</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright text-center py-3">
+			<p class="mb-0">© 2024 F Fashion. Powered by Mock Team 2</p>
+		</div>
+	</footer>
+	<!--<div th:replace="~{/footer :: footer}"></div>-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

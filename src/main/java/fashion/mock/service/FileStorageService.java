@@ -1,3 +1,6 @@
+/**
+ * Author: Le Nguyen Minh Quy
+ */
 package fashion.mock.service;
 
 import org.springframework.stereotype.Service;

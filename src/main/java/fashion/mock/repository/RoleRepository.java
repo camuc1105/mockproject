@@ -3,11 +3,12 @@
  */
 package fashion.mock.repository;
 
-import fashion.mock.model.Role;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import fashion.mock.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
@@ -15,6 +16,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
   /**
    * Author: Ngô Văn Quốc Thắng 11/05/1996
  */
-  	Role findByRole(String role);
+//  	Role findByRole(String role);
 }
 

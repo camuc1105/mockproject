@@ -79,9 +79,9 @@
 }
 
 /* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
-body {
-    padding-top: 50px; /* Khoảng cách dựa trên chiều cao của navbar */
-}
+/* body {
+    padding-top: 50px; Khoảng cách dựa trên chiều cao của navbar
+} */
 
 /* Căn menu về bên trái và icon về bên phải */
 .navbar-nav {
@@ -377,6 +377,20 @@ body {
     margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
     font-size: 14px; /* Kích thước chữ vừa phải */
     color: #ffffff; /* Đảm bảo chữ trắng */
+}
+.cart-icon {
+	position: relative;
+}
+
+.cart-count {
+	background-color: red;
+	color: white;
+	border-radius: 50%;
+	padding: 0px 5px;
+	position: absolute;
+	top: -12px;
+	right: 17px;
+
 }
 
 

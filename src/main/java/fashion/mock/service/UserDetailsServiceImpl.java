@@ -35,12 +35,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		
         // Tìm người dùng theo email
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng với email: " + email));
 
         // Trả về UserDetails (có thể tạo một lớp UserDetailsImpl để thực hiện)
         return new UserDetailsImpl(user);
+    
     }
 
     public UserDetails loadUserByPassword(String password) throws UsernameNotFoundException {
