@@ -1,5 +1,9 @@
 /**
+<<<<<<< HEAD
  * Author: Le Nguyen Minh Quy
+=======
+ * Author: Lê Nguyên Minh Quý 27/06/1998
+>>>>>>> 4c63e25051db7fcaa62dc5aa87de1baf3e14ee9f
  */
 package fashion.mock.repository;
 

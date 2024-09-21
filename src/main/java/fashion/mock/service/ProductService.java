@@ -1,5 +1,5 @@
 /**
- * Author: Le Nguyen Minh Quy
+ * Author: Lê Nguyên Minh Quý 27/06/1998
  */
 package fashion.mock.service;
 
@@ -20,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import fashion.mock.model.Discount;
 import fashion.mock.model.Image;
 import fashion.mock.model.Product;
 import fashion.mock.repository.ImageRepository;
@@ -173,12 +174,12 @@ public class ProductService {
 	}
 
 	public Page<Product> getFilteredProducts(String searchTerm, String sortBy, String color, String size,
-			String priceRange, PageRequest pageRequest) {
+			String priceRange, Long categoryId, PageRequest pageRequest) {
 		Specification<Product> spec = Specification.where(null);
 
 		if (searchTerm != null && !searchTerm.isEmpty()) {
-			spec = spec.and(
-					(root, query, cb) -> cb.like(cb.lower(root.get("name")), "%" + searchTerm.toLowerCase() + "%"));
+			spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("productName")),
+					"%" + searchTerm.toLowerCase() + "%"));
 		}
 
 		if (color != null && !color.isEmpty()) {
@@ -208,6 +209,10 @@ public class ProductService {
 			spec = spec.and((root, query, cb) -> cb.between(root.get("price"), minPrice, maxPrice));
 		}
 
+		if (categoryId != null) {
+			spec = spec.and((root, query, cb) -> cb.equal(root.get("category").get("id"), categoryId));
+		}
+
 		if ("priceAsc".equals(sortBy)) {
 			return productRepository.findAll(spec, pageRequest.withSort(Sort.by(Sort.Direction.ASC, "price")));
 		} else if ("priceDesc".equals(sortBy)) {
@@ -233,19 +238,28 @@ public class ProductService {
 		}
 		return Arrays.asList(color);
 	}
-//}
 
-// @Service
-// public class ProductService {
-// 	private final ProductRepository productRepository;
+	public boolean isProductOnDiscount(Product product) {
+		LocalDate now = LocalDate.now();
+		return product.getDiscounts().stream()
+				.anyMatch(discount -> !discount.getStartDate().isAfter(now) && !discount.getEndDate().isBefore(now));
+	}
 
-// 	public ProductService(ProductRepository productRepository) {
-// 		this.productRepository = productRepository;
-// 	}
+	public double getDiscountedPrice(Product product) {
+		if (isProductOnDiscount(product)) {
+			Discount activeDiscount = product.getDiscounts().stream()
+					.filter(discount -> !discount.getStartDate().isAfter(LocalDate.now())
+							&& !discount.getEndDate().isBefore(LocalDate.now()))
+					.findFirst().orElse(null);
 
-	/**
-	 * Author: Nguyen Cong Huan. 06/03/1999
-	 */
+			if (activeDiscount != null) {
+				return product.getPrice() * (1 - activeDiscount.getDiscountPercent() / 100);
+			}
+		}
+		return product.getPrice();
+	}
+
+//huan
 	List<Product> ls = new ArrayList<Product>();
 
 	public List<Product> getAllProducts() {

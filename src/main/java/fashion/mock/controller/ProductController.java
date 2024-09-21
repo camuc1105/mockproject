@@ -1,11 +1,12 @@
 /**
- * Author: Le Nguyen Minh Quy
+ * Author: Lê Nguyên Minh Quý 27/06/1998
  */
 
 package fashion.mock.controller;
 
 import fashion.mock.model.Product;
 import fashion.mock.service.ProductService;
+import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,8 @@ public class ProductController {
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CartItemService cartItemService;
 
 	// Thêm phương thức mới để xử lý đường dẫn ảnh
 	@ModelAttribute("imagePath")
@@ -123,22 +126,12 @@ public class ProductController {
 		boolean deleted = productService.deleteImage(imageId);
 		return "{\"success\":" + deleted + "}";
 	}
-}
 
-/*
- * @Controller
- * 
- * @RequestMapping("/product") public class ProductController { private final
- * ProductService productService; private final CartItemService cartItemService;
- * 
- * public ProductController(ProductService productService, CartItemService
- * cartItemService) { this.productService = productService; this.cartItemService
- * = cartItemService; }
- * 
- * @GetMapping("/view") public String viewProducts(Model model) {
- * model.addAttribute("products", productService.getAllProducts());
- * model.addAttribute("totalItems", cartItemService.getCount()); return
- * "product-view";
- * 
- * } }
- */
+	@GetMapping("/view")
+	public String viewProducts(Model model) {
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("totalCartItems", cartItemService.getCount());
+		return "product-view";
+
+	}
+}

@@ -18,7 +18,6 @@ import fashion.mock.service.VerificationService;
 import jakarta.validation.Valid;
 
 @Controller
-
 public class RegisterController {
 	private final UserService userService;
 	private final EmailService emailService;

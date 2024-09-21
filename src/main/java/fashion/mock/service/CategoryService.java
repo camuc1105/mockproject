@@ -23,17 +23,6 @@ public class CategoryService {
 		this.categoryRepository = categoryRepository;
 	}
 
-//    @Autowired
-//    private ProductRepository productRepository;
-
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
-//    public List<Product> getProductsByCategory(String categoryName) {
-//        Category category = categoryRepository.findByCategoryName(categoryName);
-//        return productRepository.findByCategory(category);
-//    }
-
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
