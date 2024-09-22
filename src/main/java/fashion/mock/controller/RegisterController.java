@@ -6,10 +6,7 @@ package fashion.mock.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import fashion.mock.model.User;
 import fashion.mock.service.EmailService;
@@ -18,6 +15,7 @@ import fashion.mock.service.VerificationService;
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
 	private final UserService userService;
 	private final EmailService emailService;
@@ -51,7 +49,7 @@ public class RegisterController {
 			String code = verificationService.generateAndStoreCode(user.getEmail());
 		
 			emailService.sendVerificationCode(user.getEmail(), code);
-			return "redirect:/inputCode?email=" + user.getEmail();
+			return "redirect:/register/inputCode?email=" + user.getEmail();
 		}
 	}
 
@@ -59,7 +57,7 @@ public class RegisterController {
 	public String resendCode(@ModelAttribute User user) {
 		String code = verificationService.generateAndStoreCode(user.getEmail());
 		emailService.sendVerificationCode(user.getEmail(), code);
-		return "redirect:/inputCode";
+		return "redirect:/register/inputCode";
 	}
 
 	@GetMapping("/inputCode")
