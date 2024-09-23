@@ -33,7 +33,7 @@ public class SecurityConfig {
 						.requestMatchers("/home/**", "/css/**", "/js/**", "/login/**",
 								"/forgot-password", "/verify-code", "/reset-password", "/products/**", "/css/**",
 								"/shopping-cart/**", "/shop/**", "/js/**", "/images/**", "/shop/**", "/categories/**","/information/**",
-								"/users/**", "/discounts/**", "/checkout/**","/information/**","/discounts/**","/orderDetail/**", "/register/**")
+								"/users/**", "/discounts/**", "/checkout/**","/information/**","/discounts/**","/orderDetail/**", "/register/**", "/forget-password/**")
 						.permitAll() // Cho phép truy cập không cần xác thực
 //						.requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
 						.anyRequest().authenticated() // Các yêu cầu khác phải xác thực
