@@ -73,11 +73,19 @@ public class ForgetPasswordController {
 	}
 
 	@PostMapping("/resend-code-forget")
-	public String resendCode(@RequestParam("email") String email) {
-		String code = verificationService.generateAndStoreCode(email);
-		emailService.sendVerificationCode(email, code);
+	public String resendCode(@RequestParam("email") String email, Model model) {
+		try {
+			String code = verificationService.generateAndStoreCode(email);
+			emailService.sendVerificationCode(email, code);
+		} catch (IllegalStateException e) {
+			// Nếu vượt quá số lần gửi, hiển thị lỗi
+			model.addAttribute("error", e.getMessage());
+			model.addAttribute("email", email); // Truyền lại email để hiện trong form
+			return "verifyCodeForm"; // Trả về trang xác nhận mã và hiển thị lỗi
+		}
 		return "redirect:/forget-password/verify-code?email=" + email;
 	}
+
 
 	// Xử lý cập nhật mật khẩu
 	@PostMapping("/reset-password")
