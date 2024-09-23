@@ -13,7 +13,7 @@ import fashion.mock.model.CartItem;
 
 @Service
 public class CartItemService {
-	Map<Long, CartItem> maps = new HashMap<Long, CartItem>();
+	Map<Long, CartItem> maps = new HashMap<>();
 
 	public void add(CartItem item) {
 		CartItem cartItem = maps.get(item.getProductID());
