@@ -261,8 +261,7 @@ public class ProductService {
 //huan
 
 	public List<Product> getAllProducts() {
-		List<Product> ls = productRepository.findAll();
-		return ls;
+		return productRepository.findAll();
 	}
 
 	public Product findProductById(Long id) {
