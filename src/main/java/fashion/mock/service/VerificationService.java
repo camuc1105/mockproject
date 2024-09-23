@@ -22,6 +22,7 @@ public class VerificationService {
 		// Kiểm tra số lần đã gửi mã xác minh trong 5 phút
 		String attemptsKey = email + ":attempts";
 		String attemptCountStr = redisTemplate.opsForValue().get(attemptsKey);
+		// kiểm tra attemptCountStr nếu null thì gán là 0, k null thì ép kiểu thành số nguyên
 		int attemptCount = attemptCountStr != null ? Integer.parseInt(attemptCountStr) : 0;
 
 		if (attemptCount >= 3) {
