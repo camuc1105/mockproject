@@ -12,6 +12,7 @@ import fashion.mock.model.Category;
 import fashion.mock.model.User;
 import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
+import fashion.mock.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -20,18 +21,14 @@ public class HomeController {
 
 	private final CategoryService categoryService;
 	private CartItemService cartItemService;
+	private UserService userService;
 
-	public HomeController(CategoryService categoryService, CartItemService cartItemService) {
+	public HomeController(CategoryService categoryService, CartItemService cartItemService, UserService userService) {
 		super();
 		this.categoryService = categoryService;
 		this.cartItemService = cartItemService;
+		this.userService = userService;
 	}
-
-	/*
-	 * @GetMapping public String home(Model model, HttpSession session) { User user
-	 * = (User) session.getAttribute("user"); model.addAttribute("user", user); //
-	 * this.setUser(user); return "home"; }
-	 */
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
@@ -50,11 +47,14 @@ public class HomeController {
 		model.addAttribute("quanCategories", quanCategories);
 
 		model.addAttribute("totalCartItems", cartItemService.getCount());
-		
-		
+
 		// thảo
+
 		User user = (User) session.getAttribute("user");
+		boolean isAdmin = userService.isAdmin(user.getId());
 		model.addAttribute("user", user);
+		model.addAttribute("isAdmin", isAdmin);
+
 		return "home";
 	}
 

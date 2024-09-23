@@ -3,10 +3,6 @@
  */
 package fashion.mock.controller;
 
-import fashion.mock.model.User;
-import fashion.mock.service.UserService;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import fashion.mock.model.User;
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/login")
@@ -34,12 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/loginsuccess")
-    public String loginSuccess(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, HttpSession session) throws AuthenticationException {
+    public String loginSuccess(@ModelAttribute User user, BindingResult bindingResult, Model model, HttpSession session) throws AuthenticationException {
         System.out.println(user.getEmail());
         System.out.println("===");
-        if(bindingResult.hasErrors()) {
-            return "login";
-        }
         if(!userService.getEmail(user.getEmail())){
             System.out.println("===1");
             model.addAttribute("errorEmail", "Email chưa được đăng ký!");

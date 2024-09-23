@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
+import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import fashion.mock.service.ProductService;
 
@@ -24,6 +25,8 @@ public class ProductDetailController {
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CartItemService cartItemService;
 
 	@GetMapping("/shop/{id}")
 	public String showProductDetail(@PathVariable Long id, Model model) {
@@ -54,6 +57,7 @@ public class ProductDetailController {
 		model.addAttribute("quanCategories", quanCategories);
 		model.addAttribute("categories", categories);
 
+		model.addAttribute("totalCartItems", cartItemService.getCount());
 		return "shopdetail";
 	}
 }

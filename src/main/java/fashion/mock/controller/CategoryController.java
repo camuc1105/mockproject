@@ -49,7 +49,6 @@ public class CategoryController {
         // Thêm danh sách "Áo" và "Quần" vào model
         model.addAttribute("aoCategories", aoCategories);
         model.addAttribute("quanCategories", quanCategories);
-
         return "navigation";
     }
 

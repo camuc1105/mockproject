@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,7 +46,6 @@ public class ShoppingCartController {
 
 	@GetMapping("/view")
 	public String viewCart(Model model, HttpSession session) {
-
 		// Lấy tất cả danh mục
 		List<Category> categories = categoryService.getAllCategories();
 		// Phân loại danh mục dựa trên tên bắt đầu bằng "Áo" hoặc "Quần"
@@ -60,6 +60,7 @@ public class ShoppingCartController {
 		// Lấy giỏ hàng từ session hoặc khởi tạo mới nếu chưa có
 		@SuppressWarnings("unchecked")
 		Collection<CartItem> cartItems = (Collection<CartItem>) session.getAttribute("cartItems");
+
 		if (cartItems == null) {
 			cartItems = cartItemService.getAllItems();
 			session.setAttribute("cartItems", cartItems);
@@ -69,20 +70,27 @@ public class ShoppingCartController {
 		return "cart-item"; // Trả về trang giỏ hàng
 	}
 
-	@GetMapping("/add/{id}")
-	public String addCart(@PathVariable long id, Model model) {
-		Product product = productService.findProductById(id);
+	@PostMapping("/add")
+	public String addCart(@RequestParam Long productId, @RequestParam String productName, @RequestParam double price,
+			@RequestParam int quantity, @RequestParam String action, RedirectAttributes redirectAttributes) {
+
+		Product product = productService.findProductById(productId);
+
 		if (product != null) {
 			CartItem item = new CartItem();
 			item.setProductID(product.getId());
-			item.setName(product.getProductName());
-			item.setPrice(product.getPrice());
-			item.setQuantity(1);
-			
-	        cartItemService.add(item);
+			item.setName(productName);
+			item.setPrice(price);
+			item.setQuantity(quantity);
+			cartItemService.add(item);
+			if ("buy".equals(action)) {
+				return "redirect:/shopping-cart/view"; // Chuyển hướng đến trang giỏ hàng nếu chọn "Mua ngay"
+			} else {
+				redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng!");
+				return "redirect:/shop/" + productId; // Chuyển hướng về trang hiện tại
+			}
 		}
-
-		return "redirect:/shopping-cart/view";
+		return "404";
 	}
 
 
