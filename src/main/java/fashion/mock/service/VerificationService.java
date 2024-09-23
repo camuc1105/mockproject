@@ -20,7 +20,7 @@ public class VerificationService {
 
 	public String generateAndStoreCode(String email) {
 		String code = String.format("%06d", new Random().nextInt(1000000));
-		redisTemplate.opsForValue().set(email, code, 1, TimeUnit.MINUTES); // Mã hết hạn sau 5 phút
+		redisTemplate.opsForValue().set(email, code, 5, TimeUnit.MINUTES);
 		return code;
 	}
 

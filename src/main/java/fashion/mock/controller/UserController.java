@@ -67,7 +67,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String showUpdateUserForm(@PathVariable Long id, Model model) {
         User user = userService.getUserById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("userRoles", user.getUserRoles().stream().map(UserRole::getRole).toList());
@@ -78,19 +78,22 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @PostMapping
-    public String addUser(@Valid @ModelAttribute("user") User user, @RequestParam List<Long> roleIds, BindingResult result,
-            Model model, RedirectAttributes redirectAttributes) {
-    	   if (result.hasErrors()) {
-               return "adminformuser";
-           }
+    public String addUser(@Valid @ModelAttribute User user, BindingResult bindingResult, 
+                          @RequestParam List<Long> roleIds, 
+                          RedirectAttributes redirectAttributes,
+                          Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "adminformuser";
+        }
         try {
             userService.addUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "User added successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã được thêm thành công!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("user", user);
-            return "redirect:/users/new";
+            bindingResult.rejectValue("email", "error.user", e.getMessage());
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "adminformuser";
         }
     }
 
@@ -98,19 +101,22 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @PostMapping("/update")
-    public String updateUser(@Valid @ModelAttribute("user") User user, @RequestParam List<Long> roleIds, BindingResult result,
-            Model model, RedirectAttributes redirectAttributes) {
-    	 if (result.hasErrors()) {
-             return "adminformuser";
-         }
+    public String updateUser(@Valid @ModelAttribute User user, BindingResult bindingResult,
+                             @RequestParam List<Long> roleIds, 
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "adminformuser";
+        }
         try {
             userService.updateUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã cập nhật thành công!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("user", user);
-            return "redirect:/users/edit/" + user.getId();
+            bindingResult.rejectValue("email", "error.user", e.getMessage());
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "adminformuser";
         }
     }
     
@@ -122,10 +128,10 @@ public class UserController {
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         boolean deleted = userService.deleteUser(id);
         if (!deleted) {
-            redirectAttributes.addFlashAttribute("message", "User không tồn tại");
+            redirectAttributes.addFlashAttribute("message", "Người dùng không tồn tại");
             redirectAttributes.addFlashAttribute("messageType", "error");
         } else {
-            redirectAttributes.addFlashAttribute("message", "User đã được xóa thành công");
+            redirectAttributes.addFlashAttribute("message", "Người dùng đã được xóa thành công");
             redirectAttributes.addFlashAttribute("messageType", "success");
         }
         return "redirect:/users";

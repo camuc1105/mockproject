@@ -30,10 +30,10 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/home/**", "/css/**", "/js/**", "/login/**", "/register", "/save","/inputCode?email=",
+						.requestMatchers("/home/**", "/css/**", "/js/**", "/login/**",
 								"/forgot-password", "/verify-code", "/reset-password", "/products/**", "/css/**",
 								"/shopping-cart/**", "/shop/**", "/js/**", "/images/**", "/shop/**", "/categories/**","/information/**",
-								"/users/**", "/discounts/**", "/checkout/**","/information/**","/discounts/**","/orderDetail/**")
+								"/users/**", "/discounts/**", "/checkout/**","/information/**","/discounts/**","/orderDetail/**", "/register/**", "/forget-password/**")
 						.permitAll() // Cho phép truy cập không cần xác thực
 //						.requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
 						.anyRequest().authenticated() // Các yêu cầu khác phải xác thực
