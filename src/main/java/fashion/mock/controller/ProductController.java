@@ -127,8 +127,6 @@ public class ProductController {
 		return "{\"success\":" + deleted + "}";
 	}
   
-
-
 	@GetMapping("/view")
 	public String viewProducts(Model model) {
 		model.addAttribute("products", productService.getAllProducts());

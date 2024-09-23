@@ -28,10 +28,11 @@
 							<td th:text="${product.productName}"></td>
 							<td th:text="${product.price}"></td>
 							<td><a class="btn btn-primary btn-sm"
-								th:href="@{'/shopping-cart/add/' + ${product.id}}">Buy now</a> <a
-								class="btn btn-primary btn-sm add-to-cart"
+								th:href="@{'/shopping-cart/add/' + ${product.id}}">Buy now</a> 
+								<a class="btn btn-primary btn-sm add-to-cart"
 								th:href="@{'/shopping-cart/add/' + ${product.id}}"
-								onclick="addToCart(event, this);">Add to Cart</a></td>
+								onclick="addToCart(event, this);">Add to Cart</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>
