@@ -31,14 +31,14 @@ public class OrderDetailController {
 	public String getOrderDetail(@PathVariable Long id, Model model) {
 		Optional<Order> orderOptional = orderService.getOrderById(id);
 		if (orderOptional.isEmpty()) {
-	        model.addAttribute("errorMessage", "Order not found.");
-	        return "error"; // Or a specific error page
-	    }
-	    Order order = orderOptional.get();
-	    List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);
-	    model.addAttribute("order", order);
-	    model.addAttribute("orderDetails", orderDetails);
-	    return "orderDetails";
+			model.addAttribute("errorMessage", "Order not found.");
+			return "error"; // Or a specific error page
+		}
+		Order order = orderOptional.get();
+		List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetails", orderDetails);
+		return "orderDetails";
 	}
 
 }
