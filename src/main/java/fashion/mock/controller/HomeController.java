@@ -49,12 +49,17 @@ public class HomeController {
 		model.addAttribute("totalCartItems", cartItemService.getCount());
 
 		// thảo
-
+		
 		User user = (User) session.getAttribute("user");
-		boolean isAdmin = userService.isAdmin(user.getId());
-		model.addAttribute("user", user);
-		model.addAttribute("isAdmin", isAdmin);
+		boolean isAdmin = false; // Initialize isAdmin
 
+		if (user != null) {
+		    isAdmin = userService.isAdmin(user.getId());
+		    model.addAttribute("user", user);
+		} else {
+		    // Handle the case where user is null (e.g., redirect, set an error message, etc.)
+		}
+		model.addAttribute("isAdmin", isAdmin);
 		return "home";
 	}
 
