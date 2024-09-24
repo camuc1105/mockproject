@@ -79,16 +79,20 @@ public class UserController {
 	 */
     @PostMapping
     public String addUser(@Valid @ModelAttribute User user, BindingResult bindingResult, 
-                          @RequestParam List<Long> roleIds, 
+                          @RequestParam(required = false) List<Long> roleIds, 
                           RedirectAttributes redirectAttributes,
                           Model model) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
+            if (roleIds == null || roleIds.isEmpty()) {
+                model.addAttribute("roleError", "Vui lòng chọn ít nhất một vai trò.");
+            }
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminformuser";
         }
+
         try {
-            userService.addUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã được thêm thành công!");
+            userService.addUserWithRoles(user, roleIds); // Role validation now handled in the service
+            redirectAttributes.addFlashAttribute("successMessage", "User added successfully!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());
@@ -97,21 +101,21 @@ public class UserController {
         }
     }
 
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
     @PostMapping("/update")
     public String updateUser(@Valid @ModelAttribute User user, BindingResult bindingResult,
-                             @RequestParam List<Long> roleIds, 
+                             @RequestParam(required = false) List<Long> roleIds, 
                              RedirectAttributes redirectAttributes,
                              Model model) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
+            if (roleIds == null || roleIds.isEmpty()) {
+                model.addAttribute("roleError", "Vui lòng chọn ít nhất một vai trò.");
+            }
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminformuser";
         }
         try {
             userService.updateUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã cập nhật thành công!");
+            redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());
