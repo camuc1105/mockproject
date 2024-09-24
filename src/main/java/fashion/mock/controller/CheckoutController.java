@@ -93,24 +93,6 @@ public class CheckoutController {
 		@SuppressWarnings("unchecked")
 		List<CartItem> selectedItems = (List<CartItem>) session.getAttribute("selectedCartItems");
 		
-		// Ensure items exist before proceeding with checkout
-	    if (selectedItems == null || selectedItems.isEmpty()) {
-	        return "redirect:/shopping-cart/view"; // Redirect if no items selected
-	    }
-
-	    // Retrieve the entire cart from the session
-	    @SuppressWarnings("unchecked")
-	    List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cartItems");
-
-	    // Remove selected items from the cart
-	    if (cartItems != null && !cartItems.isEmpty()) {
-	        cartItems.removeIf(cartItem -> selectedItems.stream()
-	                .anyMatch(selectedItem -> selectedItem.getProductID().equals(cartItem.getProductID())));
-	    }
-
-	    // Update the cart in session
-	    session.setAttribute("cartItems", cartItems);
-
 		// Calculate total price based on selected items (sum of price * quantity)
 		double totalPrice = 0;
 		for (CartItem cartItem : selectedItems) {
