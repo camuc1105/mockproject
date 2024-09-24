@@ -33,7 +33,7 @@ public class TransactionHistory {
 	@Column(name = "transactionAmount", nullable = false)
 	private Double transactionAmount;
 
-	@Column(length = 20)
+	@Column(columnDefinition = "NVARCHAR(25)")
 	private String status;
 
 	public TransactionHistory(Long id, Order order, Payment payment, LocalDate transactionDate,

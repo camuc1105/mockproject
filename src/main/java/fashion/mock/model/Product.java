@@ -25,18 +25,22 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(min = 6, message = "Tên sản phẩm phải có ít nhất 6 ký tự")
-	@Column(name = "productName", nullable = false, length = 100)
+		@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(100)")
+
 	private String productName;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false)
 	private Category category;
+
 	
 	@NotBlank(message = "Màu sắc không được để trống")
-	@Column(nullable = false, length = 100)
+
+  	@Column(nullable = false,columnDefinition = "NVARCHAR(100)")
+
 	private String color;
 
 	@Column(nullable = false, length = 10)
@@ -52,7 +56,7 @@ public class Product {
 	@Column(nullable = false)
 	private Integer quantity;
 
-	@Column(length = 1000)
+	@Column(columnDefinition = "NVARCHAR(1000)")
 	private String description;
 
 	@ManyToOne
