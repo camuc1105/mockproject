@@ -1,3 +1,6 @@
+ /**
+ * Author: Ngô Văn Quốc Thắng 11/05/1996
+ */
 package fashion.mock.repository;
 
 import java.time.LocalDate;
