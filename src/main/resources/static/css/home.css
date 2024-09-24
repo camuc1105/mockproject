@@ -1,0 +1,398 @@
+/**
+ * Trần Thảo
+ */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #000000;
+    z-index: 1000; /* Đảm bảo navbar có độ ưu tiên cao hơn */
+}
+
+.navbar-brand, .navbar-nav .nav-link, .navbar-icons .nav-link {
+    color: #ffffff !important;
+}
+.navbar-brand:hover, .navbar-nav .nav-link:hover, .navbar-icons .nav-link:hover {
+    color: #dcdcdc !important;
+}
+.navbar-toggler {
+    border-color: #ffffff;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Mega Menu Style */
+.mega-menu {
+    position: absolute;
+    width: 700px;  /* Chiều rộng của mega menu */
+    padding: 20px;
+    left: 0; /* Canh trái */
+    top: 100%; /* Xuất hiện ngay dưới menu chính */
+    background-color: #f8f9fa; /* Màu nền */
+    display: none; /* Ban đầu sẽ ẩn */
+    z-index: 999; /* Đảm bảo mega menu không đè lên navbar */
+}
+
+.mega-menu.show {
+    display: block; /* Hiển thị menu khi được kích hoạt */
+}
+
+.mega-menu .row {
+    display: flex;
+}
+
+.mega-menu h6 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mega-menu a {
+    color: #000;
+}
+
+.mega-menu a:hover {
+    color: #555;
+    text-decoration: none;
+}
+
+.mega-menu .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+/* Căn chỉnh menu cấp 3 thẳng hàng với menu cấp 2 */
+.mega-menu .col-md-4 {
+    padding-right: 20px; /* Căn chỉnh khoảng cách giữa các cột */
+	padding-left:40px
+}
+
+.mega-menu .list-unstyled li {
+    margin-bottom: 5px; /* Khoảng cách giữa các mục */
+}
+
+/* Thêm khoảng cách giữa các cấp menu */
+.mega-menu .list-unstyled li a {
+    display: block;
+    padding: 5px 0;
+    text-align: left; /* Căn chỉnh lại nội dung cho thẳng hàng */
+}
+
+/* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
+/* body {
+    padding-top: 50px; Khoảng cách dựa trên chiều cao của navbar
+} */
+
+/* Căn menu về bên trái và icon về bên phải */
+.navbar-nav {
+    margin-left: 0; /* Đảm bảo menu nằm về bên trái */
+}
+.navbar-icons {
+    margin-left: auto; /* Đẩy icon về bên phải */
+}
+
+/* Điều chỉnh padding cho navbar để không quá sát các cạnh */
+.navbar .nav-link {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+
+/* Style cho phần giỏ hàng và tài khoản */
+.navbar-icons .form-inline {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.navbar-icons .dropdown-toggle {
+    color: #fff;
+    padding-left: 0;
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+/* Chỉnh kích thước của nút tìm kiếm */
+.search-bar button {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Căn chỉnh thanh tìm kiếm và nút tìm kiếm */
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Đảm bảo nút tìm kiếm và input nằm cạnh nhau */
+.search-bar input.form-control {
+    width: auto;
+    max-width: 200px; /* Điều chỉnh độ rộng tối đa của thanh tìm kiếm */
+    margin-right: 10px;
+}
+
+/* Khi màn hình nhỏ, thu nhỏ lại thanh tìm kiếm */
+@media (max-width: 768px) {
+    .search-bar input.form-control {
+        width: 100px;
+        margin-right: 5px;
+    }
+
+    .search-bar button {
+        padding: 0.3rem 0.6rem; /* Điều chỉnh kích thước nút nhỏ hơn */
+    }
+}
+
+/* Đặt khung bao quanh phần đăng nhập và đăng ký */
+.account-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* CSS cho hộp đăng nhập */
+.login-box a {
+    font-weight: bold;
+    color: #000; /* Màu chữ đen cho phù hợp */
+    text-decoration: none;
+}
+
+.login-box a:hover {
+    color: #555; /* Màu khi hover */
+}
+
+/* CSS cho hộp đăng ký */
+.register-box a {
+    font-weight: bold;
+    color: #000; /* Màu chữ đen */
+    text-decoration: none;
+}
+
+.register-box a:hover {
+    color: #555; /* Màu khi hover */
+}
+
+
+/* Thay đổi màu của nút toggle */
+.navbar-toggler {
+    background-color: transparent; /* Đảm bảo nút không có nền */
+    border: none; /* Loại bỏ border */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/**
+ * Trần Thảo
+ */
+/* Lưới sản phẩm */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 cột */
+    gap: 20px; /* Khoảng cách giữa các sản phẩm */
+    padding: 20px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* Thiết kế từng thẻ sản phẩm */
+.product-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng hover */
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+/* Ảnh sản phẩm */
+.product-card img {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr; /* Chuyển thành 1 cột trên màn hình nhỏ */
+    }
+}
+
+
+/* sản phẩm mới*/
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+}
+
+/* Style cho nút "Xem Thêm" với viền màu xanh lá và nền trắng */
+.btn-outline-success {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Khi hover vào nút */
+.btn-outline-success:hover {
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #000000;
+    text-decoration: none;
+}
+
+/* Khi focus hoặc active (click vào nút) */
+.btn-outline-success:focus, .btn-outline-success:active {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Banner chính */
+.banner {
+    position: relative;
+    margin: 20px auto; /* Căn giữa banner theo chiều ngang */
+    max-width: 90%; /* Đặt giới hạn chiều rộng của banner */
+}
+
+.banner img {
+    width: 100%; /* Đảm bảo hình ảnh chiếm toàn bộ chiều rộng của banner */
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Hiệu ứng hover */
+.banner:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .banner {
+        max-width: 100%; /* Banner sẽ chiếm toàn bộ chiều rộng màn hình trên thiết bị nhỏ */
+    }
+}
+/**
+ * Trần Thảo
+ */
+/* Chân trang */
+.footer {
+    background-color: #000000;
+    color:  #ffffff;
+    margin-top: 1%;
+}
+
+.footer h5 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.footer p, .footer li a {
+    color:  #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer .social-icons a {
+    margin-right: 15px;
+    color: #333;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.footer .social-icons a:hover {
+    color:  #ffffff;
+}
+
+.footer .payment-icons img, .footer .shipping-icons img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.footer .list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.footer .list-unstyled li a:hover {
+    text-decoration: underline;
+    color: #28a745;
+}
+
+.footer .input-group input {
+    border-radius: 0;
+}
+
+.footer .input-group-append .btn {
+    background-color: #333;
+    color: #fff;
+    border-radius: 0;
+}
+
+.footer .input-group-append .btn:hover {
+    background-color: #28a745;
+}
+
+.footer .text-center {
+    background-color: #f8f9fa;
+    font-size: 14px;
+}
+
+.footer img {
+    max-width: 100px;
+}
+
+/* CSS cho footer bản quyền */
+.footer-copyright {
+    background-color: #000000 !important; /* Màu nền đen */
+    color: #ffffff; /* Màu chữ trắng */
+    padding: 15px 0; /* Khoảng cách trên dưới */
+}
+
+/* Tùy chỉnh riêng cho đoạn văn trong phần footer */
+.footer-copyright p {
+    margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
+    font-size: 14px; /* Kích thước chữ vừa phải */
+    color: #ffffff; /* Đảm bảo chữ trắng */
+}
+/* .cart-icon {
+	position: relative;
+}
+
+.cart-count {
+	background-color: red;
+	color: white;
+	border-radius: 50%;
+	padding: 0px 5px;
+	position: absolute;
+	top: -12px;
+	right: 17px;
+
+} */
+
+
+
