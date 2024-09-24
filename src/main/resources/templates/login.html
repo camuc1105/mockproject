@@ -8,6 +8,7 @@
 </head>
 <head><link rel="stylesheet" th:href="@{/css/login.css}"></head>
 <body>
+	<div th:replace="~{/fragment/navHome :: navHome}"></div> 
 	<div
 		class="login-container d-flex align-items-center justify-content-center">
 		<div class="login-box">
@@ -37,23 +38,18 @@
 					<!-- Hiển thị lỗi từ validation -->
 					<div style="color: red;" th:if="${#fields.hasErrors('password')}"
 						th:errors="*{password}">Password error</div>
-					<!-- Hiển thị lỗi nếu sai mật khẩu -->
+					<!-- Hiển thị lỗi nếu email đã tồn tại -->
 					<div style="color: red;" th:if="${errorPassword != null}"
 						th:text="${errorPassword}"></div>
-					<!-- Hiển thị lỗi nếu tài khoản chưa xác thực -->
 					<div style="color: red;" th:if="${errorStatus != null}"
 						th:text="${errorStatus}"></div>
-					<!-- Thêm nút "Xác thực ngay" nếu tài khoản chưa được xác thực -->
-					<div th:if="${errorStatus != null}">
-						<a href="/verification" class="btn btn-black btn-block">Xác thực ngay</a>
-					</div>
 				</div>
 				<div class="form-group form-check">
 					<input type="checkbox" class="form-check-input" id="rememberMe">
 					<label class="form-check-label" for="rememberMe">Ghi nhớ
 						tài khoản</label>
 				</div>
-				<button type="submit" class="btn btn-black btn-block">Đăng
+				<button type="submit" class="btn btn-dark btn-block">Đăng
 					Nhập</button>
 				<div class="text-center mt-3">
 					<a href="/forget-password" class="text-light">Quên mật khẩu?</a>
