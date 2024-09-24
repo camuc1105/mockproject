@@ -41,13 +41,12 @@ public class HomeController {
 		List<Category> aoCategories = categories.stream()
 				.filter(category -> category.getCategoryName().startsWith("Áo")).collect(Collectors.toList());
 		List<Category> quanCategories = categories.stream()
-				.filter(category -> category.getCategoryName().startsWith("Quan")).collect(Collectors.toList());
+				.filter(category -> category.getCategoryName().startsWith("Quần")).collect(Collectors.toList());
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
 
-		model.addAttribute("totalCartItems", cartItemService.getCount());
-
+		
 		// thảo
 		
 		User user = (User) session.getAttribute("user");
@@ -56,8 +55,10 @@ public class HomeController {
 		if (user != null) {
 		    isAdmin = userService.isAdmin(user.getId());
 		    model.addAttribute("user", user);
+		    model.addAttribute("totalCartItems", cartItemService.getCount());
+
 		} else {
-		    // Handle the case where user is null (e.g., redirect, set an error message, etc.)
+			model.addAttribute("totalCartItems", "0");
 		}
 		model.addAttribute("isAdmin", isAdmin);
 		return "home";

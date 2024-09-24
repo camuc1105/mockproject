@@ -22,14 +22,14 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "productName", nullable = false, length = 100)
+	@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(100)")
 	private String productName;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false)
 	private Category category;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false,columnDefinition = "NVARCHAR(100)")
 	private String color;
 
 	@Column(nullable = false, length = 10)
@@ -41,7 +41,7 @@ public class Product {
 	@Column(nullable = false)
 	private Integer quantity;
 
-	@Column(length = 1000)
+	@Column(columnDefinition = "NVARCHAR(1000)")
 	private String description;
 
 	@ManyToOne

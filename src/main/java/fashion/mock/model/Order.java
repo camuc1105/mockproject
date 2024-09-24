@@ -32,7 +32,7 @@ public class Order {
 	@Column(name = "totalPrice", nullable = false)
 	private Double totalPrice;
 
-	@Column(length = 20)
+	@Column(length = 20,columnDefinition = "NVARCHAR(25)")
 	private String status;
 
 	@Column(name = "updatedDate")
