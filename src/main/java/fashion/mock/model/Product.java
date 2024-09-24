@@ -13,6 +13,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -22,22 +26,33 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(100)")
+	@NotBlank(message = "Tên sản phẩm không được để trống")
+    @Size(min = 6, message = "Tên sản phẩm phải có ít nhất 6 ký tự")
+		@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(100)")
+
 	private String productName;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false)
 	private Category category;
 
-	@Column(nullable = false,columnDefinition = "NVARCHAR(100)")
+	
+	@NotBlank(message = "Màu sắc không được để trống")
+
+  	@Column(nullable = false,columnDefinition = "NVARCHAR(100)")
+
 	private String color;
 
 	@Column(nullable = false, length = 10)
 	private String size;
-
+	
+	@NotNull(message = "Giá không được để trống")
+    @Positive(message = "Giá phải lớn hơn 0")
 	@Column(nullable = false)
 	private Double price;
-
+	
+	@NotNull(message = "Số lượng không được để trống")
+    @Positive(message = "Số lượng phải lớn hơn 0")
 	@Column(nullable = false)
 	private Integer quantity;
 
@@ -63,6 +78,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Image> images;
 
+	
 	public Product(Long id, String productName, Category category, String color, String size, Double price,
 			Integer quantity, String description, User user, LocalDate createdDate, LocalDate updatedDate) {
 		super();

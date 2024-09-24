@@ -360,165 +360,10 @@ body {
 </head>
 
 <body>
+
 	<div th:replace="~{/fragment/navHome :: navHome}"></div>
 	<div class="container-fluid">
-
-		<!-- Navbar -->
-		<!-- <nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container-fluid">
-				Logo và Tên Shop
-				<a class="navbar-brand d-flex align-items-center" href="#"> <img
-					src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
-					alt="Logo" width="40" height="40" class="mr-2" /> <span>F
-						FASHION</span>
-				</a>
-
-				Mega Menu
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="#">Sản
-								phẩm mới</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
-						Mega Menu Áo
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Áo </a>
-							<div class="dropdown-menu mega-menu"
-								aria-labelledby="navbarDropdown">
-								<div class="row">
-									<div th:each="category : ${aoCategories}" class="col-md-4">
-										<a th:href="@{/shop(categoryId=${category.id})}">
-											<ul class="list-unstyled">
-												<li><span th:text="${category.categoryName}"></span></li>
-											</ul>
-										</a>
-									</div>
-								</div>
-							</div></li>
-
-						Mega Menu Quần
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Quần </a>
-							<div class="dropdown-menu mega-menu"
-								aria-labelledby="navbarDropdown">
-								<div class="row">
-									<div th:each="category : ${quanCategories}" class="col-md-4">
-										<a th:href="@{/shop(categoryId=${category.id})}">
-											<ul class="list-unstyled">
-												<li><span th:text="${category.categoryName}"></span></li>
-											</ul>
-										</a>
-									</div>
-								</div>
-							</div></li>
-
-						<li class="nav-item"><a class="nav-link" href="#">Tin tức</a>
-						</li>
-					</ul>
-				</div>
-
-				Icon giỏ hàng, thanh tìm kiếm và thông tin tài khoản
-				<div
-					class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
-					Phần thanh tìm kiếm
-					<form class="form-inline my-2 my-lg-0 search-bar">
-						<input class="form-control mr-sm-2" type="search"
-							placeholder="Tìm kiếm" aria-label="Search" />
-					</form>
-
-					Icon giỏ hàng
-					<div class="cart-icon">
-						<a href="/shopping-cart/view" class="nav-link"> <i
-							class="fa fa-shopping-cart"></i> <span class="cart-count">
-								<span th:text="${totalCartItems != null ? totalCartItems : 0}"></span>
-						</span>
-						</a>
-					</div>
-
-					Thông tin tài khoản
-					<div class="account-info d-flex align-items-center">
-						<div class="login-box">
-							<a href="#" class="nav-link">Đăng nhập</a>
-						</div>
-						<div class="register-box">
-							<a href="#" class="nav-link">Đăng ký</a>
-						</div>
-					</div>
-
-					Nút toggle khi trên mobile
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarNav" aria-controls="navbarNav"
-						aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-				</div>
-			</div>
-		</nav>
- -->
-		<!-- <div class="row border-bottom mb-5">
-			<div class="col-md-6">
-				<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
-					alt="Hình ảnh sản phẩm" class="img-fluid product-image w-100 h-75" />
-			</div>
-			<div class="col-md-6">
-				<h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
-				<div class="mb-3">
-					<p class="card-text">
-						Hiển thị giá gốc nếu sản phẩm có giảm giá
-						<span th:if="${isOnDiscount}" class="original-price"
-							th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
-							style="text-decoration: line-through; color: #999;">Giá
-							gốc</span>
-						Hiển thị giá mới nếu sản phẩm có giảm giá
-						<span th:if="${isOnDiscount}" class="discounted-price"
-							th:text="${#numbers.formatDecimal(discountedPrice, 0, 'COMMA', 0, 'POINT') + ' đ'}"
-							style="color: #ff0000; font-weight: bold;">Giá mới</span>
-						Hiển thị giá bình thường nếu sản phẩm không có giảm giá
-						<span th:unless="${isOnDiscount}"
-							th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
-					</p>
-				</div>
-				<div class="mb-3">
-					<div th:each="color : ${product.color}"
-						class="color-swatch-container">
-						<div class="color-swatch" th:attr="data-color=${color}"></div>
-						<span class="color-name" th:text="${color}"></span>
-					</div>
-				</div>
-				<div class="mb-3">
-					<button th:each="size : ${product.size}"
-						class="btn btn-outline-secondary size-btn" th:text="${size}">Size</button>
-				</div>
-				<div class="mb-3">
-					<div class="input-group" style="max-width: 200px">
-						<div class="input-group-prepend">
-							<button class="btn btn-outline-secondary" type="button"
-								id="decreaseBtn">-</button>
-						</div>
-						<input type="text" class="form-control text-center" value="1"
-							id="quantityInput" name="quantity" />
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" type="button"
-								id="increaseBtn">+</button>
-						</div>
-					</div>
-				</div>
-				Nút "Thêm vào giỏ hàng"
-				<button type="button"
-					class="btn btn-danger btn-lg btn-block add-to-cart"
-					th:onclick="'addToCart(event, \'/shopping-cart/add/\' + ' + ${product.id} + ');'">
-					Thêm vào giỏ hàng</button>
-
-				Nút "Mua ngay"
-				<button type="button"
-					class="btn btn-success btn-lg btn-block buy-now"
-					th:onclick="'buyNow(event, \'/shopping-cart/add/\' + ' + ${product.id} + ');'">
-					Mua ngay</button>
-			</div>
-		</div> -->
+	
 		<form action="/shopping-cart/add" method="POST">
 			<div class="row border-bottom mb-5">
 				<div class="col-md-6">
@@ -581,8 +426,7 @@ body {
 				</div>
 			</div>
 		</form>
-
-
+    
 		<div class="row mb-4">
 			<div class="col-md-12">
 				<h2>Mô tả sản phẩm</h2>
