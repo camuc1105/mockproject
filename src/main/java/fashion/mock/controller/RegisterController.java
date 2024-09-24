@@ -3,13 +3,13 @@
 */
 package fashion.mock.controller;
 
+import fashion.mock.service.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import fashion.mock.model.User;
-import fashion.mock.service.EmailService;
 import fashion.mock.service.UserService;
 import fashion.mock.service.VerificationService;
 import jakarta.validation.Valid;
@@ -47,7 +47,6 @@ public class RegisterController {
 		} else {
 			userService.createUser(user);
 			String code = verificationService.generateAndStoreCode(user.getEmail());
-		
 			emailService.sendVerificationCode(user.getEmail(), code);
 			return "redirect:/register/inputCode?email=" + user.getEmail();
 		}
@@ -75,6 +74,7 @@ public class RegisterController {
 			return "redirect:/login"; // Redirect to login page if verification is successful
 		} else {
 			model.addAttribute("codeError", "Mã xác minh không đúng hoặc đã hết hạn!");
+			model.addAttribute("email", email);
 			return "inputCodeVerify";
 		}
 	}
