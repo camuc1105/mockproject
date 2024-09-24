@@ -126,6 +126,7 @@ public class ProductController {
 		if (page < 0) {
 			page = 0;
 		}
+		
 		Page<Product> productPage = productService.searchProducts(searchTerm, PageRequest.of(page, size));
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("currentPage", page);

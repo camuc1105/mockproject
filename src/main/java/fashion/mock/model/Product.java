@@ -74,6 +74,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Image> images;
 
+	
 	public Product(Long id, String productName, Category category, String color, String size, Double price,
 			Integer quantity, String description, User user, LocalDate createdDate, LocalDate updatedDate) {
 		super();
