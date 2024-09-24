@@ -38,7 +38,7 @@ public class User {
 	private String password;
 
 	@NotBlank(message = "Tên người dùng không được để trống.")
-	@Column(name = "userName", nullable = false, length = 100)
+	@Column(name = "userName", nullable = false, columnDefinition = "NVARCHAR(100)")
 	private String userName;
 
 	@NotBlank(message = "Số điện thoại không được để trống.")
@@ -47,7 +47,7 @@ public class User {
 	private String phone;
 
 	@NotBlank(message = "Địa chỉ không được để trống.")
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false,columnDefinition = "NVARCHAR(255)")
 	private String address;
 
 	@Column(length = 20)

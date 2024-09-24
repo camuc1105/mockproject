@@ -1,3 +1,6 @@
+/**
+* Author: Ngô Văn Quốc Thắng 11/05/1996
+*/
 package fashion.mock.repository;
 
 import java.time.LocalDate;
@@ -17,7 +20,8 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
     @Query("SELECT d FROM Discount d WHERE LOWER(d.product.productName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<Discount> searchByProductName(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    Page<Discount> findAll(Pageable pageable);
+    @Override
+	Page<Discount> findAll(Pageable pageable);
 
     List<Discount> findByProductId(Long productId);
     

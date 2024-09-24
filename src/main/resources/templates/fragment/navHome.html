@@ -85,6 +85,7 @@
 						<div class="user-dropdown dropdown" id="userDropdownMenu">
 							<!-- Thêm 'd-none' để ẩn mặc định -->
 
+
 							<a href="#"
 								class="nav-link dropdown-toggle d-flex align-items-center"
 								id="userDropdown" role="button" data-toggle="dropdown"
@@ -95,16 +96,16 @@
 								<!-- Tên đăng nhập --> <span id="username"
 								th:text="${user.userName}"></span>
 							</a>
-
-							<div class="dropdown-menu dropdown-menu-right"
+						<div class="dropdown-menu dropdown-menu-right"
 								aria-labelledby="userDropdown">
 								<a class="dropdown-item" th:if="${isAdmin}"
 									th:href="@{/categories}">Trang quản trị</a> <a
-									class="dropdown-item" href="#">Trang cá nhân</a> <a
-									class="dropdown-item" href="#">Lịch sử đơn hàng</a>
+									class="dropdown-item" th:href="@{/information}">Trang cá nhân</a> <a
+									class="dropdown-item" th:href="@{/information/purchase-history}">Lịch sử đơn hàng</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" th:href="@{/logout}" id="logoutBtn">Đăng
 									xuất</a>
+
 							</div>
 						</div>
 					</div>
