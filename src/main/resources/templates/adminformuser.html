@@ -87,8 +87,7 @@
 							<div class="form-group col-md-6">
 								<label for="email">Email:</label> <input class="form-control"
 									type="email" id="email" name="email" th:value="${user.email}"
-									th:disabled="${user.id != null}" 
-									 /> <small id="emailError" 
+									th:disabled="${user.id != null}" /> <small id="emailError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
@@ -97,8 +96,7 @@
 								<label for="password">Mật khẩu:</label> <input
 									class="form-control" type="password" id="password"
 									name="password" th:value="${user.password}"
-									th:disabled="${user.id != null}"
-									 /> <small id="passwordError"
+									th:disabled="${user.id != null}" /> <small id="passwordError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('password')}"
@@ -117,14 +115,24 @@
 							</div>
 
 							<div class="form-group col-md-6">
-								<label for="roles">Vai trò:</label> <select class="form-control"
-									id="roles" name="roleIds" required>
-									<option th:each="role : ${allRoles}" th:value="${role.id}"
-										th:text="${role.role}"
-										th:selected="${userRoles != null && userRoles.contains(role)}">
-									</option>
-								</select>
+								<label for="roles">Roles:</label>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox"
+										id="roleCustomer" name="roleIds" value="1"
+										th:checked="${userRoles != null && userRoles.contains(1)}">
+									<label class="form-check-label" for="roleCustomer">Customer</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="roleAdmin"
+										name="roleIds" value="2"
+										th:checked="${userRoles != null && userRoles.contains(2)}">
+									<label class="form-check-label" for="roleAdmin">Admin</label>
+								</div>
+								<small id="rolesError" class="form-text text-danger"></small> <small
+									class="form-text text-danger" th:if="${roleError}"
+									th:text="${roleError}"></small>
 							</div>
+
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
@@ -191,7 +199,7 @@
 	</div>
 
 	<!-- Bootstrap JS and dependencies -->
-	<script th:src="@{/js/jquery-3.7.1.js}"></script>
+ 	<script th:src="@{/js/jquery-3.7.1.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 
 	<script>
@@ -207,9 +215,9 @@
 											function(event) {
 												event.preventDefault();
 
+												$(".alert").hide(); //Ẩn tất cả các tin nhắn cảnh báo
 												$(".form-text.text-danger")
-														.text("");
-
+														.text(""); //Xóa tất cả các thông báo lỗi
 												var userName = $("#userName")
 														.val().trim();
 												var phone = $("#phone").val()
@@ -283,6 +291,14 @@
 													$("#addressError")
 															.text(
 																	"Địa chỉ không được để trống.");
+													isValid = false;
+												}
+
+												// Kiểm tra vai trò
+												if ($("input[name='roleIds']:checked").length === 0) {
+													$("#rolesError")
+															.text(
+																	"Vui lòng chọn ít nhất một vai trò.");
 													isValid = false;
 												}
 
