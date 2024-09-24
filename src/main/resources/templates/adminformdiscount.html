@@ -1,3 +1,4 @@
+<!-- Author: Ngô Văn Quốc Thắng 11/05/1996 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -161,7 +162,9 @@
 		    $("#discountForm").submit(function(event) {
 		        event.preventDefault();
 
-		        $(".form-text.text-danger").text("");
+
+		        $(".alert").hide(); //Ẩn tất cả các tin nhắn cảnh báo
+		        $(".form-text.text-danger").text(""); //Xóa tất cả các thông báo lỗi
 
 		        var productName = $("#productName").val().trim();
 		        var discountPercent = $("#discountPercent").val().trim();

@@ -1,141 +1,138 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="navHome">
-		<!-- Navbar -->
-		<nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container-fluid">
-				<!-- Logo và Tên Shop -->
-				<a class="navbar-brand d-flex align-items-center" th:href="@{/home}">
-					<img
-					src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
-					alt="Logo" width="40" height="40" class="mr-2"> <span>F
-						FASHION</span>
-				</a>
-
-				<!-- Mega Menu -->
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="#">Sản
-								phẩm mới</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
-						<!-- Mega Menu Áo -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Áo </a>
-							<div class="dropdown-menu mega-menu"
-								aria-labelledby="navbarDropdown">
-								<div class="row">
-									<div class="row">
-										<div th:each="category : ${aoCategories}" class="col-md-4">
-											<ul class="list-unstyled">
-												<li><a th:href="@{/shop(categoryId=${category.id})}">
-														<span th:text="${category.categoryName}"></span>
-												</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div></li>
-
-						<!-- Mega Menu Quần -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Quần </a>
-							<div class="dropdown-menu mega-menu"
-								aria-labelledby="navbarDropdown">
-								<div class="row">
-									<div class="row">
-										<div th:each="category : ${quanCategories}" class="col-md-4">
-											<ul class="list-unstyled">
-												<li><a th:href="@{/shop(categoryId=${category.id})}">
-														<span th:text="${category.categoryName}"></span>
-												</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div></li>
-
-						<li class="nav-item"><a class="nav-link" href="#">Tin tức</a>
-						</li>
-					</ul>
-				</div>
-
-				<!-- Icon giỏ hàng, thanh tìm kiếm và thông tin tài khoản -->
-				<div
-					class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
-
-					<!-- Phần thanh tìm kiếm -->
-					<form class="form-inline my-2 my-lg-0 search-bar">
-						<input class="form-control mr-sm-2" type="search"
-							placeholder="Tìm kiếm" aria-label="Search">
-						<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm
-							kiếm</button>
-					</form>
-					<!-- Icon giỏ hàng -->
-					<div class="cart-icon">
-						<a href="/shopping-cart/view" class="nav-link"> <i
-							class="fa fa-shopping-cart"></i> <span class="cart-count">
-								<span th:text="${totalCartItems != null ? totalCartItems : 0}"></span>
-						</span>
-						</a>
-					</div>
-
-					<!-- Thông tin tài khoản -->
-					<div class="account-info d-flex align-items-center">
-						<!-- Đây là menu dropdown cho người dùng đã đăng nhập -->
-						<div th:if="${user!=null}">
-							<div class="user-dropdown dropdown" id="userDropdownMenu">
-								<!-- Thêm 'd-none' để ẩn mặc định -->
-
-								<a href="#"
-									class="nav-link dropdown-toggle d-flex align-items-center"
-									id="userDropdown" role="button" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false"> <!-- Avatar -->
-									<img id="userAvatar"
-									src="https://tintuc.dienthoaigiakho.vn/wp-content/uploads/2024/01/c39af4399a87bc3d7701101b728cddc9.jpg"
-									alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
-									<!-- Tên đăng nhập --> <span id="username" th:text="${user.userName}"></span>
-								</a>
-
-								<div class="dropdown-menu dropdown-menu-right"
-									aria-labelledby="userDropdown">
-									<a class="dropdown-item" th:if="${isAdmin}" th:href="@{/categories}">Trang quản trị</a> 
-									<a class="dropdown-item" href="#">Trang cá nhân</a> 
-									<a	class="dropdown-item" href="#">Lịch sử đơn hàng</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" th:href="@{/logout}" id="logoutBtn">Đăng
-										xuất</a>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+			<!-- Logo và Tên Shop -->
+			<a class="navbar-brand d-flex align-items-center" th:href="@{/home}">
+				<img
+				src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
+				alt="Logo" width="40" height="40" class="mr-2"> <span>F
+					FASHION</span>
+			</a>
+			<!-- Mega Menu -->
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="#">Sản phẩm
+							mới</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+					<!-- Mega Menu Áo -->
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Áo </a>
+						<div class="dropdown-menu mega-menu"
+							aria-labelledby="navbarDropdown">
+							<div class="row">
+								<div th:each="category : ${aoCategories}" class="col-md-4">
+									<ul class="list-unstyled">
+										<li><a th:href="@{/shop(categoryId=${category.id})}">
+												<span th:text="${category.categoryName}"></span>
+										</a></li>
+									</ul>
 								</div>
 							</div>
-						</div>
-					</div>
-					<!-- đã đag nhập -->
-					<!-- Liên kết Đăng nhập và Đăng ký (hiển thị khi chưa đăng nhập) -->
-					<div th:if="${user == null}">
-						<div class="auth-links d-flex" id="guestMenu">
-							<!-- Thêm wrapper cho liên kết đăng nhập/đăng ký -->
-							<div class="login-box">
-								<a href="/login/loginform" class="nav-link">Đăng nhập</a>
-							</div>
-							<div class="register-box">
-								<a th:href="@{/register/register}" class="nav-link">Đăng ký</a>
-							</div>
-						</div>
-					</div>
-				</div>
+						</div></li>
 
-				<!-- Nút toggle khi trên mobile -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarNav" aria-controls="navbarNav"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+					<!-- Mega Menu Quần -->
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Quần </a>
+						<div class="dropdown-menu mega-menu"
+							aria-labelledby="navbarDropdown">
+							<div class="row">
+								<div th:each="category : ${quanCategories}" class="col-md-4">
+									<ul class="list-unstyled">
+										<li><a th:href="@{/shop(categoryId=${category.id})}">
+												<span th:text="${category.categoryName}"></span>
+										</a></li>
+									</ul>
+								</div>
+							</div>
+						</div></li>
+
+					<li class="nav-item"><a class="nav-link" href="#">Tin tức</a>
+					</li>
+				</ul>
 			</div>
 
-		</nav>
-	</div>
+			<!-- Icon giỏ hàng, thanh tìm kiếm và thông tin tài khoản -->
+			<div
+				class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
+
+				<!-- Phần thanh tìm kiếm -->
+				<form class="form-inline my-2 my-lg-0 search-bar">
+					<input class="form-control mr-sm-2" type="search"
+						placeholder="Tìm kiếm" aria-label="Search">
+					<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm
+						kiếm</button>
+				</form>
+				<!-- Icon giỏ hàng -->
+				<div class="cart-icon">
+					<a href="/shopping-cart/view" class="nav-link"> <i
+						class="fa fa-shopping-cart"></i> <span class="cart-count">
+							<span th:text="${totalCartItems != null ? totalCartItems : 0}"></span>
+					</span>
+					</a>
+				</div>
+
+				<!-- Thông tin tài khoản -->
+				<div class="account-info d-flex align-items-center">
+					<!-- Đây là menu dropdown cho người dùng đã đăng nhập -->
+					<div th:if="${user!=null}">
+						<div class="user-dropdown dropdown" id="userDropdownMenu">
+							<!-- Thêm 'd-none' để ẩn mặc định -->
+
+							<a href="#"
+								class="nav-link dropdown-toggle d-flex align-items-center"
+								id="userDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <!-- Avatar -->
+								<img id="userAvatar"
+								src="https://tintuc.dienthoaigiakho.vn/wp-content/uploads/2024/01/c39af4399a87bc3d7701101b728cddc9.jpg"
+								alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
+								<!-- Tên đăng nhập --> <span id="username"
+								th:text="${user.userName}"></span>
+							</a>
+
+							<div class="dropdown-menu dropdown-menu-right"
+								aria-labelledby="userDropdown">
+								<a class="dropdown-item" th:if="${isAdmin}"
+									th:href="@{/categories}">Trang quản trị</a> <a
+									class="dropdown-item" href="#">Trang cá nhân</a> <a
+									class="dropdown-item" href="#">Lịch sử đơn hàng</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" th:href="@{/logout}" id="logoutBtn">Đăng
+									xuất</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- đã đag nhập -->
+				<!-- Liên kết Đăng nhập và Đăng ký (hiển thị khi chưa đăng nhập) -->
+				<div th:if="${user == null}">
+					<div class="auth-links d-flex" id="guestMenu">
+						<!-- Thêm wrapper cho liên kết đăng nhập/đăng ký -->
+						<div class="login-box">
+							<a href="/login/loginform" class="nav-link">Đăng nhập</a>
+						</div>
+						<div class="register-box">
+							<a th:href="@{/register/register}" class="nav-link">Đăng ký</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Nút toggle khi trên mobile -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+
+	</nav>
+</div>
 </body>
 </html>
