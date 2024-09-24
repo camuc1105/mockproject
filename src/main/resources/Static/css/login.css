@@ -14,7 +14,7 @@
     background-color: #ffffff; /* Nền trắng cho form */
     padding: 40px;
     border-radius: 10px; /* Bo góc mềm mại */
-    box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
     width: 100%;
     max-width: 400px; /* Giới hạn chiều rộng */
     color: #000000; /* Màu chữ đen */
@@ -58,7 +58,8 @@
     font-size: 16px;
     font-weight: bold;
     border-radius: 5px;
-    color: #fff; /* Chữ trắng */
+    text-transform: uppercase;
+    color: #ffffff; /* Chữ trắng */
     transition: background-color 0.3s ease;
 }
 
@@ -68,7 +69,7 @@
 
 /* Liên kết "Quên mật khẩu" và "Đăng ký" */
 .login-box a {
-    color: #000000; /* Màu đen cho liên kết */
+    color: #000000 !important; /* Màu đen cho liên kết */
     text-decoration: none;
     font-weight: 500; /* Tăng độ đậm nhẹ cho chữ */
     transition: color 0.3s ease;
