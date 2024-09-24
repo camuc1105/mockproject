@@ -20,7 +20,7 @@ public class PurchaseHistoryService {
 		this.purchaseHistoryRepository = purchaseHistoryRepository;
 	}
 
-	public Page<TransactionHistoryDTO> findAllTransactionHistories(Pageable pageable) {
-		return purchaseHistoryRepository.findAllTransactionHistories(pageable);
+	public Page<TransactionHistoryDTO> findAllTransactionHistoriesByUserId(Long userId, Pageable pageable) {
+		return purchaseHistoryRepository.findAllTransactionHistoriesByUserId(userId, pageable);
 	}
 }
