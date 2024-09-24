@@ -26,7 +26,7 @@ public class Payment {
 	@Column(columnDefinition = "NVARCHAR(1000)")
 	private String description;
 
-	@Column(length = 20,columnDefinition = "NVARCHAR(25)")
+	@Column(columnDefinition = "NVARCHAR(25)")
 	private String status;
 
 	@Column(name = "createdDate", nullable = false)
