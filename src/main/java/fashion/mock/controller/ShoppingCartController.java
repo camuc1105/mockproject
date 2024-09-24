@@ -24,9 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fashion.mock.model.CartItem;
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
+import fashion.mock.model.User;
 import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import fashion.mock.service.ProductService;
+import fashion.mock.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -36,12 +38,17 @@ public class ShoppingCartController {
 	private final ProductService productService;
 	private final CartItemService cartItemService;
 	private CategoryService categoryService;
+	private UserService userService;
+
+	
 
 	public ShoppingCartController(ProductService productService, CartItemService cartItemService,
-			CategoryService categoryService) {
+			CategoryService categoryService, UserService userService) {
+		super();
 		this.productService = productService;
 		this.cartItemService = cartItemService;
 		this.categoryService = categoryService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/view")
@@ -67,6 +74,19 @@ public class ShoppingCartController {
 		}
 		model.addAttribute("totalCartItems", cartItemService.getCount());
 		model.addAttribute("cartItems", cartItems);
+		
+		
+		
+		User user = (User) session.getAttribute("user");
+		boolean isAdmin = false; // Initialize isAdmin
+
+		if (user != null) {
+		    isAdmin = userService.isAdmin(user.getId());
+		    model.addAttribute("user", user);
+		} else {
+		    // Handle the case where user is null (e.g., redirect, set an error message, etc.)
+		}
+		model.addAttribute("isAdmin", isAdmin);
 		return "cart-item"; // Trả về trang giỏ hàng
 	}
 
