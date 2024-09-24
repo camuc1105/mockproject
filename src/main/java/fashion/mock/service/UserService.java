@@ -155,7 +155,7 @@ public class UserService {
 	}
 
 	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996 
 	 */
 	private void validateUser(User user) {
 	    if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
