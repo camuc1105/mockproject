@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
+import fashion.mock.model.User;
 import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import fashion.mock.service.ProductService;
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/shop")
@@ -31,9 +34,10 @@ public class ProductUserController {
 	private CategoryService categoryService;
 	@Autowired
 	private CartItemService cartItemService;
+	private UserService userService;
 
 	@GetMapping
-	public String listProducts(Model model, @RequestParam(defaultValue = "0") int page,
+	public String listProducts(Model model,HttpSession session, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "9") int max, @RequestParam(required = false) String searchTerm,
 			@RequestParam(required = false) String sortBy, @RequestParam(required = false) String color,
 			@RequestParam(required = false) String size, @RequestParam(required = false) String priceRange,
@@ -43,9 +47,9 @@ public class ProductUserController {
 		List<Category> aoCategories = categories.stream()
 				.filter(category -> category.getCategoryName().startsWith("Áo")).collect(Collectors.toList());
 		List<Category> quanCategories = categories.stream()
-				.filter(category -> category.getCategoryName().startsWith("Quan"))// thay Quần bằng Quan
+				.filter(category -> category.getCategoryName().startsWith("Quần"))// thay Quần bằng Quan
 				.collect(Collectors.toList());
-
+		
 		String categoryName = null;
 		if (categoryId != null) {
 			// Sử dụng Optional để xử lý kết quả trả về từ getCategoryById
@@ -64,6 +68,17 @@ public class ProductUserController {
 				.collect(Collectors.toList());
 		List<Double> discountedPrices = products.stream().map(productService::getDiscountedPrice)
 				.collect(Collectors.toList());
+		
+		User user = (User) session.getAttribute("user");
+        boolean isAdmin = false; // Initialize isAdmin
+
+        if (user != null) {
+            isAdmin = userService.isAdmin(user.getId());
+            model.addAttribute("user", user);
+        } else {
+            // Handle the case where user is null (e.g., redirect, set an error message, etc.)
+        }
+        model.addAttribute("isAdmin", isAdmin);
 
 		model.addAttribute("products", products);
 		model.addAttribute("currentPage", page);
@@ -84,5 +99,6 @@ public class ProductUserController {
 		
 		model.addAttribute("totalCartItems", cartItemService.getCount());
 		return "shop";
+		
 	}
 }

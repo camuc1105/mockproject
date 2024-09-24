@@ -1,0 +1,126 @@
+/**
+ * Author: Lê Nguyên Minh Quý 27/06/1998
+ */
+@charset "UTF-8";
+.product-img {
+	width: 100%;
+	height: 400px;
+}
+
+.filter-section {
+	font-weight: bold;
+}
+
+.filter-section ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.filter-section li {
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.filter-section li:hover {
+	color: #007bff;
+}
+
+.submenu {
+	margin-left: 20px;
+	display: none;
+}
+
+/* Style for size buttons */
+.size-option {
+	display: inline-block;
+	width: 60px;
+	height: 40px;
+	border: 1px solid #ddd;
+	margin: 5px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.size-option:hover {
+	border-color: #007bff;
+}
+
+/* CSS cho footer bản quyền */
+
+.social-icons i {
+	font-size: 24px;
+	margin: 0 10px;
+	color: #6c757d;
+}
+
+.social-icons i:hover {
+	color: #d12c2f;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 20px;
+	color: #6c757d;
+}
+
+.newsletter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.newsletter .social-icons {
+	margin-left: 20px;
+}
+
+.cart-overlay {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	transition: transform 0.3s ease;
+	z-index: 3;
+}
+
+.product-card:hover .cart-overlay {
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.btn-add-cart {
+	white-space: nowrap;
+	background-color: #dc3545;
+	border: none;
+}
+
+.btn-add-cart:hover {
+	background-color: #c82333;
+}
+
+.product-colors span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.color-swatch {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.size-btn {
+	width: 50px;
+}
+
+/* Adjust the width for dropdown */
+.dropdown-menu {
+	width: 100vh;
+}

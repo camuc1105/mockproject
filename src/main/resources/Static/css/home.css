@@ -218,7 +218,7 @@
 /* Ảnh sản phẩm */
 .product-card img {
     width: 100%;
-    height: auto;
+    height: 400px;
     border-radius: 10px 10px 0 0;
 }
 
@@ -379,7 +379,7 @@
     font-size: 14px; /* Kích thước chữ vừa phải */
     color: #ffffff; /* Đảm bảo chữ trắng */
 }
-.cart-icon {
+/* .cart-icon {
 	position: relative;
 }
 
@@ -392,7 +392,7 @@
 	top: -12px;
 	right: 17px;
 
-}
+} */
 
 
 

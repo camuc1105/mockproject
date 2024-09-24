@@ -23,10 +23,10 @@ public class Payment {
 	@Column(name = "paymentMethod", nullable = false, unique = true, length = 50)
 	private String paymentMethod;
 
-	@Column(length = 1000)
+	@Column(columnDefinition = "NVARCHAR(1000)")
 	private String description;
 
-	@Column(length = 20)
+	@Column(columnDefinition = "NVARCHAR(25)")
 	private String status;
 
 	@Column(name = "createdDate", nullable = false)
@@ -54,7 +54,7 @@ public class Payment {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+	}  
 
 	public String getPaymentMethod() {
 		return paymentMethod;

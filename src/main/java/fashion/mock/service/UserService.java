@@ -155,24 +155,25 @@ public class UserService {
 	}
 
 	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996  
 	 */
 	private void validateUser(User user) {
-		if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
-			throw new IllegalArgumentException("Tên người dùng không được để trống");
-		}
-		if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-			throw new IllegalArgumentException("Mật khẩu không được để trống");
-		}
-		if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
-			throw new IllegalArgumentException("Email không được để trống");
-		}
+	    if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Tên người dùng không được để trống");
+	    }
+	    if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Mật khẩu không được để trống");
+	    }
+	    if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Email không được để trống");
+	    }
 
-		String trimmedEmail = user.getEmail().trim();
-		if (userRepository.findByEmail(trimmedEmail) != null) {
-			throw new IllegalArgumentException("Email đã tồn tại");
-		}
-		user.setEmail(trimmedEmail);
+	    String trimmedEmail = user.getEmail().trim();
+	    Optional<User> existingUser = userRepository.findByEmail(trimmedEmail);
+	    if (existingUser.isPresent()) {
+	        throw new IllegalArgumentException("Email đã tồn tại");
+	    }
+	    user.setEmail(trimmedEmail);
 	}
 
 	/**
