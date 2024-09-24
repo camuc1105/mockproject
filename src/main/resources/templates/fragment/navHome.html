@@ -102,9 +102,12 @@
 
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="userDropdown">
-									<a class="dropdown-item" th:if="${isAdmin}" th:href="@{/categories}">Trang quản trị</a> 
-									<a class="dropdown-item" href="#">Trang cá nhân</a> 
-									<a	class="dropdown-item" href="#">Lịch sử đơn hàng</a>
+									<a class="dropdown-item" th:if="${isAdmin}" th:href="@{/categories}">Trang quản trị</a>
+									
+									 <!-- Duong Van Luc  --> 
+									<a class="dropdown-item" th:href="@{/information}">Trang cá nhân</a> 
+									<a class="dropdown-item" th:href="@{/information/purchase-history}">Lịch sử đơn hàng</a>
+									
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" th:href="@{/logout}" id="logoutBtn">Đăng
 										xuất</a>

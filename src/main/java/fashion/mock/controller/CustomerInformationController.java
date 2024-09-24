@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fashion.mock.model.User;
 import fashion.mock.service.CustomerInformationService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/information")
@@ -27,22 +28,36 @@ public class CustomerInformationController {
     }
 
     @GetMapping("")
-    public String userProfile(Model model) {
-        User user = customerInformationService.getUserById(2L); 
+    public String userProfile(HttpSession session, Model model) {
+        User sessionUser = (User) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login"; // Nếu chưa đăng nhập thì chuyển về trang login
+        }
+
+        Long userId = sessionUser.getId(); // Lấy userId từ đối tượng User trong session
+        User user = customerInformationService.getUserById(userId);
         model.addAttribute("user", user);
         return "customer-information";
     }
 
     @PostMapping("/change-password")
     @ResponseBody
-    public String changePassword(@RequestParam("oldPassword") String oldPassword,
-                                 @RequestParam("newPassword") String newPassword,
-                                 @RequestParam("confirmNewPassword") String confirmNewPassword) {
+    public String changePassword(HttpSession session, @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmNewPassword") String confirmNewPassword) {
+        // Lấy user từ session
+        User sessionUser = (User) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "Bạn cần đăng nhập để thực hiện chức năng này!";
+        }
+
+        Long userId = sessionUser.getId();
+
         if (!newPassword.equals(confirmNewPassword)) {
             return "Mật khẩu mới không khớp!";
         }
 
-        boolean isPasswordChanged = customerInformationService.changePassword(2L, oldPassword, newPassword);
+        boolean isPasswordChanged = customerInformationService.changePassword(userId, oldPassword, newPassword);
         if (!isPasswordChanged) {
             return "Mật khẩu cũ không đúng!";
         }
@@ -52,29 +67,39 @@ public class CustomerInformationController {
 
     @PostMapping("/update-info")
     @ResponseBody
-    public String updateUserInfo(@RequestParam("field") String field,
-                                 @RequestParam("value") String value) {
+    public String updateUserInfo(HttpSession session, @RequestParam("field") String field,
+            @RequestParam("value") String value) {
+        // Retrieve the user from the session
+        User sessionUser = (User) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "Bạn cần đăng nhập để thực hiện chức năng này!";
+        }
 
-        User user = customerInformationService.getUserById(2L);
+        Long userId = sessionUser.getId();
+        User user = customerInformationService.getUserById(userId);
 
         switch (field) {
-            case "name":
-                user.setUserName(value);
-                break;
-            case "phone":
-                user.setPhone(value);
-                break;
-            case "address":
-                user.setAddress(value);
-                break;
-            default:
-                return "Trường thông tin không hợp lệ!";
+        case "name":
+            user.setUserName(value);
+            break;
+        case "phone":
+            user.setPhone(value);
+            break;
+        case "address":
+            user.setAddress(value);
+            break;
+        default:
+            return "Trường thông tin không hợp lệ!";
         }
-        
+
         user.setUpdatedDate(LocalDate.now());
+
+        // Update the user information in the database
         customerInformationService.updateUserInfo(user);
+
+        // Update the user information in the session to reflect the changes
+        session.setAttribute("user", user);
 
         return "Cập nhật thành công!";
     }
-
 }
