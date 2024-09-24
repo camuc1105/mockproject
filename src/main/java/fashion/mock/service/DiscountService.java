@@ -1,16 +1,18 @@
 package fashion.mock.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import fashion.mock.model.Discount;
 import fashion.mock.model.Product;
 import fashion.mock.repository.DiscountRepository;
 import fashion.mock.repository.ProductRepository;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class DiscountService {
@@ -27,6 +29,12 @@ public class DiscountService {
         if (product == null) {
             throw new IllegalArgumentException("Sản phẩm không tồn tại");
         }
+        
+        // Kiểm tra các chiết khấu hiện có có phạm vi ngày chồng chéo
+        if (hasOverlappingDiscount(product, discount.getStartDate(), discount.getEndDate(), null)) {
+            throw new IllegalArgumentException("Sản phẩm này đã có khuyến mãi trong khoảng thời gian này");
+        }
+        
         discount.setProduct(product);
         discount.setCreatedDate(LocalDate.now());
         return discountRepository.save(discount);
@@ -42,12 +50,27 @@ public class DiscountService {
             throw new IllegalArgumentException("Sản phẩm không tồn tại");
         }
         
+        // Kiểm tra các chiết khấu hiện có có phạm vi ngày trùng lặp (không bao gồm chiết khấu hiện tại)
+        if (hasOverlappingDiscount(product, discount.getStartDate(), discount.getEndDate(), discount.getId())) {
+            throw new IllegalArgumentException("Sản phẩm này đã có khuyến mãi trong khoảng thời gian này");
+        }
+        
         existingDiscount.setProduct(product);
         existingDiscount.setDiscountPercent(discount.getDiscountPercent());
         existingDiscount.setStartDate(discount.getStartDate());
         existingDiscount.setEndDate(discount.getEndDate());
         existingDiscount.setUpdatedDate(LocalDate.now());
         return discountRepository.save(existingDiscount);
+    }
+
+    private boolean hasOverlappingDiscount(Product product, LocalDate startDate, LocalDate endDate, Long excludeId) {
+        List<Discount> overlappingDiscounts;
+        if (excludeId != null) {
+            overlappingDiscounts = discountRepository.findOverlappingDiscounts(product, startDate, endDate, excludeId);
+        } else {
+            overlappingDiscounts = discountRepository.findOverlappingDiscounts(product, startDate, endDate);
+        }
+        return !overlappingDiscounts.isEmpty();
     }
 
     private void validateDiscount(Discount discount) {
