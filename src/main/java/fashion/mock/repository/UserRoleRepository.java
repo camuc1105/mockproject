@@ -14,12 +14,12 @@ import fashion.mock.model.UserRole;
 import fashion.mock.model.UserRoleId;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleId> {
-//    List<UserRole> findByUser(User user);
     List<UserRole> findByRole(Role role);
   /**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
   void deleteByUser(User user);
 	List<UserRole> findByUser(User user);
+	List<UserRole> findByUserId (Long userId);
 }
 

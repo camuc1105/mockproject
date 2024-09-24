@@ -47,12 +47,26 @@ public class UserService {
     public boolean getEmail (String email){
         return userRepository.existsByEmail(email);
     }
+    public User findUserByEmail(String email) {
+    	return userRepository.findUserByEmail(email);
+    }
     public boolean getPassword (String password)  {
         return userRepository.existsByPassword(password);
     }
     public User getStatus(String email){
         return userRepository.findUserByEmail(email);
     }
+    
+    public boolean isAdmin(Long userId){
+        List<UserRole> userRoles = userRoleRepository.findByUserId(userId);
+        for (UserRole userRole: userRoles) {
+            if(userRole.getRole().getRole().equalsIgnoreCase("ADMIN")){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 	/**
 	 * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
 	 */

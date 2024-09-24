@@ -3,510 +3,532 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="${product.productName}">Chi tiết sản phẩm</title>
-    <!-- Bootstrap CSS -->
-	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{css/all.min.css}">
-    <link rel="stylesheet"
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${product.productName}">Chi tiết sản phẩm</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/all.min.css}">
+<link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 	integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
 	crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-		.navbar {
+<style>
+.navbar {
 	position: fixed;
 	top: 0;
 	width: 100%;
 	background-color: #000000;
 	z-index: 1000;
 	/* Đảm bảo navbar có độ ưu tiên cao hơn */
-	}
-	
-	.navbar-brand, .navbar-nav .nav-link, .navbar-icons .nav-link {
-		color: #ffffff !important;
-	}
-	
-	.navbar-brand:hover, .navbar-nav .nav-link:hover, .navbar-icons .nav-link:hover
-		{
-		color: #dcdcdc !important;
-	}
-	
-	.navbar-toggler {
-		border-color: #ffffff;
-	}
-	
-	.navbar-toggler-icon {
-		background-image:
-			url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-	}
-	
-	/* Mega Menu Style */
-	.mega-menu {
-		position: absolute;
-		width: 700px;
-		/* Chiều rộng của mega menu */
-		padding: 20px;
-		left: 0;
-		/* Canh trái */
-		top: 100%;
-		/* Xuất hiện ngay dưới menu chính */
-		background-color: #f8f9fa;
-		/* Màu nền */
-		display: none;
-		/* Ban đầu sẽ ẩn */
-		z-index: 999;
-		/* Đảm bảo mega menu không đè lên navbar */
-	}
-	
-	.mega-menu.show {
-		display: block;
-		/* Hiển thị menu khi được kích hoạt */
-	}
-	
-	.mega-menu .row {
-		display: flex;
-	}
-	
-	.mega-menu h6 {
-		font-size: 1.1rem;
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
-	
-	.mega-menu a {
-		color: #000;
-	}
-	
-	.mega-menu a:hover {
-		color: #555;
-		text-decoration: none;
-	}
-	
-	.mega-menu .list-unstyled {
-		padding-left: 0;
-		list-style: none;
-	}
-	
-	/* Căn chỉnh menu cấp 3 thẳng hàng với menu cấp 2 */
-	.mega-menu .col-md-4 {
-		padding-right: 20px;
-		/* Căn chỉnh khoảng cách giữa các cột */
-	}
-	
-	.mega-menu .list-unstyled li {
-		margin-bottom: 5px;
-		/* Khoảng cách giữa các mục */
-	}
-	
-	/* Thêm khoảng cách giữa các cấp menu */
-	.mega-menu .list-unstyled li a {
-		display: block;
-		padding: 5px 0;
-		text-align: left;
-		/* Căn chỉnh lại nội dung cho thẳng hàng */
-	}
-	
-	/* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
-	body {
-		padding-top: 50px;
-		/* Khoảng cách dựa trên chiều cao của navbar */
-	}
-	
-	/* Căn menu về bên trái và icon về bên phải */
-	.navbar-nav {
-		margin-left: 0;
-		/* Đảm bảo menu nằm về bên trái */
-	}
-	
-	.navbar-icons {
-		margin-left: auto;
-		/* Đẩy icon về bên phải */
-	}
-	
-	/* Điều chỉnh padding cho navbar để không quá sát các cạnh */
-	.navbar .nav-link {
-		padding-right: 20px;
-		padding-left: 20px;
-	}
-	
-	/* Style cho phần giỏ hàng và tài khoản */
-	.navbar-icons .form-inline {
-		margin-left: 10px;
-		margin-right: 10px;
-	}
-	
-	.navbar-icons .dropdown-toggle {
-		color: #fff;
-		padding-left: 0;
-	}
-	
-	.dropdown-menu-right {
-		right: 0;
-		left: auto;
-	}
-			/* Chỉnh kích thước của nút tìm kiếm */
-	.search-bar button {
-		padding: 0.4rem 1rem;
-		font-size: 0.9rem;
-		line-height: 1.5;
-	}
-	
-	/* Căn chỉnh thanh tìm kiếm và nút tìm kiếm */
-	.search-bar {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: flex-end;
-	}
-	
-	/* Đảm bảo nút tìm kiếm và input nằm cạnh nhau */
+}
+
+.navbar-brand, .navbar-nav .nav-link, .navbar-icons .nav-link {
+	color: #ffffff !important;
+}
+
+.navbar-brand:hover, .navbar-nav .nav-link:hover, .navbar-icons .nav-link:hover
+	{
+	color: #dcdcdc !important;
+}
+
+.navbar-toggler {
+	border-color: #ffffff;
+}
+
+.navbar-toggler-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Mega Menu Style */
+.mega-menu {
+	position: absolute;
+	width: 700px;
+	/* Chiều rộng của mega menu */
+	padding: 20px;
+	left: 0;
+	/* Canh trái */
+	top: 100%;
+	/* Xuất hiện ngay dưới menu chính */
+	background-color: #f8f9fa;
+	/* Màu nền */
+	display: none;
+	/* Ban đầu sẽ ẩn */
+	z-index: 999;
+	/* Đảm bảo mega menu không đè lên navbar */
+}
+
+.mega-menu.show {
+	display: block;
+	/* Hiển thị menu khi được kích hoạt */
+}
+
+.mega-menu .row {
+	display: flex;
+}
+
+.mega-menu h6 {
+	font-size: 1.1rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.mega-menu a {
+	color: #000;
+}
+
+.mega-menu a:hover {
+	color: #555;
+	text-decoration: none;
+}
+
+.mega-menu .list-unstyled {
+	padding-left: 0;
+	list-style: none;
+}
+
+/* Căn chỉnh menu cấp 3 thẳng hàng với menu cấp 2 */
+.mega-menu .col-md-4 {
+	padding-right: 20px;
+	/* Căn chỉnh khoảng cách giữa các cột */
+}
+
+.mega-menu .list-unstyled li {
+	margin-bottom: 5px;
+	/* Khoảng cách giữa các mục */
+}
+
+/* Thêm khoảng cách giữa các cấp menu */
+.mega-menu .list-unstyled li a {
+	display: block;
+	padding: 5px 0;
+	text-align: left;
+	/* Căn chỉnh lại nội dung cho thẳng hàng */
+}
+
+/* Tạo khoảng trống cho phần còn lại của nội dung để tránh bị navbar che khuất */
+body {
+	padding-top: 50px;
+	/* Khoảng cách dựa trên chiều cao của navbar */
+}
+
+/* Căn menu về bên trái và icon về bên phải */
+.navbar-nav {
+	margin-left: 0;
+	/* Đảm bảo menu nằm về bên trái */
+}
+
+.navbar-icons {
+	margin-left: auto;
+	/* Đẩy icon về bên phải */
+}
+
+/* Điều chỉnh padding cho navbar để không quá sát các cạnh */
+.navbar .nav-link {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+/* Style cho phần giỏ hàng và tài khoản */
+.navbar-icons .form-inline {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.navbar-icons .dropdown-toggle {
+	color: #fff;
+	padding-left: 0;
+}
+
+.dropdown-menu-right {
+	right: 0;
+	left: auto;
+}
+/* Chỉnh kích thước của nút tìm kiếm */
+.search-bar button {
+	padding: 0.4rem 1rem;
+	font-size: 0.9rem;
+	line-height: 1.5;
+}
+
+/* Căn chỉnh thanh tìm kiếm và nút tìm kiếm */
+.search-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+/* Đảm bảo nút tìm kiếm và input nằm cạnh nhau */
+.search-bar input.form-control {
+	width: auto;
+	max-width: 200px;
+	/* Điều chỉnh độ rộng tối đa của thanh tìm kiếm */
+	margin-right: 10px;
+}
+
+/* Khi màn hình nhỏ, thu nhỏ lại thanh tìm kiếm */
+@media ( max-width : 768px) {
 	.search-bar input.form-control {
-		width: auto;
-		max-width: 200px;
-		/* Điều chỉnh độ rộng tối đa của thanh tìm kiếm */
-		margin-right: 10px;
+		width: 100px;
+		margin-right: 5px;
 	}
-	
-	/* Khi màn hình nhỏ, thu nhỏ lại thanh tìm kiếm */
-	@media ( max-width : 768px) {
-		.search-bar input.form-control {
-			width: 100px;
-			margin-right: 5px;
-		}
-		.search-bar button {
-			padding: 0.3rem 0.6rem;
-			/* Điều chỉnh kích thước nút nhỏ hơn */
-		}
+	.search-bar button {
+		padding: 0.3rem 0.6rem;
+		/* Điều chỉnh kích thước nút nhỏ hơn */
 	}
-	
-	/* Đặt khung bao quanh phần đăng nhập và đăng ký */
-	.account-info {
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-	}
-	
-	/* CSS cho hộp đăng nhập */
-	.login-box a {
-		font-weight: bold;
-		color: #000;
-		/* Màu chữ đen cho phù hợp */
-		text-decoration: none;
-	}
-	
-	.login-box a:hover {
-		color: #555;
-		/* Màu khi hover */
-	}
-	
-	/* CSS cho hộp đăng ký */
-	.register-box a {
-		font-weight: bold;
-		color: #000;
-		/* Màu chữ đen */
-		text-decoration: none;
-	}
-	
-	.register-box a:hover {
-		color: #555;
-		/* Màu khi hover */
-	}
-	
-	/* Thay đổi màu của nút toggle */
-	.navbar-toggler {
-		background-color: transparent;
-		/* Đảm bảo nút không có nền */
-		border: none;
-		/* Loại bỏ border */
-	}
-	
-	.navbar-toggler-icon {
-		background-image:
-			url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")
-			!important;
-	}	
-        .product-image {
-            width: 100%;
-            height: auto;
-        }
+}
 
-        .price {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #d12c2f;
-        }
+/* Đặt khung bao quanh phần đăng nhập và đăng ký */
+.account-info {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
 
-        .original-price {
-            text-decoration: line-through;
-            color: #6c757d;
-        }
+/* CSS cho hộp đăng nhập */
+.login-box a {
+	font-weight: bold;
+	color: #000;
+	/* Màu chữ đen cho phù hợp */
+	text-decoration: none;
+}
 
-        .color-swatch {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-            cursor: pointer;
-        }
+.login-box a:hover {
+	color: #555;
+	/* Màu khi hover */
+}
 
-        .size-btn {
-            width: 50px;
-        }
+/* CSS cho hộp đăng ký */
+.register-box a {
+	font-weight: bold;
+	color: #000;
+	/* Màu chữ đen */
+	text-decoration: none;
+}
 
-        .specs-table th {
-            width: 30%;
-        }
-        /* Tùy chỉnh phần footer */
-		.footer {
-			background-color: #000000;
-			color: #ffffff;
-			margin-top: 1%;
-		}
-		
-		.footer h5 {
-			font-weight: bold;
-			margin-bottom: 20px;
-			color: #ffffff;
-		}
-		
-		.footer p, .footer li a {
-			color: #ffffff;
-			font-size: 14px;
-			line-height: 1.6;
-		}
-		
-		.footer .social-icons a {
-			margin-right: 15px;
-			color: #333;
-			font-size: 18px;
-			transition: color 0.3s;
-		}
-		
-		.footer .social-icons a:hover {
-			color: #ffffff;
-		}
-		
-		.footer .payment-icons img, .footer .shipping-icons img {
-			width: 40px;
-			margin-right: 10px;
-		}
-		
-		.footer .list-unstyled li {
-			margin-bottom: 10px;
-		}
-		
-		.footer .list-unstyled li a:hover {
-			text-decoration: underline;
-			color: #28a745;
-		}
-		
-		.footer .input-group input {
-			border-radius: 0;
-		}
-		
-		.footer .input-group-append .btn {
-			background-color: #333;
-			color: #fff;
-			border-radius: 0;
-		}
-		
-		.footer .input-group-append .btn:hover {
-			background-color: #28a745;
-		}
-		
-		.footer .text-center {
-			background-color: #f8f9fa;
-			font-size: 14px;
-		}
-		
-		.footer img {
-			max-width: 100px;
-		}
-		
-		/* CSS cho footer bản quyền */
-		.footer-copyright {
-			background-color: #000000 !important; /* Màu nền đen */
-			color: #ffffff; /* Màu chữ trắng */
-			padding: 15px 0; /* Khoảng cách trên dưới */
-		}
-		
-		/* Tùy chỉnh riêng cho đoạn văn trong phần footer */
-		.footer-copyright p {
-			margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
-			font-size: 14px; /* Kích thước chữ vừa phải */
-			color: #ffffff; /* Đảm bảo chữ trắng */
-		}
-		.social-icons i {
-		font-size: 24px;
-		margin: 0 10px;
-		color: #6c757d;
-		}
-		
-		.social-icons i:hover {
-		color: #d12c2f;
-		}
-		.copyright {
-		text-align: center;
-		margin-top: 20px;
-		color: #6c757d;
-		}
-    </style>
+.register-box a:hover {
+	color: #555;
+	/* Màu khi hover */
+}
+
+/* Thay đổi màu của nút toggle */
+.navbar-toggler {
+	background-color: transparent;
+	/* Đảm bảo nút không có nền */
+	border: none;
+	/* Loại bỏ border */
+}
+
+.navbar-toggler-icon {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")
+		!important;
+}
+
+.product-image {
+	width: 100%;
+	height: auto;
+}
+
+.price {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #d12c2f;
+}
+
+.original-price {
+	text-decoration: line-through;
+	color: #6c757d;
+}
+
+.color-swatch {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.size-btn {
+	width: 50px;
+}
+
+.specs-table th {
+	width: 30%;
+}
+/* Tùy chỉnh phần footer */
+.footer {
+	background-color: #000000;
+	color: #ffffff;
+	margin-top: 1%;
+}
+
+.footer h5 {
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #ffffff;
+}
+
+.footer p, .footer li a {
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.footer .social-icons a {
+	margin-right: 15px;
+	color: #333;
+	font-size: 18px;
+	transition: color 0.3s;
+}
+
+.footer .social-icons a:hover {
+	color: #ffffff;
+}
+
+.footer .payment-icons img, .footer .shipping-icons img {
+	width: 40px;
+	margin-right: 10px;
+}
+
+.footer .list-unstyled li {
+	margin-bottom: 10px;
+}
+
+.footer .list-unstyled li a:hover {
+	text-decoration: underline;
+	color: #28a745;
+}
+
+.footer .input-group input {
+	border-radius: 0;
+}
+
+.footer .input-group-append .btn {
+	background-color: #333;
+	color: #fff;
+	border-radius: 0;
+}
+
+.footer .input-group-append .btn:hover {
+	background-color: #28a745;
+}
+
+.footer .text-center {
+	background-color: #f8f9fa;
+	font-size: 14px;
+}
+
+.footer img {
+	max-width: 100px;
+}
+
+/* CSS cho footer bản quyền */
+.footer-copyright {
+	background-color: #000000 !important; /* Màu nền đen */
+	color: #ffffff; /* Màu chữ trắng */
+	padding: 15px 0; /* Khoảng cách trên dưới */
+}
+
+/* Tùy chỉnh riêng cho đoạn văn trong phần footer */
+.footer-copyright p {
+	margin-bottom: 0; /* Giữ khoảng cách dưới là 0 */
+	font-size: 14px; /* Kích thước chữ vừa phải */
+	color: #ffffff; /* Đảm bảo chữ trắng */
+}
+
+.social-icons i {
+	font-size: 24px;
+	margin: 0 10px;
+	color: #6c757d;
+}
+
+.social-icons i:hover {
+	color: #d12c2f;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 20px;
+	color: #6c757d;
+}
+</style>
 </head>
 
 <body>
-    <div class="container-fluid">
-	 <div th:replace="~{/fragment/navHome :: navHome}"></div>
-		<!-- Navbar -->
-        <div class="row border-bottom mb-5">
-            <div class="col-md-6">
-                <img th:src="@{'/images/' + ${product.images[0].imgLink}}" alt="Hình ảnh sản phẩm" class="img-fluid product-image w-100 h-75" />
-            </div>
-            <div class="col-md-6">
-                <h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
-                <div class="mb-3">
-                     <p class="card-text">
-					    <!-- Hiển thị giá gốc nếu sản phẩm có giảm giá -->
-					    <span th:if="${isOnDiscount}" class="original-price" 
-					          th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}" 
-					          style="text-decoration: line-through; color: #999;">Giá gốc</span>
-					    <!-- Hiển thị giá mới nếu sản phẩm có giảm giá -->
-					    <span th:if="${isOnDiscount}" class="discounted-price" 
-					          th:text="${#numbers.formatDecimal(discountedPrice, 0, 'COMMA', 0, 'POINT') + ' đ'}" 
-					          style="color: #ff0000; font-weight: bold;">Giá mới</span>
-					    <!-- Hiển thị giá bình thường nếu sản phẩm không có giảm giá -->
-					    <span th:unless="${isOnDiscount}" 
-					          th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
-					</p>
-                </div>
-				<div class="mb-3">
-				    <div th:each="color : ${product.color}" class="color-swatch-container">
-				        <div class="color-swatch" th:attr="data-color=${color}"></div>
-				        <span class="color-name" th:text="${color}"></span>
-				    </div>
+
+	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	<div class="container-fluid">
+	
+		<form action="/shopping-cart/add" method="POST">
+			<div class="row border-bottom mb-5">
+				<div class="col-md-6">
+					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
+						alt="Hình ảnh sản phẩm" class="img-fluid product-image w-100 h-75" />
 				</div>
-                <div class="mb-3">
-                    <button th:each="size : ${product.size}" class="btn btn-outline-secondary size-btn" th:text="${size}">Size</button>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group" style="max-width: 200px">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button"  id="decreaseBtn">-</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" id="quantityInput" />
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="increaseBtn">+</button>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-danger btn-lg btn-block">Thêm vào giỏ hàng</button>
-            </div>
-        </div>
+				<div class="col-md-6">
+					<h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
 
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <h2>Mô tả sản phẩm</h2>
-                <p th:text="${product.description}">Mô tả sản phẩm</p>
-            </div>
-        </div>
+					<!-- Input ẩn để gửi tên sản phẩm -->
+					<input type="hidden" name="productName"
+						th:value="${product.productName}" />
 
-        <div class="row mb-4">
-            <div class="col-9">
-                <h2>Thông số kỹ thuật</h2>
-                <table class="table table-bordered specs-table">
-                    <tbody>
-                        <tr>
-                            <th>Màu sắc</th>
-                            <td th:text="${#strings.listJoin(product.color, ', ')}">Các màu sắc</td>
-                        </tr>
-                        <tr>
-                            <th>Kích thước</th>
-                            <td th:text="${#strings.listJoin(product.size, ', ')}">Các kích thước</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row mb-4">
-		         <div class="col-12">
-		          <h2>Hướng dẫn chọn size</h2>
-		           <table class="table table-bordered">
-		            <thead>
-		              <tr>
-		                <th>Size</th>
-		                <th>Chiều cao (cm)</th>
-		                <th>Cân nặng (kg)</th>
-		                <th>Vòng ngực (cm)</th>
-		                <th>Vòng hông (cm)</th>
-		              </tr>
-		            </thead>
-		            <tbody>
-		              <tr>
-		                <td>S</td>
-		                <td>160-165</td>
-		                <td>50-55</td>
-		                <td>88-92</td>
-		                <td>58-62</td>
-		              </tr>
-		              <tr>
-		                <td>M</td>
-		                <td>165-170</td>
-		                <td>55-60</td>
-		                <td>92-96</td>
-		                <td>62-66</td>
-		              </tr>
-		              <tr>
-		                <td>L</td>
-		                <td>170-175</td>
-		                <td>60-65</td>
-		                <td>96-100</td>
-		                <td>66-70</td>
-		              </tr>
-		              <tr>
-		                <td>XL</td>
-		                <td>175-180</td>
-		                <td>65-70</td>
-		                <td>100-104</td>
-		                <td>70-74</td>
-		              </tr>
-		              <tr>
-		                <td>XXL</td>
-		                <td>180-185</td>
-		                <td>70-75</td>
-		                <td>104-108</td>
-		                <td>74-78</td>
-		              </tr>
-		              <tr>
-		                <td>XXXL</td>
-		                <td>185-190</td>
-		                <td>75-80</td>
-		                <td>108-112</td>
-		                <td>78-82</td>
-		              </tr>
-		            </tbody>
-		          </table>
-		        </div>
-      		</div>
-      		   <div class="row mb-4">
-                <div class="col-12">
-		          <h2>Hướng dẫn bảo quản</h2>
-		          <ul>
-		            <li>
-		              Giặt máy ở chế độ nhẹ nhàng với nước lạnh hoặc ấm (không quá
-		              30°C)
-		            </li>
-		            <li>Nên lộn trái áo khi giặt để bảo vệ bề mặt vải</li>
-		            <li>Không sử dụng chất tẩy hoặc thuốc tẩy</li>
-		            <li>Phơi trong bóng râm, tránh ánh nắng trực tiếp</li>
-		            <li>Ủi ở nhiệt độ thấp (dưới 150°C) nếu cần thiết</li>
-		            <li>Không giặt khô</li>
-		          </ul>
-        		</div>
-            </div>
-        </div>
-       </div>
+					<div class="mb-3">
+						<p class="card-text">
+							<!-- Hiển thị giá gốc nếu sản phẩm có giảm giá -->
+							<span th:if="${isOnDiscount}" class="original-price"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="text-decoration: line-through; color: #999;">Giá
+								gốc</span>
+							<!-- Hiển thị giá mới nếu sản phẩm có giảm giá -->
+							<span th:if="${isOnDiscount}" class="discounted-price"
+								th:text="${#numbers.formatDecimal(discountedPrice, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="color: #ff0000; font-weight: bold;">Giá mới</span>
+							<!-- Hiển thị giá bình thường nếu sản phẩm không có giảm giá -->
+							<span th:unless="${isOnDiscount}"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
+						</p>
+					</div>
 
-    </div>
+					<!-- Input ẩn để gửi giá sản phẩm (nếu có giảm giá thì gửi giá mới) -->
+					<input type="hidden" name="price"
+						th:value="${isOnDiscount} ? ${discountedPrice} : ${product.price}" />
+
+					<div class="mb-3">
+						<div class="input-group" style="max-width: 200px">
+							<div class="input-group-prepend">
+								<button class="btn btn-outline-secondary" type="button"
+									id="decreaseBtn">-</button>
+							</div>
+							<input type="text" class="form-control text-center" value="1"
+								id="quantityInput" name="quantity" />
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button"
+									id="increaseBtn">+</button>
+							</div>
+						</div>
+					</div>
+					<div th:if="${message}" class="alert alert-success">
+						<span th:text="${message}"></span>
+					</div>
+					<!-- Input ẩn để gửi ID sản phẩm -->
+					<input type="hidden" name="productId" th:value="${product.id}" />
+					<button type="submit" name="action" th:value="add"
+						class="btn btn-danger btn-lg btn-block add-to-cart">Thêm
+						vào giỏ hàng</button>
+					<button type="submit" name="action" th:value="buy"
+						class="btn btn-success btn-lg btn-block buy-now" value="buyNow">Mua
+						ngay</button>
+				</div>
+			</div>
+		</form>
+    
+		<div class="row mb-4">
+			<div class="col-md-12">
+				<h2>Mô tả sản phẩm</h2>
+				<p th:text="${product.description}">Mô tả sản phẩm</p>
+			</div>
+		</div>
+
+		<div class="row mb-4">
+			<div class="col-9">
+				<h2>Thông số kỹ thuật</h2>
+				<table class="table table-bordered specs-table">
+					<tbody>
+						<tr>
+							<th>Màu sắc</th>
+							<td th:text="${#strings.listJoin(product.color, ', ')}">Các
+								màu sắc</td>
+						</tr>
+						<tr>
+							<th>Kích thước</th>
+							<td th:text="${#strings.listJoin(product.size, ', ')}">Các
+								kích thước</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row mb-4">
+					<div class="col-12">
+						<h2>Hướng dẫn chọn size</h2>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Size</th>
+									<th>Chiều cao (cm)</th>
+									<th>Cân nặng (kg)</th>
+									<th>Vòng ngực (cm)</th>
+									<th>Vòng hông (cm)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>S</td>
+									<td>160-165</td>
+									<td>50-55</td>
+									<td>88-92</td>
+									<td>58-62</td>
+								</tr>
+								<tr>
+									<td>M</td>
+									<td>165-170</td>
+									<td>55-60</td>
+									<td>92-96</td>
+									<td>62-66</td>
+								</tr>
+								<tr>
+									<td>L</td>
+									<td>170-175</td>
+									<td>60-65</td>
+									<td>96-100</td>
+									<td>66-70</td>
+								</tr>
+								<tr>
+									<td>XL</td>
+									<td>175-180</td>
+									<td>65-70</td>
+									<td>100-104</td>
+									<td>70-74</td>
+								</tr>
+								<tr>
+									<td>XXL</td>
+									<td>180-185</td>
+									<td>70-75</td>
+									<td>104-108</td>
+									<td>74-78</td>
+								</tr>
+								<tr>
+									<td>XXXL</td>
+									<td>185-190</td>
+									<td>75-80</td>
+									<td>108-112</td>
+									<td>78-82</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-12">
+						<h2>Hướng dẫn bảo quản</h2>
+						<ul>
+							<li>Giặt máy ở chế độ nhẹ nhàng với nước lạnh hoặc ấm (không
+								quá 30°C)</li>
+							<li>Nên lộn trái áo khi giặt để bảo vệ bề mặt vải</li>
+							<li>Không sử dụng chất tẩy hoặc thuốc tẩy</li>
+							<li>Phơi trong bóng râm, tránh ánh nắng trực tiếp</li>
+							<li>Ủi ở nhiệt độ thấp (dưới 150°C) nếu cần thiết</li>
+							<li>Không giặt khô</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 	<!-- Footer Start -->
 	<footer class="footer pt-5">
 		<div class="container">
@@ -517,11 +539,11 @@
 					<p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng
 						tới phong cách nam tính, lịch lãm và trẻ trung.</p>
 					<div class="social-icons">
-						<a href="#"><i class="fab fa-facebook-f"></i></a> 
-						<a href="#"><i class="fab fa-twitter"></i></a> 
-						<a href="#"><i class="fab fa-instagram"></i></a> 
-						<a href="#"><i class="fab fa-tiktok"></i></a> 
-						<a href="#"><i class="fab fa-youtube"></i></a>
+						<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
+							class="fab fa-twitter"></i></a> <a href="#"><i
+							class="fab fa-instagram"></i></a> <a href="#"><i
+							class="fab fa-tiktok"></i></a> <a href="#"><i
+							class="fab fa-youtube"></i></a>
 					</div>
 				</div>
 
@@ -557,11 +579,12 @@
 		</div>
 	</footer>
 	<!-- Footer End -->
-    <!-- Bootstrap JS and dependencies -->
+	<!-- Bootstrap JS and dependencies -->
 	<script th:src="@{/js/jquery-3.7.1.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script th:inline="javascript">
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script th:inline="javascript">
 	    const colorMapping = {
 	        'Đỏ': 'Red',
 	        'Xanh lá': 'Green',

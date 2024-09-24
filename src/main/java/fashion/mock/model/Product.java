@@ -207,5 +207,15 @@ public class Product {
 		this.images = images;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", productName=" + productName + ", category=" + category + ", color=" + color
+				+ ", size=" + size + ", price=" + price + ", quantity=" + quantity + ", description=" + description
+				+ ", user=" + user + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", discounts="
+				+ discounts + ", orderDetails=" + orderDetails + ", images=" + images + "]";
+	}
+	
+	
+
 }
 

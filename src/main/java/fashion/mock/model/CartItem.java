@@ -3,7 +3,11 @@
  */
 package fashion.mock.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CartItem {
+	
+	@JsonProperty("productId")
 	private Long productID;
 	private String name;
 	private double price;
@@ -52,5 +56,13 @@ public class CartItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	@Override
+	public String toString() {
+		return "CartItem [productID=" + productID + ", name=" + name + ", price=" + price + ", quantity=" + quantity
+				+ "]";
+	}
+	
+	
 
 }

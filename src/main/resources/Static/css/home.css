@@ -65,6 +65,7 @@
 /* Căn chỉnh menu cấp 3 thẳng hàng với menu cấp 2 */
 .mega-menu .col-md-4 {
     padding-right: 20px; /* Căn chỉnh khoảng cách giữa các cột */
+	padding-left:40px
 }
 
 .mega-menu .list-unstyled li {

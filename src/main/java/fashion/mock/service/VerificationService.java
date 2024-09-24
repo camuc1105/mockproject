@@ -19,8 +19,27 @@ public class VerificationService {
 	}
 
 	public String generateAndStoreCode(String email) {
+		// Kiểm tra số lần đã gửi mã xác minh trong 5 phút
+		String attemptsKey = email + ":attempts";
+		String attemptCountStr = redisTemplate.opsForValue().get(attemptsKey);
+		// kiểm tra attemptCountStr nếu null thì gán là 0, k null thì ép kiểu thành số nguyên
+		int attemptCount = attemptCountStr != null ? Integer.parseInt(attemptCountStr) : 0;
+
+		if (attemptCount >= 3) {
+			throw new IllegalStateException("Bạn chỉ có thể gửi mã xác minh tối đa 3 lần trong 5 phút.");
+		}
+
+		// Tạo mã và lưu trữ trong Redis với thời hạn 5 phút
 		String code = String.format("%06d", new Random().nextInt(1000000));
-		redisTemplate.opsForValue().set(email, code, 1, TimeUnit.MINUTES); // Mã hết hạn sau 5 phút
+		redisTemplate.opsForValue().set(email, code, 5, TimeUnit.MINUTES);
+
+		// Cập nhật số lần gửi mã
+		redisTemplate.opsForValue().increment(attemptsKey);
+		// Đặt thời gian hết hạn cho số lần gửi là 5 phút nếu đây là lần gửi đầu tiên
+		if (attemptCount == 0) {
+			redisTemplate.expire(attemptsKey, 5, TimeUnit.MINUTES);
+		}
+
 		return code;
 	}
 
@@ -29,3 +48,4 @@ public class VerificationService {
 		return code.equals(storedCode);
 	}
 }
+

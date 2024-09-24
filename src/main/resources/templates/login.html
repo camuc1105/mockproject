@@ -3,24 +3,12 @@
 <!---->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Đăng nhập</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head th:replace="~{/fragment/head :: head}">
 
-<!-- Custom CSS -->
-<link rel="stylesheet" th:href="@{/css/home.css}">
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
+<head><link rel="stylesheet" th:href="@{/css/login.css}"></head>
 <body>
-	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	<div th:replace="~{/fragment/navHome :: navHome}"></div> 
 	<div
 		class="login-container d-flex align-items-center justify-content-center">
 		<div class="login-box">
@@ -64,10 +52,10 @@
 				<button type="submit" class="btn btn-dark btn-block">Đăng
 					Nhập</button>
 				<div class="text-center mt-3">
-					<a href="#" class="text-light">Quên mật khẩu?</a>
+					<a href="/forget-password" class="text-light">Quên mật khẩu?</a>
 				</div>
 				<div class="text-center mt-2">
-					<a href="#" class="text-light">Chưa có tài khoản? Đăng ký ngay</a>
+					<a href="/register/register" class="text-light">Chưa có tài khoản? Đăng ký ngay</a>
 				</div>
 			</form>
 		</div>
