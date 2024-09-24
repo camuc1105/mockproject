@@ -1,0 +1,80 @@
+/**
+ * Trần Thảo
+ */
+/* Nền trắng và căn chỉnh cho màn hình đăng nhập */
+.login-container {
+    min-height: 100vh; /* Chiều cao tối thiểu bằng chiều cao màn hình */
+    background-color: #ffffff; /* Nền trắng */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background-color: #ffffff; /* Nền trắng cho form */
+    padding: 40px;
+    border-radius: 10px; /* Bo góc mềm mại */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
+    width: 100%;
+    max-width: 400px; /* Giới hạn chiều rộng */
+    color: #000000; /* Màu chữ đen */
+}
+
+/* Style cho tiêu đề đăng nhập */
+.login-box h2 {
+    color: #000000; /* Màu đen cho tiêu đề */
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Style cho các nhãn của form */
+.login-box label {
+    color: #000000; /* Màu đen cho nhãn */
+}
+
+/* Style cho input */
+.login-box .form-control {
+    background-color: #ffffff; /* Nền trắng cho input */
+    color: #000000; /* Chữ đen */
+    border: 1px solid #000000; /* Viền đen */
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.login-box .form-control::placeholder {
+    color: #555555; /* Màu placeholder tối hơn */
+}
+
+/* Style cho checkbox */
+.login-box .form-check-label {
+    color: #000000; /* Chữ đen */
+}
+
+/* Style cho nút đăng nhập */
+.login-box .btn-black {
+    background-color: #000000; /* Nền đen cho nút */
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-transform: uppercase;
+    color: #ffffff; /* Chữ trắng */
+    transition: background-color 0.3s ease;
+}
+
+.login-box .btn-black:hover {
+    background-color: #333333; /* Đổi màu nút khi hover */
+}
+
+/* Liên kết "Quên mật khẩu" và "Đăng ký" */
+.login-box a {
+    color: #000000 !important; /* Màu đen cho liên kết */
+    text-decoration: none;
+    font-weight: 500; /* Tăng độ đậm nhẹ cho chữ */
+    transition: color 0.3s ease;
+}
+
+.login-box a:hover {
+    color: #555555; /* Màu xám đậm khi hover */
+}
