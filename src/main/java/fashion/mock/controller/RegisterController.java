@@ -74,8 +74,7 @@ public class RegisterController {
 		if (isValid) {
 			User user = userService.getByEmail(email);
 			userService.activeUser(user);
-			redirectAttributes.addFlashAttribute("successMessage", "Đăng ký thành công! Vui lòng đăng nhập.");
-			return "redirect:/login/loginform"; // Redirect to login page if verification is successful
+			return "VerifySuccess"; // Redirect to login page if verification is successful
 		} else {
 			model.addAttribute("codeError", "Mã xác minh không đúng hoặc đã hết hạn!");
 			model.addAttribute("email", email);
