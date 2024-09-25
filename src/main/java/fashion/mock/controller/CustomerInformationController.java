@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fashion.mock.model.User;
 import fashion.mock.service.CustomerInformationService;
+import fashion.mock.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -22,21 +23,30 @@ import jakarta.servlet.http.HttpSession;
 public class CustomerInformationController {
 
     private final CustomerInformationService customerInformationService;
+    private final UserService userService;
 
-    public CustomerInformationController(CustomerInformationService customerInformationService) {
+    public CustomerInformationController(CustomerInformationService customerInformationService,
+            UserService userService) {
         this.customerInformationService = customerInformationService;
+        this.userService = userService;
     }
 
     @GetMapping("")
     public String userProfile(HttpSession session, Model model) {
-        User sessionUser = (User) session.getAttribute("user");
-        if (sessionUser == null) {
-            return "redirect:/login"; // Nếu chưa đăng nhập thì chuyển về trang login
-        }
+        User user = (User) session.getAttribute("user");
+        boolean isAdmin = false; // Initialize isAdmin
 
-        Long userId = sessionUser.getId(); // Lấy userId từ đối tượng User trong session
-        User user = customerInformationService.getUserById(userId);
-        model.addAttribute("user", user);
+        if (user != null) {
+            isAdmin = userService.isAdmin(user.getId());
+            model.addAttribute("user", user);
+        } else {
+            return "redirect:/login/loginform";
+        }
+        model.addAttribute("isAdmin", isAdmin);
+
+        Long userId = user.getId(); // Lấy userId từ đối tượng User trong session
+        User user1 = customerInformationService.getUserById(userId);
+        model.addAttribute("user", user1);
         return "customer-information";
     }
 

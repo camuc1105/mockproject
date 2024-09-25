@@ -9,9 +9,9 @@
 <title>Thông tin khách hàng</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
- <link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="/css/footer.css">
 <link rel="stylesheet" href="/css/navigation.css">
 <script src="/js/purchase-history.js" defer></script>
 <style>
@@ -113,7 +113,7 @@ body, html {
 									toán</td>
 								<td th:text="${history.transactionAmount}">Tổng tiền</td>
 								<td><a
-									th:href="@{/order/details/{id}(id=${history.orderId})}"
+									th:href="@{/orderDetails/{id}(id=${history.orderId})}"
 									class="">Xem</a></td>
 							</tr>
 						</tbody>
@@ -142,6 +142,7 @@ body, html {
         transactionHistoriesPage.number == 0 ? 0 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number - 2 : transactionHistoriesPage.number - 1),
         transactionHistoriesPage.totalPages <= 3 ? transactionHistoriesPage.totalPages - 1 : (transactionHistoriesPage.number == 0 ? 2 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number : transactionHistoriesPage.number + 1))
     )}"
+								th:if="${transactionHistoriesPage.totalPages > 1 && pageNum >= 0}"
 								th:classappend="${pageNum == transactionHistoriesPage.number} ? 'active'">
 								<a class="page-link"
 								th:href="@{/information/purchase-history(page=${pageNum}, size=${transactionHistoriesPage.size})}"
