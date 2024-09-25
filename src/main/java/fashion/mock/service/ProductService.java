@@ -116,7 +116,14 @@ public class ProductService {
 	public Optional<Product> getProductById(Long id) {
 		return productRepository.findById(id);
 	}
-
+	
+	/**
+	 * @author Tran Thien Thanh 09/04/1996
+	 */
+	public Product updateProduct(Product product) {
+        return productRepository.save(product);
+    }
+	
 	public Page<Product> searchProducts(String searchTerm, Pageable pageable) {
 		if (searchTerm == null || searchTerm.trim().isEmpty()) {
 			return productRepository.findAll(pageable);
@@ -257,6 +264,10 @@ public class ProductService {
 		}
 		return product.getPrice();
 	}
+	
+	public List<Product> getProductsByCategory(String categoryName) {
+	    return productRepository.findByCategory_CategoryName(categoryName);
+    }
 
 //huan
 

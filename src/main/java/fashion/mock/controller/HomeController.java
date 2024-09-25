@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import fashion.mock.model.Category;
+import fashion.mock.model.Product;
 import fashion.mock.model.User;
 import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
+import fashion.mock.service.ProductService;
 import fashion.mock.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
@@ -22,12 +24,14 @@ public class HomeController {
 	private final CategoryService categoryService;
 	private CartItemService cartItemService;
 	private UserService userService;
+	private final ProductService productService;
 
-	public HomeController(CategoryService categoryService, CartItemService cartItemService, UserService userService) {
+	public HomeController(CategoryService categoryService, CartItemService cartItemService, UserService userService,ProductService productService) {
 		super();
 		this.categoryService = categoryService;
 		this.cartItemService = cartItemService;
 		this.userService = userService;
+		this.productService = productService;
 	}
 
 	/**
@@ -42,10 +46,31 @@ public class HomeController {
 				.filter(category -> category.getCategoryName().startsWith("Áo")).collect(Collectors.toList());
 		List<Category> quanCategories = categories.stream()
 				.filter(category -> category.getCategoryName().startsWith("Quần")).collect(Collectors.toList());
+		
+		/**
+		 * Author: Lê Nguyên Minh Quý 27/06/1998
+		 */
+		List<Product> aoSoMiProducts = productService.getProductsByCategory("Áo sơ mi");
+		
+		List<Product> products = productService.getAllProducts();
+		List<Boolean> productsOnDiscount = products.stream().map(productService::isProductOnDiscount)
+                .collect(Collectors.toList());
+        List<Double> discountedPrices = products.stream().map(productService::getDiscountedPrice)
+                .collect(Collectors.toList());
+        
+        Category aoSoMiCategory = categories.stream()
+            .filter(category -> category.getCategoryName().equalsIgnoreCase("Áo sơ mi"))
+            .findFirst().orElse(null);
+
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
-
+		model.addAttribute("products", aoSoMiProducts);
+		model.addAttribute("products", products);
+	    model.addAttribute("productsOnDiscount", productsOnDiscount);
+	    model.addAttribute("discountedPrices", discountedPrices);
+	    model.addAttribute("aoSoMiCategory", aoSoMiCategory);
+	
 		
 		// thảo
 		
