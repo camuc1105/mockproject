@@ -125,7 +125,7 @@
                         <h4>Ảnh Sản Phẩm</h4>
                         <div class="form-group">
                             <label for="images">Thêm ảnh mới:</label>
-                            <input type="file" class="form-control-file" id="images" name="imageFiles" multiple accept="image/*" required/>
+                            <input type="file" class="form-control-file" id="images" name="imageFiles" multiple accept="image/*"/>
                         </div>
                         <div th:if="${product.images != null and !product.images.empty}" class="mt-3">
                             <h5>Ảnh hiện tại:</h5>
@@ -175,26 +175,40 @@
                 $(this).next(".submenu").slideToggle();
             });
 			
+        	 var deletedImageIds = [];
+        	    
         	// Xử lý xóa ảnh
-            $(".delete-image").click(function() {
-                var imageId = $(this).data("image-id");
-                var imageContainer = $(this).parent();
-                
-                $.ajax({
-                    url: '/products/delete-image/' + imageId,
-                    type: 'POST',
-                    success: function(result) {
-                        if(result.success) {
-                            imageContainer.remove();
-                        } else {
-                            alert('Không thể xóa ảnh. Vui lòng thử lại.');
-                        }
-                    },
-                    error: function() {
-                        alert('Đã xảy ra lỗi. Vui lòng thử lại.');
-                    }
-                });
-            });
+        	    $(".delete-image").click(function() {
+        	        var imageId = $(this).data("image-id");
+        	        var imageContainer = $(this).parent();
+        	        
+        	        imageContainer.hide();
+        	        deletedImageIds.push(imageId);
+        	    });
+
+        	    // Xử lý khi form được submit
+        	    $("form").submit(function(e) {
+        	        e.preventDefault();
+        	        
+        	        var formData = new FormData(this);
+        	        formData.append('deletedImageIds', JSON.stringify(deletedImageIds));
+        	        
+        	        $.ajax({
+        	            url: $(this).attr('action'),
+        	            type: 'POST',
+        	            data: formData,
+        	            processData: false,
+        	            contentType: false,
+        	            success: function(response) {
+        	                // Handle success (e.g., redirect or show a message)
+        	                window.location.href = '/products';
+        	            },
+        	            error: function(xhr, status, error) {
+        	                // Handle error
+        	                alert('Có lỗi xảy ra khi cập nhật sản phẩm. Vui lòng thử lại.');
+        	            }
+        	        });
+        	    });
         	
         	$("#productForm").validate({
             rules: {

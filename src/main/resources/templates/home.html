@@ -16,10 +16,8 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-
 <!-- Custom CSS -->
 <link rel="stylesheet" th:href="@{/css/home.css}">
-
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -106,83 +104,42 @@
 	</div>
 
 	<!-- Phần hiển thị sản phẩm mới -->
-	<div class="container mt-5">
-		<h2 class="text-center mb-4">Sản Phẩm Mới</h2>
-		<div class="row">
-			<!-- Sản phẩm 1 -->
-			<div class="col-md-3 mb-4">
-				<div class="card">
-					<a href="product-detail.html"> <img
-						src="https://pos.nvncdn.com/2865a9-85186/ps/20231128_wU369kJfDn.jpeg"
-						class="card-img-top" alt="Sản phẩm 1">
-					</a>
-					<div class="card-body text-center">
-						<h5 class="card-title">Sản phẩm 1</h5>
-						<p class="card-text">
-							<strong>500,000đ</strong>
-						</p>
-						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Sản phẩm 2 -->
-			<div class="col-md-3 mb-4">
-				<div class="card">
-					<a href="product-detail.html"> <img
-						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_HLJolgFNjuex8VLY7p3tmrA6.jpg"
-						class="card-img-top" alt="Sản phẩm 2">
-					</a>
-					<div class="card-body text-center">
-						<h5 class="card-title">Sản phẩm 2</h5>
-						<p class="card-text">
-							<strong>750,000đ</strong>
-						</p>
-						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Sản phẩm 3 -->
-			<div class="col-md-3 mb-4">
-				<div class="card">
-					<a href="product-detail.html"> <img
-						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_GA0Nu1VqVkxcCmg9dyoVJVwE.jpg"
-						class="card-img-top" alt="Sản phẩm 3">
-					</a>
-					<div class="card-body text-center">
-						<h5 class="card-title">Sản phẩm 3</h5>
-						<p class="card-text">
-							<strong>600,000đ</strong>
-						</p>
-						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Sản phẩm 4 -->
-			<div class="col-md-3 mb-4">
-				<div class="card">
-					<a href="product-detail.html"> <img
-						src="https://pos.nvncdn.com/2865a9-85186/ps/20211127_DkZrbu7YLaO74VaYUDc0n12l.jpg"
-						class="card-img-top" alt="Sản phẩm 4">
-					</a>
-					<div class="card-body text-center">
-						<h5 class="card-title">Sản phẩm 4</h5>
-						<p class="card-text">
-							<strong>850,000đ</strong>
-						</p>
-						<a href="#" class="btn btn-dark">Thêm vào giỏ hàng</a>
-					</div>
-				</div>
-			</div>
+		<div class="container mt-5">
+		    <h2 class="text-center mb-4">Sản phẩm mới</h2>
+		    <div class="row">
+		        <div class="col-md-3 mb-4" th:each="product, productStat : ${newProducts}">
+		            <div class="card product-card">
+		                <img th:src="@{'/images/' + ${product.images[0].imgLink}}"
+		                     class="card-img-top product-img" alt="Product Image" />
+		                <div class="cart-overlay">
+		                    <a th:href="@{'/shop/' + ${product.id}}"
+		                       th:if="${product.quantity > 0}"
+		                       class="btn btn-danger btn-add-cart">Thêm vào giỏ hàng</a>
+		                    <a th:if="${product.quantity <= 0}" class="btn btn-danger btn-add-cart">Đã hết hàng</a>
+		                </div>
+		                <div class="card-body text-center">
+		                    <h5 class="card-title" th:text="${product.productName}">Tên sản phẩm</h5>
+		                    <p class="card-text">
+		                        <span th:if="${productsOnDiscount[productStat.index]}"
+		                              class="original-price"
+		                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+		                              style="text-decoration: line-through; color: #999;">Giá gốc</span>
+		                        <span th:if="${productsOnDiscount[productStat.index]}"
+		                              class="discounted-price"
+		                              th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
+		                              style="color: #ff0000; font-weight: bold;">Giá mới</span>
+		                        <span th:unless="${productsOnDiscount[productStat.index]}"
+		                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
+		                    </p>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 		</div>
-	</div>
 
 	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
 	<div class="container text-center mt-4">
-		<a href="all-products.html" class="btn btn-outline-success btn-lg">Xem
-			Thêm</a>
+		<a th:href="@{/shop}" class="btn btn-outline-success btn-lg">Xem Thêm</a>
 	</div>
 
 	<!-- Ảnh banner -->
@@ -197,7 +154,7 @@
 	<div class="container mt-5">
         <h2 class="text-center mb-4">Áo sơ mi</h2>
         <div class="row">
-            <div class="col-md-3 mb-4" th:each="product, productStat : ${products}" th:if="${productStat.index < 4}">
+            <div class="col-md-3 mb-4" th:each="product, productStat : ${aoSoMiProducts}" th:if="${productStat.index < 4}">
                 <div class="card product-card">
                     <img th:src="@{'/images/' + ${product.images[0].imgLink}}"
                          class="card-img-top product-img" alt="Product Image" />
@@ -229,63 +186,9 @@
     <a th:href="@{/shop(categoryId=${aoSoMiCategory.id})}" class="btn btn-outline-success btn-lg">Xem Thêm</a>
 	</div>
 	<!-- Footer -->
-	<footer class="footer pt-5">
-		<div class="container">
-			<div class="row">
-				<!-- Cột 1: Thông tin shop và mạng xã hội -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Thời trang nam F Fashion</h5>
-					<p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng
-						tới phong cách nam tính, lịch lãm và trẻ trung.</p>
-					<div class="social-icons">
-						<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
-							class="fab fa-twitter"></i></a> <a href="#"><i
-							class="fab fa-instagram"></i></a> <a href="#"><i
-							class="fab fa-tiktok"></i></a> <a href="#"><i
-							class="fab fa-youtube"></i></a>
-					</div>
-				</div>
-
-				<!-- Cột 2: Thông tin liên hệ và vận chuyển -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Thông tin liên hệ</h5>
-					<p>
-						<strong>Địa chỉ:</strong> Tầng 5, tòa nhà Manor Crown, số 32 Tố
-						Hữu, Xuân Phú, Huế
-					</p>
-					<p>
-						<strong>Điện thoại:</strong> 0905686868
-					</p>
-					<p>
-						<strong>Email:</strong> cskh@ffashion.vn
-					</p>
-				</div>
-
-				<!-- Cột 3: Nhóm liên kết -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Dịch vụ khách hàng</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Giới thiệu</a></li>
-						<li><a href="#">Chính sách đổi trả</a></li>
-						<li><a href="#">Liên hệ</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="footer-copyright text-center py-3">
-			<p class="mb-0">© 2024 F Fashion. Powered by Mock Team 2</p>
-		</div>
-	</footer>
-	<!--<div th:replace="~{/footer :: footer}"></div>-->
+	<div th:replace="~{/fragment/footer :: footer}"></div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
