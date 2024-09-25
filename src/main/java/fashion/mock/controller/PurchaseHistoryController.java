@@ -31,25 +31,27 @@ public class PurchaseHistoryController {
             CustomerInformationService customerInformationService, UserService userService) {
         this.purchaseHistoryService = purchaseHistoryService;
         this.customerInformationService = customerInformationService;
-		this.userService = userService;
-    }
 
+        this.userService = userService;
+
+    }
     @GetMapping("purchase-history")
     public String viewPurchaseHistory(HttpSession session, @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size, Model model) {
 
-    	User user = (User) session.getAttribute("user");
-		boolean isAdmin = false; // Initialize isAdmin
+        User user = (User) session.getAttribute("user");
+        boolean isAdmin = false; // Initialize isAdmin
 
-		if (user != null) {
-			isAdmin = userService.isAdmin(user.getId());
-			model.addAttribute("user", user);
-		} else {
-			return "redirect:/login/loginform";
-		}
-		model.addAttribute("isAdmin", isAdmin);
-		
-        Long userId = user.getId(); // Lấy userId từ đối tượng User trong session
+        if (user != null) {
+            isAdmin = userService.isAdmin(user.getId());
+            model.addAttribute("user", user);
+        } else {
+            return "redirect:/login/loginform";
+        }
+        model.addAttribute("isAdmin", isAdmin);
+        
+        Long userId = user.getId(); // Get userId From User in session
+
         User user1 = customerInformationService.getUserById(userId);
         model.addAttribute("user", user1);
 
