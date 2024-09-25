@@ -50,6 +50,8 @@ public class HomeController {
 		/**
 		 * Author: Lê Nguyên Minh Quý 27/06/1998
 		 */
+		List<Product> newProducts = productService.getTop4NewProducts();
+		
 		List<Product> aoSoMiProducts = productService.getProductsByCategory("Áo sơ mi");
 		
 		List<Product> products = productService.getAllProducts();
@@ -61,15 +63,18 @@ public class HomeController {
         Category aoSoMiCategory = categories.stream()
             .filter(category -> category.getCategoryName().equalsIgnoreCase("Áo sơ mi"))
             .findFirst().orElse(null);
-
+        
+        
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
-		model.addAttribute("products", aoSoMiProducts);
+		model.addAttribute("newProducts", newProducts);
 		model.addAttribute("products", products);
 	    model.addAttribute("productsOnDiscount", productsOnDiscount);
 	    model.addAttribute("discountedPrices", discountedPrices);
+	    model.addAttribute("aoSoMiProducts", aoSoMiProducts);
 	    model.addAttribute("aoSoMiCategory", aoSoMiCategory);
+
 	
 		
 		// thảo

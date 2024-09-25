@@ -1,6 +1,7 @@
 package fashion.mock.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -204,7 +205,10 @@ public class Product {
 	}
 
 	public List<Image> getImages() {
-		return images;
+	    if (this.images == null) {
+	        this.images = new ArrayList<>();
+	    }
+	    return this.images;
 	}
 
 	public void setImages(List<Image> images) {
