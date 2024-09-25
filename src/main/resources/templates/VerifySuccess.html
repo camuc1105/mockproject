@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác minh danh tính thành công</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .success-icon {
+            color: #4CAF50;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="success-icon">&#10004;</div>
+    <h1>Xác minh thành công</h1>
+    <p>Danh tính của bạn đã được xác minh thành công. Cảm ơn bạn đã hoàn thành quá trình này.</p>
+    <p>Tự động chuyển hướng sau <span id="countdown">5</span> giây</p>
+    <button onclick="redirectToLogin()">Quay lại trang đăng nhập</button>
+</div>
+
+<script>
+    let countdown = 5;
+    const countdownElement = document.getElementById('countdown');
+
+    function updateCountdown() {
+        countdownElement.textContent = countdown;
+        if (countdown > 0) {
+            countdown--;
+            setTimeout(updateCountdown, 1000);
+        } else {
+            redirectToLogin();
+        }
+    }
+
+    function redirectToLogin() {
+        // Thay đổi URL này thành đường dẫn thực tế đến trang đăng nhập của bạn
+        window.location.href = '/login/loginform';
+    }
+
+    updateCountdown();
+</script>
+</body>
+</html>

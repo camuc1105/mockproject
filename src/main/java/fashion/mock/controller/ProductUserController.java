@@ -1,3 +1,6 @@
+/**
+ * Author: Lê Nguyên Minh Quý 27/06/1998
+ */
 package fashion.mock.controller;
 
 import java.util.List;
@@ -97,7 +100,7 @@ public class ProductUserController {
     }
 
     @GetMapping("/{id}")
-    public String showProductDetail(@PathVariable Long id, Model model) {
+    public String showProductDetail(@PathVariable Long id, Model model,HttpSession session) {
         Product product = productService.getProductById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm với id: " + id));
         
@@ -109,6 +112,15 @@ public class ProductUserController {
 
         boolean isOnDiscount = productService.isProductOnDiscount(product);
         double discountedPrice = productService.getDiscountedPrice(product);
+        
+        User user = (User) session.getAttribute("user");
+        boolean isAdmin = false;
+
+        if (user != null) {
+            isAdmin = userService.isAdmin(user.getId());
+            model.addAttribute("user", user);
+        }
+        model.addAttribute("isAdmin", isAdmin);
         
         model.addAttribute("product", product);
         model.addAttribute("isOnDiscount", isOnDiscount);

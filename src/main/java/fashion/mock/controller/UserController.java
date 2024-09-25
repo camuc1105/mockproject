@@ -4,6 +4,7 @@
 package fashion.mock.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fashion.mock.model.User;
-import fashion.mock.model.UserRole;
 import fashion.mock.service.RoleService;
 import fashion.mock.service.UserService;
 import jakarta.validation.Valid;
@@ -70,7 +70,14 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("userRoles", user.getUserRoles().stream().map(UserRole::getRole).toList());
+        
+        // Lấy danh sách các roleId đã chọn của user
+        List<Long> selectedRoleIds = user.getUserRoles().stream()
+                .map(userRole -> userRole.getRole().getId())
+                .collect(Collectors.toList());
+        model.addAttribute("selectedRoleIds", selectedRoleIds);
+        
+        model.addAttribute("selectedStatus", user.getStatus());
         return "adminformuser";
     }
 

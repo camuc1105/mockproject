@@ -261,7 +261,9 @@ body, html {
 		                success: function(response) {
 		                    alert('Cập nhật thành công!'); // Hiển thị thông báo thành công
 		                    
-		                    $('#username').text(updatedValue);
+		                    if (field === 'name') {
+		                        $('#username').text(updatedValue);  // Chỉ cập nhật trường 'username' nếu đang chỉnh sửa tên
+		                    }
 		                    
 		                    input.prop('readonly', true); // Chuyển về chế độ chỉ đọc
 		                    input.prop('disabled', true);

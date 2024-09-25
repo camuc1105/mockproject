@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -86,23 +91,32 @@ public class ProductController {
 	}
 
 	@PostMapping("/update")
-	 public String updateProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult,
-             @RequestParam("imageFiles") List<MultipartFile> imageFiles, 
-             RedirectAttributes redirectAttributes,
-             Model model) {
-        if (bindingResult.hasErrors()) {
-        model.addAttribute("categories", categoryService.getAllCategories());
-        return "adminformproduct";
-        }
-		try {
-			productService.updateProduct(product, imageFiles);
-			redirectAttributes.addFlashAttribute("successMessage", "Cập nhật sản phẩm thành công!");
-			return "redirect:/products";
-		} catch (IllegalArgumentException e) {
-			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-			redirectAttributes.addFlashAttribute("product", product);
-			return "redirect:/products/edit/" + product.getId();
-		}
+	public String updateProduct(@Valid @ModelAttribute Product product, 
+	                            BindingResult bindingResult,
+	                            @RequestParam("imageFiles") List<MultipartFile> imageFiles,
+	                            @RequestParam(value = "deletedImageIds", required = false) String deletedImageIdsJson,
+	                            RedirectAttributes redirectAttributes,
+	                            Model model) {
+	    if (bindingResult.hasErrors()) {
+	        model.addAttribute("categories", categoryService.getAllCategories());
+	        return "adminformproduct";
+	    }
+
+	    try {
+	        List<Long> deletedImageIds = new ArrayList<>();
+	        if (deletedImageIdsJson != null && !deletedImageIdsJson.isEmpty()) {
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            deletedImageIds = objectMapper.readValue(deletedImageIdsJson, new TypeReference<List<Long>>() {});
+	        }
+
+	        productService.updateProduct(product, imageFiles, deletedImageIds);
+	        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật sản phẩm thành công!");
+	        return "redirect:/products";
+	    } catch (IllegalArgumentException | JsonProcessingException e) {
+	        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+	        redirectAttributes.addFlashAttribute("product", product);
+	        return "redirect:/products/edit/" + product.getId();
+	    }
 	}
 
 	@GetMapping("/delete/{id}")

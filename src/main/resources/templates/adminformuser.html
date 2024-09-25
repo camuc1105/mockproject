@@ -12,57 +12,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row" style="height: 100vh">
-			<div class="col-md-2 sidebar">
-				<!-- Sidebar content (same as in the category template) -->
-				<div class="logo nav-item ">
-					<a href="admin.html">Quản lý</a>
-				</div>
-
-				<div class="nav-item has-submenu">
-					<a href="#"><i class="fas fa-box"></i> Sản Phẩm</a>
-				</div>
-				<div class="submenu">
-					<div class="nav-item">
-						<a href="/products/new">Thêm sản phẩm</a>
-					</div>
-					<div class="nav-item">
-						<a href="/products">Hiển thị sản phẩm</a>
-					</div>
-				</div>
-				<div class="nav-item has-submenu">
-					<a href="#"><i class="fas fa-box"></i> Danh Mục</a>
-				</div>
-				<div class="submenu">
-					<div class="nav-item">
-						<a href="/categories/new">Thêm danh mục</a>
-					</div>
-					<div class="nav-item">
-						<a href="/categories">Hiển thị danh mục</a>
-					</div>
-				</div>
-				<div class="nav-item has-submenu">
-					<a href="#"><i class="fas fa-users"></i> Người dùng</a>
-				</div>
-				<div class="submenu">
-					<div class="nav-item">
-						<a href="/users/new">Thêm người dùng</a>
-					</div>
-					<div class="nav-item">
-						<a href="/users">Hiển thị người dùng</a>
-					</div>
-				</div>
-				<div class="nav-item has-submenu">
-					<a href="#"><i class="fas fa-percent"></i> Giảm giá</a>
-				</div>
-				<div class="submenu">
-					<div class="nav-item">
-						<a href="/discounts/new">Thêm giảm giá</a>
-					</div>
-					<div class="nav-item">
-						<a href="/discounts">Hiển thị giảm giá</a>
-					</div>
-				</div>
-			</div>
+			<div th:replace="~{/fragment/navAdmin :: navAdmin}"></div>
 			<div class="col-md-10">
 				<div class="header">
 					<h1>Người dùng</h1>
@@ -116,17 +66,13 @@
 
 							<div class="form-group col-md-6">
 								<label for="roles">Roles:</label>
-								<div class="form-check">
+								<div class="form-check" th:each="role : ${allRoles}">
 									<input class="form-check-input" type="checkbox"
-										id="roleCustomer" name="roleIds" value="1"
-										th:checked="${userRoles != null && userRoles.contains(1)}">
-									<label class="form-check-label" for="roleCustomer">Customer</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="roleAdmin"
-										name="roleIds" value="2"
-										th:checked="${userRoles != null && userRoles.contains(2)}">
-									<label class="form-check-label" for="roleAdmin">Admin</label>
+										th:id="${'role' + role.id}" name="roleIds"
+										th:value="${role.id}"
+										th:checked="${selectedRoleIds != null && selectedRoleIds.contains(role.id)}">
+									<label class="form-check-label" th:for="${'role' + role.id}"
+										th:text="${role.role}"></label>
 								</div>
 								<small id="rolesError" class="form-text text-danger"></small> <small
 									class="form-text text-danger" th:if="${roleError}"
@@ -147,11 +93,12 @@
 								<label for="status">Trạng thái:</label> <select
 									class="form-control" id="status" name="status" required>
 									<option value="ACTIVE"
-										th:selected="${user.status == 'Hoạt động'}">Hoạt động</option>
+										th:selected="${selectedStatus == 'ACTIVE'}">Hoạt động</option>
 									<option value="INACTIVE"
-										th:selected="${user.status == 'Không hoạt động'}">Không
+										th:selected="${selectedStatus == 'INACTIVE'}">Không
 										hoạt động</option>
 								</select>
+
 							</div>
 						</div>
 					</div>
@@ -199,7 +146,7 @@
 	</div>
 
 	<!-- Bootstrap JS and dependencies -->
- 	<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	<script th:src="@{/js/jquery-3.7.1.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 
 	<script>

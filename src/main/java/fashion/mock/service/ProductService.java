@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,34 +56,52 @@ public class ProductService {
 		return savedProduct;
 	}
 
-	public Product updateProduct(Product product, List<MultipartFile> imageFiles) {
-		validateProduct(product);
-		Product existingProduct = productRepository.findById(product.getId())
-				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + product.getId()));
+	public Product updateProduct(Product product, List<MultipartFile> imageFiles, List<Long> deletedImageIds) {
+        validateProduct(product);
+        Product existingProduct = productRepository.findById(product.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + product.getId()));
 
-		existingProduct.setProductName(product.getProductName().trim());
-		existingProduct.setDescription(product.getDescription());
-		existingProduct.setPrice(product.getPrice());
-		existingProduct.setQuantity(product.getQuantity());
-		existingProduct.setColor(product.getColor());
-		existingProduct.setSize(product.getSize());
-		existingProduct.setCategory(product.getCategory());
-		existingProduct.setUpdatedDate(LocalDate.now());
+        existingProduct.setProductName(product.getProductName().trim());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setColor(product.getColor());
+        existingProduct.setSize(product.getSize());
+        existingProduct.setCategory(product.getCategory());
+        existingProduct.setUpdatedDate(LocalDate.now());
 
-		Product updatedProduct = productRepository.save(existingProduct);
+        // Xử lý xóa ảnh
+        if (deletedImageIds != null && !deletedImageIds.isEmpty()) {
+            for (Long imageId : deletedImageIds) {
+                Image imageToDelete = imageRepository.findById(imageId)
+                    .orElse(null);
+                if (imageToDelete != null && imageToDelete.getProduct().getId().equals(existingProduct.getId())) {
+                    existingProduct.getImages().remove(imageToDelete);
+                    imageRepository.delete(imageToDelete);
+                    // Xóa file ảnh nếu cần
+                    fileStorageService.deleteFile(imageToDelete.getImgLink());
+                }
+            }
+        }
 
-		if (imageFiles != null && !imageFiles.isEmpty()) {
-			for (MultipartFile file : imageFiles) {
-				String imagePath = fileStorageService.storeFile(file);
-				Image image = new Image();
-				image.setImgLink(imagePath);
-				image.setProduct(updatedProduct);
-				imageRepository.save(image);
-			}
-		}
+        Product updatedProduct = productRepository.save(existingProduct);
 
-		return updatedProduct;
-	}
+        // Xử lý thêm ảnh mới
+        if (imageFiles != null && !imageFiles.isEmpty()) {
+            for (MultipartFile file : imageFiles) {
+                if (!file.isEmpty()) {
+                    String imagePath = fileStorageService.storeFile(file);
+                    Image image = new Image();
+                    image.setImgLink(imagePath);
+                    image.setProduct(updatedProduct);
+                    imageRepository.save(image);
+                    updatedProduct.getImages().add(image);
+                }
+            }
+        }
+
+        return productRepository.save(updatedProduct);
+    }
 
 	private void validateProduct(Product product) {
 		if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
@@ -116,7 +135,14 @@ public class ProductService {
 	public Optional<Product> getProductById(Long id) {
 		return productRepository.findById(id);
 	}
-
+	
+	/**
+	 * @author Tran Thien Thanh 09/04/1996
+	 */
+	public Product updateProduct(Product product) {
+        return productRepository.save(product);
+    }
+	
 	public Page<Product> searchProducts(String searchTerm, Pageable pageable) {
 		if (searchTerm == null || searchTerm.trim().isEmpty()) {
 			return productRepository.findAll(pageable);
@@ -257,6 +283,17 @@ public class ProductService {
 		}
 		return product.getPrice();
 	}
+	
+	public List<Product> getProductsByCategory(String categoryName) {
+	    return productRepository.findByCategory_CategoryName(categoryName);
+    }
+	
+	public List<Product> getTop4NewProducts() {
+        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"))
+                                 .stream()
+                                 .limit(4)
+                                 .collect(Collectors.toList());
+    }
 
 //huan
 

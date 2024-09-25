@@ -1,11 +1,9 @@
 /**
-<<<<<<< HEAD
- * Author: Le Nguyen Minh Quy
-=======
  * Author: Lê Nguyên Minh Quý 27/06/1998
->>>>>>> 4c63e25051db7fcaa62dc5aa87de1baf3e14ee9f
  */
 package fashion.mock.repository;
+
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +19,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     boolean existsByProductName(String ProductName);
 
     Product findByProductName(String ProductName);
+    
+    List<Product> findByCategory_CategoryName(String categoryName);
 
     @Query("SELECT c FROM Product c WHERE LOWER(c.productName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<Product> searchByName(@Param("searchTerm") String searchTerm, Pageable pageable);
