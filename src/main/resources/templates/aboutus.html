@@ -1,61 +1,92 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Về chúng tôi</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Về chúng tôi</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	 <link rel="stylesheet" th:href="@{/css/home.css}">
+   <link rel="stylesheet" th:href="@{/css/footer.css}"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="~{/fragment/navHome :: navHome}"></div>
-<!-- About Us Section -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Về Chúng Tôi</h2>
-    <h3 class="text-center mb-4">Thương Hiệu Thời Trang Nam</h3>
-    <div class="row">
-        <div class="col-md-6">
-            <p>F Fashion là thương hiệu thời trang cho phái mạnh hàng đầu Việt Nam thành lập vào năm 2024 bởi công ty CP Mock 2 Việt Nam, hướng tới sự phóng khoáng, lịch lãm và trẻ trung. Sau nhiều năm hoạt động và phát triển, đến nay, F Fashion đã có cho mình 7 cửa hàng chi nhánh khắp cả nước để phục vụ cho khách hàng trên toàn quốc.</p>
-        </div>
-        <div class="col-md-6">
-            <p>F Fashion luôn đầu tư mạnh về đội ngũ kinh doanh, thiết kế để cho ra những sản phẩm quần áo đẹp mắt. Chất liệu vải được ưu tiên hàng đầu, cửa hàng luôn tìm những loại vải mềm, thoáng mát, thoải mái khi mặc. Form dáng may chuẩn size, là hàng VNXK nên đường may đều tỉ mỉ, gọn gàng.</p>
-        </div>
-    </div>
+	 <div th:replace="~{/fragment/navHome :: navHome}"></div> 
+	<!-- About Us Section -->
+	<div class="container mt-5">
+		<h2 class="text-center mb-4">Về Chúng Tôi</h2>
+		<h3 class="text-center mb-4">Thương Hiệu Thời Trang Nam</h3>
+		<div class="row">
+			<div class="col-md-6">
+				<p>F Fashion là thương hiệu thời trang cho phái mạnh hàng đầu
+					Việt Nam thành lập vào năm 2024 bởi công ty CP Mock 2 Việt Nam,
+					hướng tới sự phóng khoáng, lịch lãm và trẻ trung. Sau nhiều năm
+					hoạt động và phát triển, đến nay, F Fashion đã có cho mình 7 cửa
+					hàng chi nhánh khắp cả nước để phục vụ cho khách hàng trên toàn
+					quốc.</p>
+			</div>
+			<div class="col-md-6">
+				<p>F Fashion luôn đầu tư mạnh về đội ngũ kinh doanh, thiết kế để
+					cho ra những sản phẩm quần áo đẹp mắt. Chất liệu vải được ưu tiên
+					hàng đầu, cửa hàng luôn tìm những loại vải mềm, thoáng mát, thoải
+					mái khi mặc. Form dáng may chuẩn size, là hàng VNXK nên đường may
+					đều tỉ mỉ, gọn gàng.</p>
+			</div>
+		</div>
 
-    <!-- Image and Story Section -->
-    <div class="row mt-5">
-        <div class="col-md-6">
-            <img src="https://theme.hstatic.net/200000690725/1001078549/14/about01_introduce1_img.jpg?v=453" alt="We Are Fashion" class="img-fluid">
-        </div>
-        <div class="col-md-6 d-flex align-items-center">
-            <div>
-                <h3 class="mb-3 text-center">Câu Chuyện Thương Hiệu</h3>
-                <p>Theo đuổi phong cách lịch lãm, sang trọng và trẻ trung cũng như muốn đem đến cho các quý ông vẻ ngoài luôn tự tin cuốn hút mọi lúc mọi nơi, F Fashion đã được thành lập bởi công ty CP Mock 2 Việt Nam. Trong suốt 1 năm hoạt động, Torano vô cùng tự hào đã đem đến cho các quý khách hàng hơn 1 triệu chiếc áo Polo, khẳng định vị thế cũng như thương hiệu và chất lượng sản phẩm trên thị trường hiện nay.</p>
-            </div>
-        </div>
-    </div>
+		<!-- Image and Story Section -->
+		<div class="row mt-5">
+			<div class="col-md-6">
+				<img
+					src="https://theme.hstatic.net/200000690725/1001078549/14/about01_introduce1_img.jpg?v=453"
+					alt="We Are Fashion" class="img-fluid">
+			</div>
+			<div class="col-md-6 d-flex align-items-center">
+				<div>
+					<h3 class="mb-3 text-center">Câu Chuyện Thương Hiệu</h3>
+					<p>Theo đuổi phong cách lịch lãm, sang trọng và trẻ trung cũng
+						như muốn đem đến cho các quý ông vẻ ngoài luôn tự tin cuốn hút mọi
+						lúc mọi nơi, F Fashion đã được thành lập bởi công ty CP Mock 2
+						Việt Nam. Trong suốt 1 năm hoạt động, Torano vô cùng tự hào đã đem
+						đến cho các quý khách hàng hơn 1 triệu chiếc áo Polo, khẳng định
+						vị thế cũng như thương hiệu và chất lượng sản phẩm trên thị trường
+						hiện nay.</p>
+				</div>
+			</div>
+		</div>
 
-    <!-- Image and Story Section -->
-    <div class="row mt-5">
-        <div class="col-md-6 d-flex align-items-center">
-            <div>
-                <h3 class="mb-3 text-center">Giá trị cốt lõi</h3>
-                <p>F Fashion luôn đầu tư mạnh về đội ngũ kinh doanh, thiết kế để cho ra những sản phẩm quần áo đẹp mắt. Chất liệu vải được ưu tiên hàng đầu, cửa hàng luôn tìm những loại vải mềm, thoáng mát, thoải mái khi mặc. Form dáng may chuẩn size, là hàng VNXK nên đường may đều tỉ mỉ, gọn gàng.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <img src="https://theme.hstatic.net/200000690725/1001078549/14/about01_introduce2_img.jpg?v=453" alt="We Are Fashion" class="img-fluid">
-        </div>
-    </div>
-</div>
-<div th:replace="~{/footer :: footer}"></div>
+		<!-- Image and Story Section -->
+		<div class="row mt-5">
+			<div class="col-md-6 d-flex align-items-center">
+				<div>
+					<h3 class="mb-3 text-center">Giá trị cốt lõi</h3>
+					<p>F Fashion luôn đầu tư mạnh về đội ngũ kinh doanh, thiết kế
+						để cho ra những sản phẩm quần áo đẹp mắt. Chất liệu vải được ưu
+						tiên hàng đầu, cửa hàng luôn tìm những loại vải mềm, thoáng mát,
+						thoải mái khi mặc. Form dáng may chuẩn size, là hàng VNXK nên
+						đường may đều tỉ mỉ, gọn gàng.</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<img
+					src="https://theme.hstatic.net/200000690725/1001078549/14/about01_introduce2_img.jpg?v=453"
+					alt="We Are Fashion" class="img-fluid">
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{/fragment/footer :: footer}"></div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<
+	<!-- script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 </body>
 </html>

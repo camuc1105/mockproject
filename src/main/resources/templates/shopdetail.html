@@ -28,6 +28,8 @@
 				<div class="col-md-6">
 					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
 						alt="Hình ảnh sản phẩm" class="img-fluid product-image w-100 h-75" />
+						<input type="hidden" name="imgLink"
+						th:value="${product.images[0].imgLink}" />
 				</div>
 				<div class="col-md-6">
 					<h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
