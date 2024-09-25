@@ -42,7 +42,13 @@ public class SecurityConfig {
 						.permitAll())
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/home") // Chuyển hướng sau khi đăng
 																						// xuất
-						.permitAll());
+						.permitAll())
+				// Cấu hình Remember Me
+				.rememberMe(rememberMe -> rememberMe
+						.key("uniqueAndSecret") // Khóa bảo mật cho Remember Me
+						.tokenValiditySeconds(86400) // Thời gian tồn tại của token Remember Me (1 ngày)
+						.rememberMeParameter("remember-me") // Tên của tham số checkbox "remember-me"
+				);
 		return http.build();
 
 	}
