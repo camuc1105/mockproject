@@ -38,7 +38,7 @@
                             </thead>
                             <tbody>
 	                            <tr th:each="cartItem : ${selectedCartItems}">
-		                            <td><img th:src="@{/img/vay.jpg}" alt="Product Image" class="img-thumbnail" width="100"></td>
+		                            <td><img th:src="@{/images/vay.jpg}" alt="Product Image" class="img-thumbnail" width="100"></td>
 		                            <td th:text="${cartItem.name}"></td>
 		                            <td th:text="${cartItem.price} + ' đ'"></td>
 		                            <td th:text="${cartItem.quantity}"></td>
@@ -123,6 +123,7 @@
             <input type="hidden" name="totalPrice" id="totalPriceInput">
             
             <div class="d-flex justify-content-end mt-3">
+            	<a href="/shopping-cart/view" class="btn btn-success btn-lg mr-2">Quay lại</a>
                 <input type="submit" class="btn btn-danger btn-lg" id="checkoutBtn" value="Xác nhận thanh toán" disabled>
             </div>
         </form>

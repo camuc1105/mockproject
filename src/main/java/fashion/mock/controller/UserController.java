@@ -4,6 +4,7 @@
 package fashion.mock.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fashion.mock.model.User;
-import fashion.mock.model.UserRole;
 import fashion.mock.service.RoleService;
 import fashion.mock.service.UserService;
 import jakarta.validation.Valid;
@@ -70,7 +70,14 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("userRoles", user.getUserRoles().stream().map(UserRole::getRole).toList());
+        
+        // Lấy danh sách các roleId đã chọn của user
+        List<Long> selectedRoleIds = user.getUserRoles().stream()
+                .map(userRole -> userRole.getRole().getId())
+                .collect(Collectors.toList());
+        model.addAttribute("selectedRoleIds", selectedRoleIds);
+        
+        model.addAttribute("selectedStatus", user.getStatus());
         return "adminformuser";
     }
 
@@ -79,16 +86,20 @@ public class UserController {
 	 */
     @PostMapping
     public String addUser(@Valid @ModelAttribute User user, BindingResult bindingResult, 
-                          @RequestParam List<Long> roleIds, 
+                          @RequestParam(required = false) List<Long> roleIds, 
                           RedirectAttributes redirectAttributes,
                           Model model) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
+            if (roleIds == null || roleIds.isEmpty()) {
+                model.addAttribute("roleError", "Vui lòng chọn ít nhất một vai trò.");
+            }
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminformuser";
         }
+
         try {
-            userService.addUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã được thêm thành công!");
+            userService.addUserWithRoles(user, roleIds); // Role validation now handled in the service
+            redirectAttributes.addFlashAttribute("successMessage", "User added successfully!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());
@@ -97,21 +108,21 @@ public class UserController {
         }
     }
 
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
     @PostMapping("/update")
     public String updateUser(@Valid @ModelAttribute User user, BindingResult bindingResult,
-                             @RequestParam List<Long> roleIds, 
+                             @RequestParam(required = false) List<Long> roleIds, 
                              RedirectAttributes redirectAttributes,
                              Model model) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
+            if (roleIds == null || roleIds.isEmpty()) {
+                model.addAttribute("roleError", "Vui lòng chọn ít nhất một vai trò.");
+            }
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminformuser";
         }
         try {
             userService.updateUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã cập nhật thành công!");
+            redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());

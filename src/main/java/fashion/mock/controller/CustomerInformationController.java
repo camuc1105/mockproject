@@ -25,14 +25,17 @@ public class CustomerInformationController {
     private final CustomerInformationService customerInformationService;
     private final UserService userService;
 
+
     public CustomerInformationController(CustomerInformationService customerInformationService,
             UserService userService) {
         this.customerInformationService = customerInformationService;
         this.userService = userService;
+
     }
 
     @GetMapping("")
     public String userProfile(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("user");
         boolean isAdmin = false; // Initialize isAdmin
 
@@ -43,6 +46,7 @@ public class CustomerInformationController {
             return "redirect:/login/loginform";
         }
         model.addAttribute("isAdmin", isAdmin);
+
 
         Long userId = user.getId(); // Lấy userId từ đối tượng User trong session
         User user1 = customerInformationService.getUserById(userId);

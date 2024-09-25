@@ -31,9 +31,10 @@ public class PurchaseHistoryController {
             CustomerInformationService customerInformationService, UserService userService) {
         this.purchaseHistoryService = purchaseHistoryService;
         this.customerInformationService = customerInformationService;
-        this.userService = userService;
-    }
 
+        this.userService = userService;
+
+    }
     @GetMapping("purchase-history")
     public String viewPurchaseHistory(HttpSession session, @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size, Model model) {
@@ -50,6 +51,7 @@ public class PurchaseHistoryController {
         model.addAttribute("isAdmin", isAdmin);
         
         Long userId = user.getId(); // Get userId From User in session
+
         User user1 = customerInformationService.getUserById(userId);
         model.addAttribute("user", user1);
 

@@ -4,59 +4,81 @@
 
 <head th:replace="~{/fragment/head :: head}">
 </head>
-
+<style>
+nav.navbar.navbar-expand-lg.navbar-light {
+	position: fixed;
+}
+</style>
 <body>
     <div th:replace="~{/fragment/navHome :: navHome}"></div>
     <div class="container">
         <h2>Giỏ hàng</h2>
+      
         <div class="alert alert-info font-weight-bold">
             Số sản phẩm đã chọn: <span id="selected-count"></span>
         </div>
-        <form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
-            <table class="table">
-                <thead>
-                    <tr class="bg-light">
-                        <th><input type="checkbox" id="selectAll"> Chọn tất cả</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Thành tiền</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item : ${cartItems}">
-                        <td>
-                            <input type="checkbox" class="product-checkbox" th:attr="data-id=${item.productID}, data-name=${item.name}">
-                        </td>
-                        <td>
-                            <img th:src="@{/img/vay.jpg}" width="50" height="50" />
-                        </td>
-                        <td th:text="${item.name}"></td>
-                        <td th:text="${item.price}" th:attr="data-price=${item.price}"></td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm decrease-quantity" data-id="${item.productID}">-</button>
-                            <input type="number" class="quantity-input" name="quantity" th:value="${item.quantity}" th:attr="data-id=${item.productID}" style="width: 50px; text-align: center;" min="1" readonly>
-                            <button type="button" class="btn btn-success btn-sm increase-quantity" data-id="${item.productID}">+</button>
-                        </td>
-                        <td class="item-total" th:text="${item.price * item.quantity}" th:attr="data-total=${item.price * item.quantity}"></td>
-                        <td>
-                            <a class="btn btn-sm btn-danger" th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}">Xoá</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Tổng tiền: <span id="cart-total"></span></p>
-            <hr />
 
-            <input type="hidden" name="cartItems" id="cart-items">
-            <button type="submit" class="btn btn-primary btn-sm">Thanh toán</button>
-        </form>
-    </div>
+        <div th:if="${errorMessages}" class="alert alert-danger" role="alert">
+	        <ul>
+	            <li th:each="message : ${errorMessages}" th:text="${message}"></li>
+	        </ul>
+	    </div>
 
-    <div th:replace="~{/fragment/footer :: footer}"></div>
-    <script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
+		<form id="checkout-form" th:action="@{/shopping-cart/submit}"
+			method="post">
+			<table class="table">
+				<thead>
+					<tr class="bg-light">
+						<th><input type="checkbox" id="selectAll"> Chọn tất
+							cả</th>
+						<th>Hình ảnh</th>
+						<th>Tên</th>
+						<th>Giá</th>
+						<th>Số lượng</th>
+						<th>Thành tiền</th>
+						<th>Hành động</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${cartItems}">
+						<td><input type="checkbox" class="product-checkbox"
+							th:attr="data-id=${item.productID}, data-name=${item.name}">
+						</td>
+						<td><img th:src="@{'/images/' + ${item.imgLink}}" width="50"
+							height="50" /></td>
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.price}" th:attr="data-price=${item.price}"></td>
+						<td>
+							<button type="button"
+								class="btn btn-danger btn-sm decrease-quantity"
+								data-id="${item.productID}">-</button> <input type="number"
+							class="quantity-input" name="quantity"
+							th:value="${item.quantity}" th:attr="data-id=${item.productID}"
+							style="width: 50px; text-align: center;" min="1" readonly>
+							<button type="button"
+								class="btn btn-success btn-sm increase-quantity"
+								data-id="${item.productID}">+</button>
+						</td>
+						<td class="item-total" th:text="${item.price * item.quantity}"
+							th:attr="data-total=${item.price * item.quantity}"></td>
+						<td><a class="btn btn-sm btn-danger"
+							th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}">Xoá</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				Tổng tiền: <span id="cart-total"></span>
+			</p>
+			<hr />
+
+			<input type="hidden" name="cartItems" id="cart-items">
+			<button type="submit" class="btn btn-primary btn-sm">Thanh
+				toán</button>
+		</form>
+		<div th:replace="~{/fragment/footer :: footer}"></div>
+	</div>
+		<script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
 </body>
 
 </html>

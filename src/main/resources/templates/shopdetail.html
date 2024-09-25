@@ -28,6 +28,8 @@
 				<div class="col-md-6">
 					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
 						alt="Hình ảnh sản phẩm" class="img-fluid product-image w-100 h-75" />
+						<input type="hidden" name="imgLink"
+						th:value="${product.images[0].imgLink}" />
 				</div>
 				<div class="col-md-6">
 					<h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
@@ -197,58 +199,10 @@
 
 	</div>
 	<!-- Footer Start -->
-	<footer class="footer pt-5">
-		<div class="container">
-			<div class="row">
-				<!-- Cột 1: Thông tin shop và mạng xã hội -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Thời trang nam F Fashion</h5>
-					<p>Hệ thống thời trang cho phái mạnh hàng đầu Việt Nam, hướng
-						tới phong cách nam tính, lịch lãm và trẻ trung.</p>
-					<div class="social-icons">
-						<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
-							class="fab fa-twitter"></i></a> <a href="#"><i
-							class="fab fa-instagram"></i></a> <a href="#"><i
-							class="fab fa-tiktok"></i></a> <a href="#"><i
-							class="fab fa-youtube"></i></a>
-					</div>
-				</div>
-
-				<!-- Cột 2: Thông tin liên hệ và vận chuyển -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Thông tin liên hệ</h5>
-					<p>
-						<strong>Địa chỉ:</strong> Tầng 5, tòa nhà Manor Crown, số 32 Tố
-						Hữu, Xuân Phú, Huế
-					</p>
-					<p>
-						<strong>Điện thoại:</strong> 0905686868
-					</p>
-					<p>
-						<strong>Email:</strong> cskh@ffashion.vn
-					</p>
-				</div>
-
-				<!-- Cột 3: Nhóm liên kết -->
-				<div class="col-lg-4 col-md-6 mb-4">
-					<h5 class="font-weight-bold">Dịch vụ khách hàng</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Giới thiệu</a></li>
-						<li><a href="#">Chính sách đổi trả</a></li>
-						<li><a href="#">Liên hệ</a></li>
-					</ul>
-				</div>
-
-			</div>
-		</div>
-		<div class="footer-copyright text-center py-3">
-			<p class="mb-0">© 2024 F Fashion. Powered by Mock Team 2</p>
-		</div>
-	</footer>
+  <div th:replace="~{/fragment/footer :: footer}"></div>
 	<!-- Footer End -->
 	<!-- Bootstrap JS and dependencies -->
 	<script th:src="@{/js/jquery-3.7.1.js}"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script th:inline="javascript">

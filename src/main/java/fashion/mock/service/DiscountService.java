@@ -1,6 +1,6 @@
- /**
- * Author: Ngô Văn Quốc Thắng 11/05/1996
- */
+/**
+* Author: Ngô Văn Quốc Thắng 11/05/1996
+*/
 package fashion.mock.service;
 
 import java.time.LocalDate;
@@ -77,12 +77,9 @@ public class DiscountService {
     }
 
     private void validateDiscount(Discount discount) {
-        if (discount.getDiscountPercent() == null || discount.getDiscountPercent() < 0 || discount.getDiscountPercent() > 100) {
-            throw new IllegalArgumentException("Phần trăm giảm giá phải từ 0 đến 100");
-        }
-        if (discount.getStartDate() == null || discount.getEndDate() == null) {
-            throw new IllegalArgumentException("Ngày bắt đầu và kết thúc không được để trống");
-        }
+    	 if (discount.getProductName() == null || discount.getProductName().isEmpty()) {
+             throw new IllegalArgumentException("Vui lòng chọn sản phẩm");
+         }
         if (discount.getStartDate().isAfter(discount.getEndDate())) {
             throw new IllegalArgumentException("Ngày bắt đầu phải trước ngày kết thúc");
         }

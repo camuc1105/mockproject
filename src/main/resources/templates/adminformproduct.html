@@ -175,6 +175,27 @@
                 $(this).next(".submenu").slideToggle();
             });
 			
+        	// Xử lý xóa ảnh
+            $(".delete-image").click(function() {
+                var imageId = $(this).data("image-id");
+                var imageContainer = $(this).parent();
+                
+                $.ajax({
+                    url: '/products/delete-image/' + imageId,
+                    type: 'POST',
+                    success: function(result) {
+                        if(result.success) {
+                            imageContainer.remove();
+                        } else {
+                            alert('Không thể xóa ảnh. Vui lòng thử lại.');
+                        }
+                    },
+                    error: function() {
+                        alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                    }
+                });
+            });
+        	
         	$("#productForm").validate({
             rules: {
                 productName: {
@@ -216,27 +237,7 @@
             },
             errorElement: "span",
             errorClass: "text-danger"
-        });
-            // Xử lý xóa ảnh
-            $(".delete-image").click(function() {
-                var imageId = $(this).data("image-id");
-                var imageContainer = $(this).parent();
-                
-                $.ajax({
-                    url: '/products/delete-image/' + imageId,
-                    type: 'POST',
-                    success: function(result) {
-                        if(result.success) {
-                            imageContainer.remove();
-                        } else {
-                            alert('Không thể xóa ảnh. Vui lòng thử lại.');
-                        }
-                    },
-                    error: function() {
-                        alert('Đã xảy ra lỗi. Vui lòng thử lại.');
-                    }
-                });
-            });
+         });
         });
     </script>
 </body>

@@ -19,7 +19,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
 					<!-- Mega Menu Áo -->
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown1"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Áo </a>
 						<div class="dropdown-menu mega-menu"
@@ -37,7 +37,7 @@
 
 					<!-- Mega Menu Quần -->
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Quần </a>
 						<div class="dropdown-menu mega-menu"
@@ -52,8 +52,7 @@
 								</div>
 							</div>
 						</div></li>
-
-					<li class="nav-item"><a class="nav-link" href="#">Tin tức</a>
+					<li class="nav-item"><a class="nav-link" th:href="@{/aboutus}">Về chúng tôi</a>
 					</li>
 				</ul>
 			</div>
@@ -63,11 +62,9 @@
 				class="navbar-icons d-flex align-items-center ml-auto justify-content-end">
 
 				<!-- Phần thanh tìm kiếm -->
-				<form class="form-inline my-2 my-lg-0 search-bar">
-					<input class="form-control mr-sm-2" type="search"
-						placeholder="Tìm kiếm" aria-label="Search">
-					<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm
-						kiếm</button>
+				<form class="form-inline my-2 my-lg-0 search-bar" th:action="@{/shop}" method="get">
+				    <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchTerm">
+				    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
 				</form>
 				<!-- Icon giỏ hàng -->
 				<div class="cart-icon">

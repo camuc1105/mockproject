@@ -1,3 +1,6 @@
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
 package fashion.mock.model;
 
 import java.time.LocalDate;
@@ -23,17 +26,17 @@ public class Discount {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull(message = "Phần trăm giảm giá không được để trống")
-	@Min(value = 0, message = "Phần trăm giảm giá phải lớn hơn hoặc bằng 0")
-	@Max(value = 100, message = "Phần trăm giảm giá phải nhỏ hơn hoặc bằng 100")
+	@NotNull(message = "Phần trăm giảm giá không được để trống.")
+	@Min(value = 0, message = "Phần trăm giảm giá phải lớn hơn hoặc bằng 0.")
+	@Max(value = 100, message = "Phần trăm giảm giá phải nhỏ hơn hoặc bằng 100.")
 	@Column(name = "discount_percent", nullable = false)
 	private Double discountPercent;
 
-	@NotNull(message = "Ngày bắt đầu không được để trống")
+	@NotNull(message = "Ngày bắt đầu không được để trống.")
 	@Column(name = "start_date", nullable = false)
 	private LocalDate startDate;
 
-	@NotNull(message = "Ngày kết thúc không được để trống")
+	@NotNull(message = "Ngày kết thúc không được để trống.")
 	@Column(name = "end_date", nullable = false)
 	private LocalDate endDate;
 
@@ -49,7 +52,7 @@ public class Discount {
 
 	@Transient
 	private String productName;
-
+	
 	public Discount(Long id, Product product, Double discountPercent, LocalDate startDate, LocalDate endDate,
 			LocalDate createdDate, LocalDate updatedDate) {
 		super();

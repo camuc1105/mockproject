@@ -1,0 +1,55 @@
+/**
+ * Author: Lê Nguyên Minh Quý 27/06/1998
+ */
+
+body {
+    padding-top: 50px;
+}
+.product-image {
+	width: 100%;
+	height: auto;
+}
+
+.price {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #d12c2f;
+}
+
+
+.original-price {
+	text-decoration: line-through;
+	color: #6c757d;
+}
+
+.color-swatch {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.size-btn {
+	width: 50px;
+}
+
+.specs-table th {
+	width: 30%;
+}
+.social-icons i {
+	font-size: 24px;
+	margin: 0 10px;
+	color: #6c757d;
+}
+
+.social-icons i:hover {
+	color: #d12c2f;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 20px;
+	color: #6c757d;
+}
