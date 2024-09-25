@@ -9,9 +9,17 @@
     <div th:replace="~{/fragment/navHome :: navHome}"></div>
     <div class="container">
         <h2>Giỏ hàng</h2>
+        
         <div class="alert alert-info font-weight-bold">
             Số sản phẩm đã chọn: <span id="selected-count"></span>
         </div>
+        
+        <div th:if="${errorMessages}" class="alert alert-danger" role="alert">
+	        <ul>
+	            <li th:each="message : ${errorMessages}" th:text="${message}"></li>
+	        </ul>
+	    </div>
+	    
         <form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
             <table class="table">
                 <thead>
