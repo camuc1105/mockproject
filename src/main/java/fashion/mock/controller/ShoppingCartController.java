@@ -91,15 +91,20 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/add")
-	public String addCart(@RequestParam Long productId, @RequestParam String productName, @RequestParam double price,
-			@RequestParam int quantity, @RequestParam String action, RedirectAttributes redirectAttributes,
+	public String addCart(@RequestParam Long productId,
+			@RequestParam String productName, 
+			@RequestParam double price,
+			@RequestParam int quantity, 
+			@RequestParam String action, 
+			@RequestParam String imgLink,
+			RedirectAttributes redirectAttributes,
 			HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 
 		if (user == null) {
 			return "redirect:/login/loginform";
 		}
-		
+
 		// Retrieve cartItems from session
         @SuppressWarnings("unchecked")
         Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
@@ -121,6 +126,7 @@ public class ShoppingCartController {
             newItem.setName(productName);
             newItem.setPrice(price);
             newItem.setQuantity(quantity);
+            newItem.setImgLink(imgLink);
             cartItemsMap.put(productId, newItem);
             if ("buy".equals(action)) {
 				return "redirect:/shopping-cart/view";
@@ -137,15 +143,6 @@ public class ShoppingCartController {
 		cartItemService.remove(id);
 		return "redirect:/shopping-cart/view";
 	}
-	
-//	@PostMapping("/update")
-//	public String update(@RequestParam Long id, @RequestParam Integer quantity, Model model) {
-//		if (quantity < 1) {
-//			return "redirect:/shopping-cart/view";
-//		}
-//		cartItemService.update(id, quantity);
-//		return "redirect:/shopping-cart/view";
-//	}
 
 	// Thanh
 	@PostMapping("/submit")
