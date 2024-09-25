@@ -126,19 +126,19 @@ public class ShoppingCartController {
 		return "redirect:/shopping-cart/view";
 	}
 
-	@PostMapping("/update")
-	public String update(@RequestParam Long id, @RequestParam Integer quantity, Model model) {
-		if (quantity < 1) {
-			return "redirect:/shopping-cart/view";
-		}
-		Product product = productService.findProductById(id);
-		if(quantity > product.getQuantity()) {
-			System.out.println(product.getQuantity());
-			return "redirect:/shopping-cart/view";
-		}
-		cartItemService.update(id, quantity);
-		return "redirect:/shopping-cart/view";
-	}
+	// @PostMapping("/update")
+	// public String update(@RequestParam Long id, @RequestParam Integer quantity, Model model) {
+	// 	if (quantity < 1) {
+	// 		return "redirect:/shopping-cart/view";
+	// 	}
+	// 	Product product = productService.findProductById(id);
+	// 	if(quantity > product.getQuantity()) {
+	// 		System.out.println(product.getQuantity());
+	// 		return "redirect:/shopping-cart/view";
+	// 	}
+	// 	cartItemService.update(id, quantity);
+	// 	return "redirect:/shopping-cart/view";
+	// }
 
 	// Thanh
 	@PostMapping("/submit")
