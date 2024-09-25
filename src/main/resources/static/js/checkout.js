@@ -1,40 +1,42 @@
-/*@author Tran Thien Thanh 09/04/1996*/
+/* @author Tran Thien Thanh 09/04/1996 */
 $(document).ready(function() {
-	// Calculate delivery dates
-	const today = new Date();
-	const standardDeliveryDate = new Date(today);
-	standardDeliveryDate.setDate(today.getDate() + 2);
-	const fastDeliveryDate = new Date(today);
-	fastDeliveryDate.setDate(today.getDate() + 1);
+    // Calculate delivery dates
+    const today = new Date();
+    const standardDeliveryDate = new Date(today);
+    standardDeliveryDate.setDate(today.getDate() + 2);
+    const fastDeliveryDate = new Date(today);
+    fastDeliveryDate.setDate(today.getDate() + 1);
 
-	$('#standardDeliveryDate').text('Dự kiến nhận hàng: ' + standardDeliveryDate.toLocaleDateString());
-	$('#fastDeliveryDate').text('Dự kiến nhận hàng: ' + fastDeliveryDate.toLocaleDateString());
+    $('#standardDeliveryDate').text('Dự kiến nhận hàng: ' + standardDeliveryDate.toLocaleDateString());
+    $('#fastDeliveryDate').text('Dự kiến nhận hàng: ' + fastDeliveryDate.toLocaleDateString());
 
-	// Update total price with shipping cost
-	function updateTotalPrice() {
-		const shippingCost = parseInt($('input[name="shippingMethod"]:checked').val());
-		const orderTotal = parseFloat($('#orderTotalPrice').text().replace(/[^\d.]/g, ''));
-		const totalPrice = orderTotal + shippingCost;
+    // Update total price with shipping cost
+    function updateTotalPrice() {
+        const shippingCost = parseInt($('input[name="shippingMethod"]:checked').val());
+        const orderTotal = parseFloat($('#orderTotalPrice').text().replace(/[^\d.]/g, ''));
+        const totalPrice = orderTotal + shippingCost;
 
-		$('#shippingCost').text(shippingCost.toLocaleString() + ' đ');
-		$('#selectedShippingMethod').text($('input[name="shippingMethod"]:checked').next().text().split(':')[0].trim());
-		$('#totalPriceWithShipping').text(totalPrice.toLocaleString() + ' đ');
+        $('#shippingCost').text(shippingCost.toLocaleString() + ' đ');
+        $('#totalPriceWithShipping').text(totalPrice.toLocaleString() + ' đ');
 
-		// Set hidden input values
-		$('#shippingMethodInput').val($('input[name="shippingMethod"]:checked').val());
-		$('#totalPriceInput').val(totalPrice);
-	}
+        // Set hidden input values
+        $('#shippingMethodInput').val($('input[name="shippingMethod"]:checked').val());
+        $('#totalPriceInput').val(totalPrice);
+    }
 
-	$('input[name="shippingMethod"]').on('change', function() {
-		updateTotalPrice();
-	});
+    // Handle shipping method change
+    $('input[name="shippingMethod"]').on('change', function() {
+        updateTotalPrice();
+    });
 
-	// Enable the order button when a payment method is selected
-	$('input[name="paymentMethod"]').on('change', function() {
-		$('#checkoutBtn').prop('disabled', false);
-		$('#paymentWarning').hide();
-	});
+    // Handle payment method selection and update the hidden input
+    $('input[name="paymentMethod"]').on('change', function() {
+        const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').val();
+        $('#paymentMethodInput').val(selectedPaymentMethod);  // Update the hidden input
+        $('#checkoutBtn').prop('disabled', false);  // Enable the checkout button
+        $('#paymentWarning').hide();  // Hide payment warning
+    });
 
-	// Initial calculation
-	updateTotalPrice();
+    // Initial calculation
+    updateTotalPrice();
 });

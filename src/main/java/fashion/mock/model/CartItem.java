@@ -6,23 +6,33 @@ package fashion.mock.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CartItem {
-	
+
 	@JsonProperty("productId")
 	private Long productID;
 	private String name;
 	private double price;
+	private String imgLink;
 	private int quantity = 1;
 
 	public CartItem() {
 		super();
 	}
 
-	public CartItem(Long productID, String name, double price, int quantity) {
+	public CartItem(Long productID, String name, double price, String imgLink, int quantity) {
 		super();
 		this.productID = productID;
 		this.name = name;
 		this.price = price;
+		this.imgLink = imgLink;
 		this.quantity = quantity;
+	}
+
+	public String getImgLink() {
+		return imgLink;
+	}
+
+	public void setImgLink(String imgLink) {
+		this.imgLink = imgLink;
 	}
 
 	public Long getProductID() {
@@ -62,7 +72,5 @@ public class CartItem {
 		return "CartItem [productID=" + productID + ", name=" + name + ", price=" + price + ", quantity=" + quantity
 				+ "]";
 	}
-	
-	
 
 }

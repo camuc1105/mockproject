@@ -24,7 +24,9 @@ public class Category {
 
 	@NotBlank(message = "Tên danh mục không được để trống")
 	@Size(max = 25, message = "Tên danh mục không được dài quá 25 ký tự")
-	@Column(name = "categoryName", nullable = false, unique = true, length = 25, columnDefinition = "NVARCHAR(25)")
+
+	@Column(name = "categoryName", nullable = false, unique = true, columnDefinition = "NVARCHAR(25)")
+
 	private String categoryName;
 
 	@Column(name = "createdDate", nullable = false)

@@ -5,6 +5,7 @@ package fashion.mock.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,11 @@ import fashion.mock.model.CartItem;
 import fashion.mock.model.Order;
 import fashion.mock.model.OrderDetail;
 import fashion.mock.model.Payment;
+import fashion.mock.model.Product;
+import fashion.mock.model.TransactionHistory;
 import fashion.mock.model.User;
 import fashion.mock.service.CheckoutService;
+import fashion.mock.service.EmailService;
 import fashion.mock.service.OrderDetailService;
 import fashion.mock.service.OrderService;
 import fashion.mock.service.ProductService;
@@ -27,117 +31,147 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/checkout")
 public class CheckoutController {
+	
+	private static final String SELECTED_CART_ITEMS = "selectedCartItems";
+	private static final String CART_ITEMS = "cartItems";
 
 	private final OrderService orderService;
 	private final OrderDetailService orderDetailService;
-	private final CheckoutService checkoutService;
 	private final ProductService productService;
+	private final CheckoutService checkoutService;
+	private final EmailService emailService;
 
 	public CheckoutController(OrderService orderService, OrderDetailService orderDetailService,
-			CheckoutService checkoutService, ProductService productService) {
+			CheckoutService checkoutService, ProductService productService, EmailService emailService) {
 		this.orderService = orderService;
 		this.orderDetailService = orderDetailService;
 		this.checkoutService = checkoutService;
 		this.productService = productService;
+		this.emailService = emailService;
 	}
-	
+
 	@GetMapping
 	public String showCheckoutPage(HttpSession session, Model model) {
-		// Temporarily hardcode a userId for testing
-	    Long userId = 1L;  // Replace with an actual user ID that exists in your database
-	    // Fetch the user from the database using the hardcoded ID
-	    User user = orderService.findUserById(userId);
-	    if (user == null) {
-	        throw new RuntimeException("User not found"); // Handle if user is not found
-	    }
-		
-		
-		
-		
-	    // Retrieve the selected cart items from session
-	    @SuppressWarnings("unchecked")
-	    List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItems");
-	    List<Payment> payments = checkoutService.getAllPayments();
 
-	    // Ensure items were selected
-	    if (selectedCartItems == null || selectedCartItems.isEmpty()) {
-	        return "redirect:/shopping-cart/view"; // If no items, redirect back to cart
-	    }
+		// Check User Login. If not, to login page
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/login/loginform";
+		}
 
-	    // Pass selected items to model
-	    model.addAttribute("selectedCartItems", selectedCartItems);
-	    model.addAttribute("user", user);  // Add the user to the model
-	    model.addAttribute("payments", payments);  // Add the user to the model
+		// Retrieve the selected cart items from session
+		@SuppressWarnings("unchecked")
+		List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute(SELECTED_CART_ITEMS);
+		List<Payment> payments = checkoutService.getAllPayments();
 
-	    // Render checkout page (Thymeleaf template)
-	    return "checkout";
+		// Ensure items were selected
+		if (selectedCartItems == null || selectedCartItems.isEmpty()) {
+			return "redirect:/shopping-cart/view"; // If no items, redirect back to cart
+		}
+
+		// Calculate total price based on selected items (sum of price * quantity)
+		double totalPrice = selectedCartItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
+
+		// Pass selected items to model
+		model.addAttribute(SELECTED_CART_ITEMS, selectedCartItems);
+		model.addAttribute("user", user);
+		model.addAttribute("payments", payments); // Add the user to the model
+		model.addAttribute("totalPrice", totalPrice); // Pass the total price to the view
+
+		// Render checkout page (Thymeleaf template)
+		return "checkout";
 	}
 
 	@PostMapping("/submit")
 	public String submitCheckout(
-//								@RequestParam Long userId,
-	                             @RequestParam String paymentMethod,
-	                             @RequestParam String shippingMethod,
-//	                             @RequestParam Double totalPrice,
-	                             HttpSession session, Model model) {
-		
-		// Temporarily hardcode a userId for testing
-		Long userId = 1L;  // Replace with an actual user ID from your database
+			@RequestParam String paymentMethod, 
+			@RequestParam String shippingMethod,
+			HttpSession session, Model model) {
 
-	    // Fetch the user from the database
-	    User user = orderService.findUserById(userId);
-	    if (user == null) {
-	        throw new RuntimeException("User not found"); // Handle if user is not found
-	    }
-		
-		
-		
-		
-	    // Retrieve the selected items from the session
-	    @SuppressWarnings("unchecked")
-	    List<CartItem> selectedItems = (List<CartItem>) session.getAttribute("selectedCartItems");
+		User user = (User) session.getAttribute("user");
+		Long userId = user.getId();
 
-	    // Ensure items exist before proceeding with checkout
-	    if (selectedItems == null || selectedItems.isEmpty()) {
-	        return "redirect:/shopping-cart/view"; // Redirect if no items selected
-	    }
-	    
-	    // Calculate total price based on selected items (sum of price * quantity)
-	    double totalPrice = 0;
-	    for (CartItem cartItem : selectedItems) {
-	        totalPrice += cartItem.getPrice() * cartItem.getQuantity();
-	    }
+		// Retrieve the selected items from the session
+		@SuppressWarnings("unchecked")
+		List<CartItem> selectedItems = (List<CartItem>) session.getAttribute(SELECTED_CART_ITEMS);
 
-	    // Create a new order and save the order details
-	    Order order = new Order();
-	    order.setUser(orderService.findUserById(userId));
-	    order.setOrderDate(LocalDate.now());
-	    order.setTotalPrice(totalPrice);
-	    order.setStatus("Processing");
+		// Calculate total price
+		double totalPrice = selectedItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
 
-	    // Save the order to the database
-	    Order savedOrder = orderService.saveOrder(order);
+		// Convert shippingMethod to a double for shipping cost, Calculate total price
+		double shippingCost = Double.parseDouble(shippingMethod);
+		double totalPriceWithShipping = totalPrice + shippingCost;
 
-	    // Save each item as an OrderDetail
-	    for (CartItem cartItem : selectedItems) {
-	        OrderDetail orderDetail = new OrderDetail();
-	        orderDetail.setOrder(savedOrder);
-	        orderDetail.setProduct(productService.getProductById(cartItem.getProductID()).orElse(null));
-	        orderDetail.setQuantity(cartItem.getQuantity());
-	        orderDetail.setSubTotal(cartItem.getQuantity() * cartItem.getPrice());
-	        orderDetailService.saveOrderDetail(orderDetail);
-	    }
-	    
-	    // Pass the order object to the model so it can be used in the Thymeleaf template
-	    model.addAttribute("order", savedOrder);
-	    model.addAttribute("totalPrice", totalPrice);
+		// Create a new order and save the order details
+		Order order = new Order();
+		order.setUser(orderService.findUserById(userId));
+		order.setOrderDate(LocalDate.now());
+		order.setShippingPrice(shippingCost);
+		order.setTotalPrice(totalPriceWithShipping);
+		order.setStatus("Chờ phê duyệt"); // Change status according to payment method
+		order.setUpdatedDate(LocalDate.now());
+		Order savedOrder = orderService.saveOrder(order);
 
-	    // Clear the cart after successful checkout
-	    session.removeAttribute("cartItems");
-	    session.removeAttribute("selectedCartItems");
+		// Save each item as an OrderDetail
+		for (CartItem cartItem : selectedItems) {
+			// Get the product from the database
+			Product product = productService.getProductById(cartItem.getProductID())
+					.orElseThrow(() -> new RuntimeException("Product not found"));
 
-	    // Redirect to confirmation page
-	    return "redirect:/confirmation";
+			// Calculate new quantity for the product in stock
+			int newQuantity = product.getQuantity() - cartItem.getQuantity();
+			if (newQuantity < 0) {
+				throw new RuntimeException("Số lượng sản phẩm trong kho không đủ: " + product.getProductName());
+			}
+
+			// Update the product quantity in the database
+			product.setQuantity(newQuantity);
+			productService.updateProduct(product);
+
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setOrder(savedOrder);
+			orderDetail.setProduct(productService.getProductById(cartItem.getProductID()).orElse(null));
+			orderDetail.setQuantity(cartItem.getQuantity());
+			orderDetail.setSubTotal(cartItem.getQuantity() * cartItem.getPrice());
+			orderDetailService.saveOrderDetail(orderDetail);
+		}
+
+		// Use CheckoutService to find payment method and save transaction history
+		Payment selectedPayment = checkoutService.findPaymentByMethod(paymentMethod);
+		TransactionHistory transactionHistory = new TransactionHistory();
+		transactionHistory.setOrder(savedOrder);
+		transactionHistory.setPayment(selectedPayment);
+		transactionHistory.setTransactionDate(LocalDate.now());
+		transactionHistory.setTransactionAmount(totalPriceWithShipping);
+		if (!paymentMethod.equalsIgnoreCase("Tiền mặt")) {
+			transactionHistory.setStatus("Chờ thanh toán");
+		} else {
+			transactionHistory.setStatus("Hoàn tất");
+		}
+		checkoutService.saveTransactionHistory(transactionHistory);
+
+		// Pass the order object to the model so it can be used in the Thymeleaf
+		// template
+		model.addAttribute("order", savedOrder);
+		model.addAttribute("totalPrice", totalPrice);
+
+		// Remove checked-out items from cart and update session
+		@SuppressWarnings("unchecked")
+		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
+		for (CartItem item : selectedItems) {
+			cartItemsMap.remove(item.getProductID()); // Remove from cart
+		}
+		session.setAttribute(CART_ITEMS, cartItemsMap);
+
+		// Send confirmation email to the user
+		String userEmail = user.getEmail(); // Get the user's email
+		emailService.sendOrderConfirmation(userEmail, savedOrder); // Call email service
+
+		// Clear the selected items after checkout
+		session.removeAttribute(SELECTED_CART_ITEMS);
+
+		// Redirect to confirmation page
+		return "redirect:/information/purchase-history";
 	}
 
 }

@@ -29,10 +29,13 @@ public class Order {
 	@Column(name = "orderDate", nullable = false)
 	private LocalDate orderDate;
 
+	@Column(name = "shippingPrice", nullable = false)
+	private Double shippingPrice;
+
 	@Column(name = "totalPrice", nullable = false)
 	private Double totalPrice;
 
-	@Column(length = 20)
+	@Column(columnDefinition = "NVARCHAR(25)")
 	private String status;
 
 	@Column(name = "updatedDate")
@@ -44,18 +47,20 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails;
 
-	public Order(Long id, User user, LocalDate orderDate, Double totalPrice, String status, LocalDate updatedDate) {
-		super();
+	public Order(Long id, User user, LocalDate orderDate, Double shippingPrice, Double totalPrice, String status,
+			LocalDate updatedDate, List<TransactionHistory> transactionHistories, List<OrderDetail> orderDetails) {
 		this.id = id;
 		this.user = user;
 		this.orderDate = orderDate;
+		this.shippingPrice = shippingPrice;
 		this.totalPrice = totalPrice;
 		this.status = status;
 		this.updatedDate = updatedDate;
+		this.transactionHistories = transactionHistories;
+		this.orderDetails = orderDetails;
 	}
 
 	public Order() {
-		super();
 	}
 
 	public Long getId() {
@@ -82,6 +87,14 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
+	public Double getShippingPrice() {
+		return shippingPrice;
+	}
+
+	public void setShippingPrice(Double shippingPrice) {
+		this.shippingPrice = shippingPrice;
+	}
+
 	public Double getTotalPrice() {
 		return totalPrice;
 	}
@@ -104,6 +117,22 @@ public class Order {
 
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public List<TransactionHistory> getTransactionHistories() {
+		return transactionHistories;
+	}
+
+	public void setTransactionHistories(List<TransactionHistory> transactionHistories) {
+		this.transactionHistories = transactionHistories;
+	}
+
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 }

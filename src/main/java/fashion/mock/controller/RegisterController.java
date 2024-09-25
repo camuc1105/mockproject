@@ -3,16 +3,17 @@
 */
 package fashion.mock.controller;
 
+import fashion.mock.service.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import fashion.mock.model.User;
-import fashion.mock.service.EmailService;
 import fashion.mock.service.UserService;
 import fashion.mock.service.VerificationService;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/register")
@@ -47,7 +48,6 @@ public class RegisterController {
 		} else {
 			userService.createUser(user);
 			String code = verificationService.generateAndStoreCode(user.getEmail());
-		
 			emailService.sendVerificationCode(user.getEmail(), code);
 			return "redirect:/register/inputCode?email=" + user.getEmail();
 		}
@@ -66,16 +66,27 @@ public class RegisterController {
 		return "inputCodeVerify";
 	}
 
+
 	@PostMapping("/verify")
-	public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, Model model) {
+	public String verifyCode(@RequestParam("email") String email, @RequestParam("code") String code, Model model,
+							 RedirectAttributes redirectAttributes) {
 		boolean isValid = verificationService.validateCode(email, code);
 		if (isValid) {
 			User user = userService.getByEmail(email);
 			userService.activeUser(user);
-			return "redirect:/login"; // Redirect to login page if verification is successful
+			redirectAttributes.addFlashAttribute("successMessage", "Đăng ký thành công! Vui lòng đăng nhập.");
+			return "redirect:/login/loginform"; // Redirect to login page if verification is successful
 		} else {
 			model.addAttribute("codeError", "Mã xác minh không đúng hoặc đã hết hạn!");
+			model.addAttribute("email", email);
 			return "inputCodeVerify";
 		}
+	}
+	@GetMapping("/login/loginform")
+	public String getLoginPage(Model model, @ModelAttribute("successMessage") String successMessage) {
+		if (!successMessage.isEmpty()) {
+			model.addAttribute("successMessage", successMessage);
+		}
+		return "login";
 	}
 }

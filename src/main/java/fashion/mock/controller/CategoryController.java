@@ -43,7 +43,7 @@ public class CategoryController {
             .collect(Collectors.toList());
 
         List<Category> quanCategories = categories.stream()
-            .filter(category -> category.getCategoryName().startsWith("Quan"))
+            .filter(category -> category.getCategoryName().startsWith("Quần"))
             .collect(Collectors.toList());
 
         // Thêm danh sách "Áo" và "Quần" vào model

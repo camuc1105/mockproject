@@ -30,12 +30,12 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/home/**", "/css/**", "/js/**", "/login/**",
-								"/forgot-password", "/verify-code", "/reset-password", "/products/**", "/css/**",
-								"/shopping-cart/**", "/shop/**", "/js/**", "/images/**", "/shop/**", "/categories/**","/information/**",
-								"/users/**", "/discounts/**", "/checkout/**","/information/**","/discounts/**","/orderDetail/**", "/register/**", "/forget-password/**")
+						.requestMatchers("/login/**","/categories/**","/checkout/**","/infomation/**",
+								"/discounts/**","/forget-password/**","/home/**","/orderDetail/**",
+								"/products/**","/shop/**","/information/**","/register/**",
+								"/shopping-cart/**","/users/**", "/css/**", "/js/**", "/aboutus/**","/images/**")
 						.permitAll() // Cho phép truy cập không cần xác thực
-//						.requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
+						.requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
 						.anyRequest().authenticated() // Các yêu cầu khác phải xác thực
 				).formLogin(form -> form.loginPage("/home") // Trang đăng nhập tùy chỉnh
 						.defaultSuccessUrl("/home", true) // Chuyển hướng sau khi đăng nhập thành công
