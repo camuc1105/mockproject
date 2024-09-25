@@ -82,9 +82,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<!-- <tr th:if="${#lists.isEmpty(orderDetails)}">
-							<td colspan="5">Không có sản phẩm nào trong đơn hàng này.</td>
-						</tr> -->
 						<tr th:each="detail : ${orderDetails}">
 							<td><img
 								th:src="@{'/imgProduct/' + ${detail.product.images[0].imgLink}}"
@@ -102,8 +99,12 @@
 					</tbody>
 					<tfoot>
 						<tr>
+					        <td colspan="4" class="text-right font-weight-bold">Phí vận chuyển:</td>
+					        <td class="font-weight-bold" th:text="${order.shippingPrice} + ' đ'"></td>
+					    </tr>
+						<tr>
 							<td colspan="4" class="text-right font-weight-bold">Tổng tiền:</td>
-							<td><strong th:text="${order.totalPrice} + ' đ'"></strong></td>
+							<td class="font-weight-bold" th:text="${order.totalPrice} + ' đ'"></td>
 						</tr>
 					</tfoot>
 				</table>
