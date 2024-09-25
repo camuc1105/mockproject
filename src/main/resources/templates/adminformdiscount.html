@@ -87,18 +87,17 @@
 							<option value="">Chọn sản phẩm</option>
 							<option th:each="product : ${products}"
 								th:value="${product.productName}"
-								th:text="${product.productName}"></option>
-						</select> <small id="productNameError" class="form-text text-danger"></small>
-						<small class="form-text text-danger"
-							th:if="${#fields.hasErrors('productName')}"
-							th:errors="*{productName}"></small>
+								th:text="${product.productName}" ></option>
+						</select> 
+						<small id="productNameError" class="form-text text-danger"></small>
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></small>
 					</div>
 
 					<div class="form-group">
 						<label for="discountPercent">Phần trăm giảm giá:</label> <input
 							class="form-control" type="number" id="discountPercent"
 							name="discountPercent" th:value="${discount.discountPercent}"
-							min="0" max="100" step="0.01" /> <small
+							 step="0.01" /> <small
 							id="discountPercentError" class="form-text text-danger"></small>
 						<small class="form-text text-danger"
 							th:if="${#fields.hasErrors('discountPercent')}"
@@ -147,7 +146,7 @@
 	</div>
 
 	<!-- Bootstrap JS and dependencies -->
-	<script th:src="@{/js/jquery-3.7.1.js}"></script> 
+	 <script th:src="@{/js/jquery-3.7.1.js}"></script> 
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
