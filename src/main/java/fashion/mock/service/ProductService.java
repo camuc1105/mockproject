@@ -264,6 +264,10 @@ public class ProductService {
 		}
 		return product.getPrice();
 	}
+	
+	public List<Product> getProductsByCategory(String categoryName) {
+	    return productRepository.findByCategory_CategoryName(categoryName);
+    }
 
 //huan
 
