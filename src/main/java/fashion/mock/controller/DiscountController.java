@@ -32,19 +32,25 @@ public class DiscountController {
     @Autowired
     private UserService userService;
     
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
+    
     @GetMapping
     public String listDiscounts(Model model, HttpSession session, 
                                 @RequestParam(defaultValue = "0") int page, 
-                                @RequestParam(defaultValue = "5") int size) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+                                @RequestParam(defaultValue = "5") int size, 
+                                RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         
         Page<Discount> discountPage = discountService.getAllDiscounts(PageRequest.of(page, size));
         model.addAttribute("discounts", discountPage.getContent());
@@ -55,16 +61,10 @@ public class DiscountController {
     }
 
     @GetMapping("/new")
-    public String showAddDiscountForm(Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    public String showAddDiscountForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         
         model.addAttribute("discount", new Discount());
         model.addAttribute("products", productService.getAllProducts());
@@ -72,16 +72,10 @@ public class DiscountController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         
         Discount discount = discountService.getDiscountById(id)
                 .orElseThrow(() -> new RuntimeException("Discount không tồn tại"));
@@ -143,16 +137,10 @@ public class DiscountController {
     public String searchDiscounts(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
                                   @RequestParam(defaultValue = "0") int page, 
                                   @RequestParam(defaultValue = "5") int size,
-                                  Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+                                  Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         if (page < 0) {
             page = 0;
         }

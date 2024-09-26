@@ -36,11 +36,23 @@ public class CategoryController {
 
     @Autowired
     private UserService userService;
+    
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
+    
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/nav")
-    public String listNavigation(Model model, HttpSession session) {
+    public String listNavigation(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         // Lấy tất cả danh mục
         List<Category> categories = categoryService.getAllCategories();
 
@@ -53,14 +65,9 @@ public class CategoryController {
             .filter(category -> category.getCategoryName().startsWith("Quần"))
             .collect(Collectors.toList());
         //phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
         }
-        model.addAttribute("isAdmin", isAdmin);
         // Thêm danh sách "Áo" và "Quần" vào model
         model.addAttribute("aoCategories", aoCategories);
         model.addAttribute("quanCategories", quanCategories);
@@ -72,20 +79,15 @@ public class CategoryController {
 	 */
     // Hiển thị danh sách category
     @GetMapping
-    public String listCategories(Model model, HttpSession session,
+    public String listCategories(Model model, HttpSession session,RedirectAttributes redirectAttributes,
                                  @RequestParam(defaultValue = "0") int page, 
                                  @RequestParam(defaultValue = "5") int size) {
     	
         Page<Category> categoryPage = categoryService.getAllCategories(PageRequest.of(page, size));
         //phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }  
         model.addAttribute("categories", categoryPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", categoryPage.getTotalPages());
@@ -98,16 +100,10 @@ public class CategoryController {
 	 */
     // Hiển thị form thêm mới category
     @GetMapping("/new")
-    public String showAddCategoryForm(Model model, HttpSession session) {
-    	 //phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    public String showAddCategoryForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         model.addAttribute("category", new Category());
         return "adminformcategory";
     }
@@ -117,16 +113,10 @@ public class CategoryController {
 	 */
     // Hiển thị form sửa category
     @GetMapping("/edit/{id}")
-    public String showUpdateCategoryForm(@PathVariable Long id, Model model, HttpSession session) {
-    	 //phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    public String showUpdateCategoryForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         Category category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
         model.addAttribute("category", category);
@@ -200,16 +190,11 @@ public class CategoryController {
     public String searchCategories(@RequestParam(value = "searchTerm", required = false) String searchTerm,  HttpSession session,
                                    @RequestParam(defaultValue = "0") int page, 
                                    @RequestParam(defaultValue = "5") int size,
-                                   Model model) {
+                                   Model model,  RedirectAttributes redirectAttributes) {
    	 //phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    	   if (!checkAdminAccess(session, model, redirectAttributes)) {
+               return "redirect:/home";
+           }        
     	  if (page < 0) {
     	        page = 0;
     	    }

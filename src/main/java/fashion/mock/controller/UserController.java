@@ -38,23 +38,28 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
    
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping
-    public String listUsers(Model model, HttpSession session, 
+    public String listUsers(Model model, HttpSession session, RedirectAttributes redirectAttributes,  
                             @RequestParam(defaultValue = "0") int page, 
                             @RequestParam(defaultValue = "5") int size) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    	 if (!checkAdminAccess(session, model, redirectAttributes)) {
+             return "redirect:/home";
+         }
         
         Page<User> userPage = userService.getAllUsers(PageRequest.of(page, size));
         model.addAttribute("users", userPage.getContent());
@@ -68,17 +73,10 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/new")
-    public String showAddUserForm(Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
-        
+    public String showAddUserForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminformuser";
@@ -88,16 +86,10 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/edit/{id}")
-    public String showUpdateUserForm(@PathVariable Long id, Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+    public String showUpdateUserForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         
         User users = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
@@ -206,16 +198,10 @@ public class UserController {
     public String searchUsers(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
                               @RequestParam(defaultValue = "0") int page, 
                               @RequestParam(defaultValue = "5") int size,
-                              Model model, HttpSession session) {
-    	//phân quyền
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
-        }
-        model.addAttribute("isAdmin", isAdmin);
+                              Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         Page<User> userPage = userService.searchUsers(searchTerm, PageRequest.of(page, size));
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("currentPage", page);
