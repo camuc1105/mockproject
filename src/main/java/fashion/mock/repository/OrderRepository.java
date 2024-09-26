@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import fashion.mock.model.Order;
 
-/**
- * @author Tran Thien Thanh 01/07/2000
- */
 public interface OrderRepository extends JpaRepository<Order, Long> {
+/**
+ * @author Duong Van Luc 01/07/2000
+ */
     Page<Order> findById(Long id, Pageable pageable);
 }
