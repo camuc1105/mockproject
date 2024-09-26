@@ -1,6 +1,9 @@
 package fashion.mock.controller;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -8,10 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import fashion.mock.model.CartItem;
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
-import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import fashion.mock.service.ProductService;
 import fashion.mock.service.UserService;
@@ -22,14 +25,12 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController {
 
 	private final CategoryService categoryService;
-	private CartItemService cartItemService;
 	private UserService userService;
 	private final ProductService productService;
 
-	public HomeController(CategoryService categoryService, CartItemService cartItemService, UserService userService,ProductService productService) {
+	public HomeController(CategoryService categoryService, UserService userService,ProductService productService) {
 		super();
 		this.categoryService = categoryService;
-		this.cartItemService = cartItemService;
 		this.userService = userService;
 		this.productService = productService;
 	}
@@ -76,6 +77,13 @@ public class HomeController {
 	    model.addAttribute("aoSoMiCategory", aoSoMiCategory);
 
 	
+	    @SuppressWarnings("unchecked")
+		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
+        if (cartItemsMap == null) {
+            cartItemsMap = new HashMap<>(); // Initialize if not set
+            session.setAttribute("cartItems", cartItemsMap);
+        }
+	    Collection<CartItem> cartItems = cartItemsMap.values();
 		
 		// thảo
 		
@@ -85,7 +93,7 @@ public class HomeController {
 		if (user != null) {
 		    isAdmin = userService.isAdmin(user.getId());
 		    model.addAttribute("user", user);
-		    model.addAttribute("totalCartItems", cartItemService.getCount());
+		    model.addAttribute("totalCartItems", cartItems.size());
 
 		} else {
 			model.addAttribute("totalCartItems", "0");
