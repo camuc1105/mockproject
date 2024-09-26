@@ -3,7 +3,10 @@
  */
 package fashion.mock.controller;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fashion.mock.model.CartItem;
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
@@ -69,15 +73,28 @@ public class ProductUserController {
         List<Double> discountedPrices = products.stream().map(productService::getDiscountedPrice)
                 .collect(Collectors.toList());
         
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
+        @SuppressWarnings("unchecked")
+		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
+        if (cartItemsMap == null) {
+            cartItemsMap = new HashMap<>(); // Initialize if not set
+            session.setAttribute("cartItems", cartItemsMap);
         }
-        model.addAttribute("isAdmin", isAdmin);
+	    Collection<CartItem> cartItems = cartItemsMap.values();
+		
+		// thảo
+		
+		User user = (User) session.getAttribute("user");
+		boolean isAdmin = false; // Initialize isAdmin
 
+		if (user != null) {
+		    isAdmin = userService.isAdmin(user.getId());
+		    model.addAttribute("user", user);
+		    model.addAttribute("totalCartItems", cartItems.size());
+
+		} else {
+			model.addAttribute("totalCartItems", "0");
+		}
+		model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
@@ -94,8 +111,6 @@ public class ProductUserController {
         model.addAttribute("productsOnDiscount", productsOnDiscount);
         model.addAttribute("discountedPrices", discountedPrices);
         model.addAttribute("categoryName", categoryName);
-        
-        model.addAttribute("totalCartItems", cartItemService.getCount());
         return "shop";
     }
 
@@ -113,22 +128,34 @@ public class ProductUserController {
         boolean isOnDiscount = productService.isProductOnDiscount(product);
         double discountedPrice = productService.getDiscountedPrice(product);
         
-        User user = (User) session.getAttribute("user");
-        boolean isAdmin = false;
-
-        if (user != null) {
-            isAdmin = userService.isAdmin(user.getId());
-            model.addAttribute("user", user);
+        @SuppressWarnings("unchecked")
+		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
+        if (cartItemsMap == null) {
+            cartItemsMap = new HashMap<>(); // Initialize if not set
+            session.setAttribute("cartItems", cartItemsMap);
         }
-        model.addAttribute("isAdmin", isAdmin);
-        
+	    Collection<CartItem> cartItems = cartItemsMap.values();
+		
+		// thảo
+		
+		User user = (User) session.getAttribute("user");
+		boolean isAdmin = false; // Initialize isAdmin
+
+		if (user != null) {
+		    isAdmin = userService.isAdmin(user.getId());
+		    model.addAttribute("user", user);
+		    model.addAttribute("totalCartItems", cartItems.size());
+
+		} else {
+			model.addAttribute("totalCartItems", "0");
+		}
+		model.addAttribute("isAdmin", isAdmin);       
         model.addAttribute("product", product);
         model.addAttribute("isOnDiscount", isOnDiscount);
         model.addAttribute("discountedPrice", discountedPrice);
         model.addAttribute("aoCategories", aoCategories);
         model.addAttribute("quanCategories", quanCategories);
         model.addAttribute("categories", categories);
-        model.addAttribute("totalCartItems", cartItemService.getCount());
         return "shopdetail";
     }
 }
