@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -52,39 +53,41 @@ public class HomeController {
 		/**
 		 * Author: Lê Nguyên Minh Quý 27/06/1998
 		 */
-		List<Product> aoSoMiProducts = productService.getProductsByCategory("Áo sơ mi");
+		
+		List<Product> newProducts = productService.getTop4NewProducts();
+		
+		Random random = new Random();
+        Category randomCategory = categories.get(random.nextInt(categories.size()));
+
+        // Lấy sản phẩm của danh mục ngẫu nhiên
+        List<Product> randomCategoryProducts = productService.getProductsByCategory(randomCategory.getCategoryName());
 		
 		List<Product> products = productService.getAllProducts();
 		List<Boolean> productsOnDiscount = products.stream().map(productService::isProductOnDiscount)
                 .collect(Collectors.toList());
         List<Double> discountedPrices = products.stream().map(productService::getDiscountedPrice)
                 .collect(Collectors.toList());
-        
-        Category aoSoMiCategory = categories.stream()
-            .filter(category -> category.getCategoryName().equalsIgnoreCase("Áo sơ mi"))
-            .findFirst().orElse(null);
 
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
-		model.addAttribute("products", aoSoMiProducts);
+		model.addAttribute("newProducts", newProducts);
 		model.addAttribute("products", products);
 	    model.addAttribute("productsOnDiscount", productsOnDiscount);
 	    model.addAttribute("discountedPrices", discountedPrices);
-	    model.addAttribute("aoSoMiCategory", aoSoMiCategory);
+	    model.addAttribute("randomCategoryProducts", randomCategoryProducts);
+        model.addAttribute("randomCategory", randomCategory);
 	
 	    @SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
         if (cartItemsMap == null) {
-            cartItemsMap = new HashMap<>(); // Initialize if not set
+            cartItemsMap = new HashMap<>();
             session.setAttribute("cartItems", cartItemsMap);
         }
 	    Collection<CartItem> cartItems = cartItemsMap.values();
 		
-		// thảo
-		
 		User user = (User) session.getAttribute("user");
-		boolean isAdmin = false; // Initialize isAdmin
+		boolean isAdmin = false;
 
 		if (user != null) {
 		    isAdmin = userService.isAdmin(user.getId());

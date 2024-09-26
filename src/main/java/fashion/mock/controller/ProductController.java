@@ -5,7 +5,10 @@
 package fashion.mock.controller;
 
 import fashion.mock.model.Product;
+import fashion.mock.model.User;
 import fashion.mock.service.ProductService;
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
@@ -37,6 +40,19 @@ public class ProductController {
 	private CategoryService categoryService;
 	@Autowired
 	private CartItemService cartItemService;
+	@Autowired
+    private UserService userService;
+	
+	private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
 
 	// Thêm phương thức mới để xử lý đường dẫn ảnh
 	@ModelAttribute("imagePath")
@@ -45,9 +61,12 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public String listProducts(Model model, @RequestParam(defaultValue = "0") int page,
+	public String listProducts(Model model, HttpSession session,RedirectAttributes redirectAttributes, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size) {
 		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, size));
+		if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        } 
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", productPage.getTotalPages());
@@ -56,14 +75,20 @@ public class ProductController {
 	}
 
 	@GetMapping("/new")
-	public String showAddProductForm(Model model) {
+	public String showAddProductForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+		if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        } 
 		model.addAttribute("product", new Product());
 		model.addAttribute("categories", categoryService.getAllCategories());
 		return "adminformproduct";
 	}
 
 	@GetMapping("/edit/{id}")
-	public String showUpdateProductForm(@PathVariable Long id, Model model) {
+	public String showUpdateProductForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+		if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        } 
 		Product product = productService.getProductById(id)
 				.orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
 		model.addAttribute("product", product);
