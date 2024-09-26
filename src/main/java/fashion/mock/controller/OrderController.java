@@ -81,12 +81,12 @@ public class OrderController {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            return "redirect:/login/loginform"; // Chuyển hướng nếu không có người dùng
+            return "redirect:/login/loginform"; 
         }
 
         boolean isAdmin = userService.isAdmin(user.getId());
         if (!isAdmin) {
-            return "403"; // Chuyển hướng nếu không phải admin
+            return "403"; 
         }
 
         orderService.updateOrderStatus(id, status);
