@@ -1,0 +1,17 @@
+nav.navbar.navbar-expand-lg.navbar-light {
+	position: fixed;
+}
+
+.card {
+	box-shadow: none !important; /* Removing shadow */
+	transition: none !important; /* Disabling transition */
+}
+
+.card:hover {
+	transform: none !important; /* Disabling hover effect */
+}
+
+.card-img-top {
+	height: auto !important; /* Adjusting height */
+	object-fit: contain !important; /* Changing object-fit */
+}
