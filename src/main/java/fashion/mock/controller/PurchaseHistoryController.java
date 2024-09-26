@@ -37,7 +37,7 @@ public class PurchaseHistoryController {
     }
     @GetMapping("purchase-history")
     public String viewPurchaseHistory(HttpSession session, @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "12") int size, Model model) {
+            @RequestParam(value = "size", defaultValue = "10") int size, Model model) {
 
         User user = (User) session.getAttribute("user");
         boolean isAdmin = false; // Initialize isAdmin
