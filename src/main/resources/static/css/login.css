@@ -77,3 +77,18 @@
 .login-box a:hover {
     color: #555555; /* Màu xám đậm khi hover */
 }
+/* CSS cho nút đóng (X) */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+}
+.close-btn:hover {
+    color: red;
+}
+.login-box {
+    position: relative;
+}

@@ -38,7 +38,7 @@ public class SecurityConfig {
 						.permitAll() // Cho phép truy cập không cần xác thực
 						.requestMatchers("/admin").hasAuthority("ADMIN") // Chỉ ADMIN mới được truy cập
 						.anyRequest().authenticated() // Các yêu cầu khác phải xác thực
-				).formLogin(form -> form.loginPage("/home") // Trang đăng nhập tùy chỉnh
+				).formLogin(form -> form.loginPage("/login/loginform") // Trang đăng nhập tùy chỉnh
 						.defaultSuccessUrl("/home", true) // Chuyển hướng sau khi đăng nhập thành công
 						.permitAll())
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/home") // Chuyển hướng sau khi đăng

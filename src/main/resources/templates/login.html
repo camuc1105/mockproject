@@ -11,6 +11,8 @@
 <div
 		class="login-container d-flex align-items-center justify-content-center">
 	<div class="login-box">
+		<!-- Nút "X" để quay lại trang trước đó -->
+		<a class="close-btn" onclick="goBack()"><i class="fas fa-times"></i></a>
 		<h2 class="text-center mb-4">Đăng Nhập</h2>
 		<form th:action="@{/login/loginsuccess}" method="post"
 			  th:object="${user}">
