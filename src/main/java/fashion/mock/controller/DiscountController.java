@@ -12,9 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fashion.mock.model.Discount;
+import fashion.mock.model.User;
 import fashion.mock.service.DiscountService;
 import fashion.mock.service.ProductService;
-
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -27,10 +29,29 @@ public class DiscountController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+    
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
+    
     @GetMapping
-    public String listDiscounts(Model model, 
+    public String listDiscounts(Model model, HttpSession session, 
                                 @RequestParam(defaultValue = "0") int page, 
-                                @RequestParam(defaultValue = "5") int size) {
+                                @RequestParam(defaultValue = "5") int size, 
+                                RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
+        
         Page<Discount> discountPage = discountService.getAllDiscounts(PageRequest.of(page, size));
         model.addAttribute("discounts", discountPage.getContent());
         model.addAttribute("currentPage", page);
@@ -40,14 +61,22 @@ public class DiscountController {
     }
 
     @GetMapping("/new")
-    public String showAddDiscountForm(Model model) {
+    public String showAddDiscountForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
+        
         model.addAttribute("discount", new Discount());
         model.addAttribute("products", productService.getAllProducts());
         return "adminformdiscount";
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateDiscountForm(@PathVariable Long id, Model model) {
+    public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
+        
         Discount discount = discountService.getDiscountById(id)
                 .orElseThrow(() -> new RuntimeException("Discount không tồn tại"));
         model.addAttribute("discount", discount);
@@ -108,7 +137,10 @@ public class DiscountController {
     public String searchDiscounts(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
                                   @RequestParam(defaultValue = "0") int page, 
                                   @RequestParam(defaultValue = "5") int size,
-                                  Model model) {
+                                  Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         if (page < 0) {
             page = 0;
         }

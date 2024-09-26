@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fashion.mock.model.User;
 import fashion.mock.service.RoleService;
 import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -35,14 +38,29 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
    
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping
-    public String listUsers(Model model, 
+    public String listUsers(Model model, HttpSession session, RedirectAttributes redirectAttributes,  
                             @RequestParam(defaultValue = "0") int page, 
                             @RequestParam(defaultValue = "5") int size) {
+    	 if (!checkAdminAccess(session, model, redirectAttributes)) {
+             return "redirect:/home";
+         }
+        
         Page<User> userPage = userService.getAllUsers(PageRequest.of(page, size));
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("currentPage", page);
@@ -55,7 +73,10 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/new")
-    public String showAddUserForm(Model model) {
+    public String showAddUserForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminformuser";
@@ -65,19 +86,23 @@ public class UserController {
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/edit/{id}")
-    public String showUpdateUserForm(@PathVariable Long id, Model model) {
-        User user = userService.getUserById(id)
+    public String showUpdateUserForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
+        
+        User users = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
-        model.addAttribute("user", user);
+        model.addAttribute("user", users);
         model.addAttribute("allRoles", roleService.getAllRoles());
         
         // Lấy danh sách các roleId đã chọn của user
-        List<Long> selectedRoleIds = user.getUserRoles().stream()
+        List<Long> selectedRoleIds = users.getUserRoles().stream()
                 .map(userRole -> userRole.getRole().getId())
                 .collect(Collectors.toList());
         model.addAttribute("selectedRoleIds", selectedRoleIds);
         
-        model.addAttribute("selectedStatus", user.getStatus());
+        model.addAttribute("selectedStatus", users.getStatus());
         return "adminformuser";
     }
 
@@ -98,8 +123,8 @@ public class UserController {
         }
 
         try {
-            userService.addUserWithRoles(user, roleIds); // Role validation now handled in the service
-            redirectAttributes.addFlashAttribute("successMessage", "User added successfully!");
+            userService.addUserWithRoles(user, roleIds);
+            redirectAttributes.addFlashAttribute("successMessage", "Người dùng đã được thêm thành công!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());
@@ -113,6 +138,23 @@ public class UserController {
                              @RequestParam(required = false) List<Long> roleIds, 
                              RedirectAttributes redirectAttributes,
                              Model model) {
+        // Lấy người dùng hiện có từ cơ sở dữ liệu
+        User existingUser = userService.getUserById(user.getId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        // Đặt email và mật khẩu về giá trị hiện có
+        user.setEmail(existingUser.getEmail());
+        user.setPassword(existingUser.getPassword());
+
+        // Loại bỏ lỗi email và mật khẩu khỏi BindingResult
+        List<FieldError> errorsToKeep = bindingResult.getFieldErrors().stream()
+                .filter(fe -> !fe.getField().equals("email") && !fe.getField().equals("password"))
+                .collect(Collectors.toList());
+        bindingResult = new BeanPropertyBindingResult(user, "user");
+        for (FieldError error : errorsToKeep) {
+            bindingResult.addError(error);
+        }
+
         if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
             if (roleIds == null || roleIds.isEmpty()) {
                 model.addAttribute("roleError", "Vui lòng chọn ít nhất một vai trò.");
@@ -120,9 +162,10 @@ public class UserController {
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminformuser";
         }
+
         try {
             userService.updateUserWithRoles(user, roleIds);
-            redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật người dùng thành công!");
             return "redirect:/users";
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "error.user", e.getMessage());
@@ -146,16 +189,19 @@ public class UserController {
             redirectAttributes.addFlashAttribute("messageType", "success");
         }
         return "redirect:/users";
-    }
+    } 
     
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
+	 */ 
     @GetMapping("/search")
     public String searchUsers(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
                               @RequestParam(defaultValue = "0") int page, 
                               @RequestParam(defaultValue = "5") int size,
-                              Model model) {
+                              Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         Page<User> userPage = userService.searchUsers(searchTerm, PageRequest.of(page, size));
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("currentPage", page);

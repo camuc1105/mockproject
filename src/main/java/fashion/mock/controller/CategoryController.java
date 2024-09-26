@@ -5,6 +5,7 @@ package fashion.mock.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import fashion.mock.model.Category;
+import fashion.mock.model.User;
 import fashion.mock.service.CategoryService;
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -29,11 +34,25 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserService userService;
+    
+    private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !userService.isAdmin(user.getId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            return false;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", true);
+        return true;
+    }
+    
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
     @GetMapping("/nav")
-    public String listNavigation(Model model) {
+    public String listNavigation(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         // Lấy tất cả danh mục
         List<Category> categories = categoryService.getAllCategories();
 
@@ -45,7 +64,10 @@ public class CategoryController {
         List<Category> quanCategories = categories.stream()
             .filter(category -> category.getCategoryName().startsWith("Quần"))
             .collect(Collectors.toList());
-
+        //phân quyền
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }
         // Thêm danh sách "Áo" và "Quần" vào model
         model.addAttribute("aoCategories", aoCategories);
         model.addAttribute("quanCategories", quanCategories);
@@ -57,10 +79,15 @@ public class CategoryController {
 	 */
     // Hiển thị danh sách category
     @GetMapping
-    public String listCategories(Model model, 
+    public String listCategories(Model model, HttpSession session,RedirectAttributes redirectAttributes,
                                  @RequestParam(defaultValue = "0") int page, 
                                  @RequestParam(defaultValue = "5") int size) {
+    	
         Page<Category> categoryPage = categoryService.getAllCategories(PageRequest.of(page, size));
+        //phân quyền
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }  
         model.addAttribute("categories", categoryPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", categoryPage.getTotalPages());
@@ -73,7 +100,10 @@ public class CategoryController {
 	 */
     // Hiển thị form thêm mới category
     @GetMapping("/new")
-    public String showAddCategoryForm(Model model) {
+    public String showAddCategoryForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         model.addAttribute("category", new Category());
         return "adminformcategory";
     }
@@ -83,7 +113,10 @@ public class CategoryController {
 	 */
     // Hiển thị form sửa category
     @GetMapping("/edit/{id}")
-    public String showUpdateCategoryForm(@PathVariable Long id, Model model) {
+    public String showUpdateCategoryForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+        if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "redirect:/home";
+        }        
         Category category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
         model.addAttribute("category", category);
@@ -154,10 +187,14 @@ public class CategoryController {
 	 */
     // Tìm kiếm
     @GetMapping("/search")
-    public String searchCategories(@RequestParam(value = "searchTerm", required = false) String searchTerm, 
+    public String searchCategories(@RequestParam(value = "searchTerm", required = false) String searchTerm,  HttpSession session,
                                    @RequestParam(defaultValue = "0") int page, 
                                    @RequestParam(defaultValue = "5") int size,
-                                   Model model) {
+                                   Model model,  RedirectAttributes redirectAttributes) {
+   	 //phân quyền
+    	   if (!checkAdminAccess(session, model, redirectAttributes)) {
+               return "redirect:/home";
+           }        
     	  if (page < 0) {
     	        page = 0;
     	    }
