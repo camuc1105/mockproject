@@ -31,33 +31,39 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/checkout")
 public class CheckoutController {
-	
+
 	private static final String SELECTED_CART_ITEMS = "selectedCartItems";
 	private static final String CART_ITEMS = "cartItems";
 
+	private final ShoppingCartUtils shoppingCartUtils;
+	private final CheckoutService checkoutService;
 	private final OrderService orderService;
 	private final OrderDetailService orderDetailService;
 	private final ProductService productService;
-	private final CheckoutService checkoutService;
 	private final EmailService emailService;
-
-	public CheckoutController(OrderService orderService, OrderDetailService orderDetailService,
-			CheckoutService checkoutService, ProductService productService, EmailService emailService) {
-		this.orderService = orderService;
-		this.orderDetailService = orderDetailService;
-		this.checkoutService = checkoutService;
-		this.productService = productService;
-		this.emailService = emailService;
-	}
-
+	
+	
+public CheckoutController(ShoppingCartUtils shoppingCartUtils, CheckoutService checkoutService,
+		OrderService orderService, OrderDetailService orderDetailService, ProductService productService,
+		EmailService emailService) {
+	this.shoppingCartUtils = shoppingCartUtils;
+	this.checkoutService = checkoutService;
+	this.orderService = orderService;
+	this.orderDetailService = orderDetailService;
+	this.productService = productService;
+	this.emailService = emailService;
+}
 	@GetMapping
 	public String showCheckoutPage(HttpSession session, Model model) {
-
-		// Check User Login. If not, to login page
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/login/loginform";
+		
+		String redirect = shoppingCartUtils.checkLoginAndCart(session, model);
+		// If the utility method returned a redirect path, return it
+		if (redirect != null) {
+			return redirect;
 		}
+		
+		// Prepare category info
+        shoppingCartUtils.prepareCategoryInfo(model);
 
 		// Retrieve the selected cart items from session
 		@SuppressWarnings("unchecked")
@@ -74,7 +80,6 @@ public class CheckoutController {
 
 		// Pass selected items to model
 		model.addAttribute(SELECTED_CART_ITEMS, selectedCartItems);
-		model.addAttribute("user", user);
 		model.addAttribute("payments", payments); // Add the user to the model
 		model.addAttribute("totalPrice", totalPrice); // Pass the total price to the view
 
@@ -83,9 +88,7 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/submit")
-	public String submitCheckout(
-			@RequestParam String paymentMethod, 
-			@RequestParam String shippingMethod,
+	public String submitCheckout(@RequestParam String paymentMethod, @RequestParam String shippingMethod,
 			HttpSession session, Model model) {
 
 		User user = (User) session.getAttribute("user");

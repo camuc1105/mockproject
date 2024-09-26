@@ -12,27 +12,22 @@ public class CartItem {
 	private String name;
 	private double price;
 	private String imgLink;
+	private String color;
+	private String size;
 	private int quantity = 1;
 
 	public CartItem() {
-		super();
 	}
 
-	public CartItem(Long productID, String name, double price, String imgLink, int quantity) {
-		super();
+	public CartItem(Long productID, String name, double price, String imgLink, String color, String size,
+			int quantity) {
 		this.productID = productID;
 		this.name = name;
 		this.price = price;
 		this.imgLink = imgLink;
+		this.color = color;
+		this.size = size;
 		this.quantity = quantity;
-	}
-
-	public String getImgLink() {
-		return imgLink;
-	}
-
-	public void setImgLink(String imgLink) {
-		this.imgLink = imgLink;
 	}
 
 	public Long getProductID() {
@@ -59,18 +54,36 @@ public class CartItem {
 		this.price = price;
 	}
 
+	public String getImgLink() {
+		return imgLink;
+	}
+
+	public void setImgLink(String imgLink) {
+		this.imgLink = imgLink;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	@Override
-	public String toString() {
-		return "CartItem [productID=" + productID + ", name=" + name + ", price=" + price + ", quantity=" + quantity
-				+ "]";
 	}
 
 }
