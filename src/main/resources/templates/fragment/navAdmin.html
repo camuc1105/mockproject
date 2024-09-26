@@ -13,13 +13,16 @@
 		<a href="#"><img id="userAvatar"
 			src="https://tintuc.dienthoaigiakho.vn/wp-content/uploads/2024/01/c39af4399a87bc3d7701101b728cddc9.jpg"
 			alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
+
 			<span id="username" th:text="${user.userName}"></span></a>  
+
 
 	</div>
 	<div class="submenu">
 		<div class="nav-item">
-			<a th:href="@{/logout}" id="logoutBtn">Đăng
-				xuất</a>
+
+			<a th:href="@{/logout}" id="logoutBtn">Đăng xuất</a>
+
 		</div>
 	</div>
 	<div class="nav-item has-submenu">
@@ -64,6 +67,14 @@
 		</div>
 		<div class="nav-item">
 			<a href="/discounts">Hiển thị giảm giá</a>
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-shopping-cart"></i> Giảm giá</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/order">Cập nhật đơn hàng</a>
 		</div>
 	</div>
 </div>

@@ -3,10 +3,15 @@
  */
 package fashion.mock.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import fashion.mock.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-
+/**
+ * @author Duong Van Luc 01/07/2000
+ */
+    Page<Order> findById(Long id, Pageable pageable);
 }
