@@ -61,4 +61,8 @@ public class OrderService {
     public Page<Order> getOrdersWithPagination(Pageable pageable) {
         return orderRepository.findAll(pageable);
     }
+    
+    public Page<Order> findById(Long id, Pageable pageable) {
+        return orderRepository.findById(id, pageable);
+    }
 }
