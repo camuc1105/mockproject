@@ -1,3 +1,4 @@
+ <!--  Author: Ngô Văn Quốc Thắng 11/05/1996 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -35,18 +36,15 @@
 					<div class="form-section">
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="email">Email:</label> <input class="form-control"
-									type="email" id="email" name="email" th:value="${user.email}"
-									th:disabled="${user.id != null}" /> <small id="emailError"
+								<label for="email">Email:</label> 
+								<input class="form-control" type="email" id="email" name="email" th:value="${user.email}" th:readonly="${user.id != null}" /> 
+								<small id="emailError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="password">Mật khẩu:</label> <input
-									class="form-control" type="password" id="password"
-									name="password" th:value="${user.password}"
-									th:disabled="${user.id != null}" /> <small id="passwordError"
+								<label for="password">Mật khẩu:</label> <input class="form-control" type="password" id="password" name="password" th:value="${user.password}" th:readonly="${user.id != null}" /> <small id="passwordError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('password')}"
@@ -252,7 +250,7 @@
 												if (isValid) {
 													$("#email, #password")
 															.prop("disabled",
-																	false);
+																	false);  
 													this.submit();
 												}
 											});

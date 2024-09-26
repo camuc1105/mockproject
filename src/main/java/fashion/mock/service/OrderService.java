@@ -53,12 +53,12 @@ public class OrderService {
         order.setUpdatedDate(LocalDate.now());;
         orderRepository.save(order);     
     }
- 
-    /**
-     * @author Duong Van Luc 01/07/2000
-     */
     
     public Page<Order> getOrdersWithPagination(Pageable pageable) {
         return orderRepository.findAll(pageable);
+    }
+    
+    public Page<Order> findById(Long id, Pageable pageable) {
+        return orderRepository.findById(id, pageable);
     }
 }

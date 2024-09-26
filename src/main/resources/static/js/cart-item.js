@@ -113,9 +113,20 @@ function updateCartForm() {
     $('.product-checkbox:checked').each(function() {
         var productId = $(this).data('id');
         var name = $(this).data('name');
+        var color = $(this).closest('tr').find('td').eq(3).text();
+        var size = $(this).closest('tr').find('td').eq(4).text();
         var quantity = parseInt($(this).closest('tr').find('input.quantity-input').val());
         var price = parseFloat($(this).closest('tr').find('td[data-price]').data('price'));
-        cartItems.push({ productId: productId, name: name, quantity: quantity, price: price });
+        var imgLink = $(this).closest('tr').find('img').attr('src');
+
+        cartItems.push({ 
+			productId: productId, 
+			name: name, 
+			color: color,
+			size: size,
+			quantity: quantity, 
+			price: price, 
+			imgLink: imgLink});
     });
     // Convert selected items to JSON and update the hidden input field
     $('#cart-items').val(JSON.stringify(cartItems));

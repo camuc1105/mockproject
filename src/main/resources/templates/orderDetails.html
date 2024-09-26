@@ -1,11 +1,14 @@
 <!-- Author Tran Thien Thanh 09/04/1996 -->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="~{/fragment/common-header :: commonHeader}"></head>
+<title>FFashion - Order Detail</title>
+<head th:replace="~{/fragment/head :: head}"></head>
+<link rel="stylesheet" th:href="@{/css/card-supress.css}">
 
 <body>
-	<main class="container mt-4">
+	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	
+	<main class="container mt-5 pt-5">
 		<div class="row">
 			<div class="col col-8">
 				<h4>
@@ -47,7 +50,6 @@
 				<div class="card h-100">
 					<div class="card-body">
 						<h5 class="card-title">Phương thức thanh toán</h5>
-						<!-- Lấy phương thức thanh toán từ TransactionHistory -->
 						<p class="card-text"
 							th:text="${order.transactionHistories[0].payment.paymentMethod}"></p>
 					</div>
@@ -84,8 +86,8 @@
 					<tbody>
 						<tr th:each="detail : ${orderDetails}">
 							<td><img
-								th:src="@{'/imgProduct/' + ${detail.product.images[0].imgLink}}"
-								th:alt="${detail.product.productName}" class="img-thumbnail" width="100">
+								th:src="@{'/images/' + ${detail.product.images[0].imgLink}}"
+								th:alt="${detail.product.productName}" width="100">
 							</td>
 							<td>
 								<p class="productName" th:text="${detail.product.productName}"></p>
@@ -111,8 +113,7 @@
 			</div>
 		</div>
 	</main>
-
-	<div th:replace="~{/fragment/common-footer :: script}" ></div>
+	<div th:replace="~{/fragment/footer :: footer}"></div>
 	
 </body>
 </html>

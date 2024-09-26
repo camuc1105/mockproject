@@ -1,10 +1,15 @@
 <!-- @author Tran Thien Thanh 09/04/1996 -->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/common-header :: commonHeader}"></head>
+<title>FFashion - Checkout</title>
+<head th:replace="~{/fragment/head :: head}"></head>
+<link rel="stylesheet" th:href="@{/css/card-supress.css}">
+
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Thanh toán đơn hàng</h2>
+	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	
+    <div class="container mt-5 pt-5">
+        <h2 class="mb-3">Thanh toán đơn hàng</h2>
 
         <!-- Địa chỉ nhận hàng -->
         <div class="row mb-4">
@@ -38,8 +43,14 @@
                             </thead>
                             <tbody>
 	                            <tr th:each="cartItem : ${selectedCartItems}">
-		                            <td><img th:src="@{/images/vay.jpg}" alt="Product Image" class="img-thumbnail" width="100"></td>
-		                            <td th:text="${cartItem.name}"></td>
+		                            <td>
+		                            	<img th:src="@{${cartItem.imgLink}}" th:alt="${cartItem.name}" width="50" height="50" />
+		                            </td>
+		                            <td>
+		                            	<p th:text="${cartItem.name}"></p>
+		                            	<p th:text="${cartItem.color}"></p>
+		                            	<p th:text="${cartItem.size}"></p>
+		                            </td>
 		                            <td th:text="${cartItem.price} + ' đ'"></td>
 		                            <td th:text="${cartItem.quantity}"></td>
 		                            <td th:text="${cartItem.price * cartItem.quantity} + ' đ'"></td>
@@ -128,8 +139,8 @@
             </div>
         </form>
     </div>
-
-    <div th:replace="~{/fragment/common-footer :: script}" ></div>
+    <div th:replace="~{/fragment/footer :: footer}"></div>
+    
     <script th:src="@{/js/checkout.js}" defer></script>
 </body>
 </html>

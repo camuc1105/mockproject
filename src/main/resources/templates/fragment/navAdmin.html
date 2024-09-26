@@ -1,40 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
-	 <div th:fragment="navAdmin" class="col-md-2 sidebar">
-          <div class="logo nav-item"><a href="admin.html">Quản lý</a></div>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<div th:fragment="navAdmin" class="col-md-2 sidebar">
+	<!-- Logo và Tên Shop -->
+	<a class="navbar-brand d-flex align-items-center text-danger mb-2"
+		th:href="@{/home}"> <img
+		src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/111347945_149761543443087_5072562482487010106_n.png?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=8ZvgBmWDyEoQ7kNvgHa3jNb&_nc_ht=scontent.fhan14-2.fna&_nc_gid=A6xdGRhrwMtPnWPksQczALV&oh=00_AYDXjNbsaR1cHwD4Qo5pZ3CgQP4Un25AasKSKWt7lzRTUg&oe=6705D921"
+		alt="Logo" width="40" height="40" class="mr-2"> <span>F
+			FASHION</span>
+	</a>
+	<div class="nav-item has-submenu">
+		<a href="#"><img id="userAvatar"
+			src="https://tintuc.dienthoaigiakho.vn/wp-content/uploads/2024/01/c39af4399a87bc3d7701101b728cddc9.jpg"
+			alt="Avatar" width="30" height="30" class="rounded-circle mr-2">
 
-          <div class="nav-item has-submenu">
-            <a href="#"><i class="fas fa-box"></i> Sản Phẩm</a>
-          </div>
-          <div class="submenu">
-            <div class="nav-item"><a href="/products/new">Thêm sản phẩm</a></div>
-            <div class="nav-item"><a href="/products">Hiển thị sản phẩm</a></div>
-          </div>
-          <div class="nav-item has-submenu">
-            <a href="#"><i class="fas fa-box"></i> Danh Mục</a>
-          </div>
-          <div class="submenu">
-            <div class="nav-item">
-              <a href="/categories/new">Thêm danh mục</a>
-            </div>
-            <div class="nav-item">
-              <a href="/categories">Hiển thị danh mục</a>
-            </div>
-          </div>
-          <div class="nav-item has-submenu">
-            <a href="#"><i class="fas fa-users"></i> Người dùng</a>
-          </div>
-          <div class="submenu">
-            <div class="nav-item"><a href="/users/new">Thêm người dùng</a></div>
-            <div class="nav-item"><a href="/users">Hiển thị người dùng</a></div>
-          </div>
-           <div class="nav-item has-submenu">
-                    <a href="#"><i class="fas fa-percent"></i> Giảm giá</a>
-                </div>
-                <div class="submenu">
-                    <div class="nav-item"><a href="/discounts/new">Thêm giảm giá</a></div>
-                    <div class="nav-item"><a href="/discounts">Hiển thị giảm giá</a></div>
-                </div>
-        </div>
+			<span id="username" th:text="${user.userName}"></span></a>  
+
+
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+
+			<a th:href="@{/logout}" id="logoutBtn">Đăng xuất</a>
+
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-box"></i> Sản Phẩm</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/products/new">Thêm sản phẩm</a>
+		</div>
+		<div class="nav-item">
+			<a href="/products">Hiển thị sản phẩm</a>
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-box"></i> Danh Mục</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/categories/new">Thêm danh mục</a>
+		</div>
+		<div class="nav-item">
+			<a href="/categories">Hiển thị danh mục</a>
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-users"></i> Người dùng</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/users/new">Thêm người dùng</a>
+		</div>
+		<div class="nav-item">
+			<a href="/users">Hiển thị người dùng</a>
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-percent"></i> Giảm giá</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/discounts/new">Thêm giảm giá</a>
+		</div>
+		<div class="nav-item">
+			<a href="/discounts">Hiển thị giảm giá</a>
+		</div>
+	</div>
+	<div class="nav-item has-submenu">
+		<a href="#"><i class="fas fa-shopping-cart"></i> Giảm giá</a>
+	</div>
+	<div class="submenu">
+		<div class="nav-item">
+			<a href="/order">Cập nhật đơn hàng</a>
+		</div>
+	</div>
+</div>
+
+
 </html>

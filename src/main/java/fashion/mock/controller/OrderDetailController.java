@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import fashion.mock.model.Order;
 import fashion.mock.model.OrderDetail;
@@ -19,22 +20,31 @@ import fashion.mock.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/orderDetail")
 public class OrderDetailController {
 
 	private final OrderService orderService;
 	private final OrderDetailService orderDetailService;
+	private final ShoppingCartUtils shoppingCartUtils;
 
-	public OrderDetailController(OrderService orderService, OrderDetailService orderDetailService) {
+	public OrderDetailController(OrderService orderService, OrderDetailService orderDetailService,
+			ShoppingCartUtils shoppingCartUtils) {
 		this.orderService = orderService;
 		this.orderDetailService = orderDetailService;
+		this.shoppingCartUtils = shoppingCartUtils;
 	}
 
-	@GetMapping("/orderDetail/{id}")
+	@GetMapping("/{id}")
 	public String getOrderDetail(@PathVariable Long id, Model model, HttpSession session) {
+		String redirect = shoppingCartUtils.checkLoginAndCart(session, model);
+		// If the utility method returned a redirect path, return it
+		if (redirect != null) {
+			return redirect;
+		}
+		// Prepare category info
+        shoppingCartUtils.prepareCategoryInfo(model);
+		
 		User user = (User) session.getAttribute("user");
-		if (user == null) {
-	        return "redirect:/login/loginform"; // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-	    }
 		
 		Optional<Order> orderOptional = orderService.getOrderById(id);
 		if (orderOptional.isEmpty()) {
