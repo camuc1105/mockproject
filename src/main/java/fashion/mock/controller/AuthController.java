@@ -33,7 +33,6 @@ public class AuthController {
 
 	@GetMapping("/loginform")
     public String login(Model model){
-        System.out.println("===homebuoi");
         model.addAttribute("user", new User());
         return "login";
     }

@@ -92,7 +92,6 @@ public class ShoppingCartController {
 
 	@PostMapping("/add")
 	public String addCart(@RequestParam Long productId,
-			@RequestParam String productName, 
 			@RequestParam double price,
 			@RequestParam int quantity, 
 			@RequestParam String action, 
@@ -121,12 +120,15 @@ public class ShoppingCartController {
             existingItem.setQuantity(existingItem.getQuantity() + quantity);
         } else {
             // Add new item
+        	Product product = productService.findProductById(productId);
             CartItem newItem = new CartItem();
             newItem.setProductID(productId);
-            newItem.setName(productName);
+            newItem.setName(product.getProductName());
             newItem.setPrice(price);
             newItem.setQuantity(quantity);
             newItem.setImgLink(imgLink);
+            newItem.setColor(product.getColor());
+            newItem.setSize(product.getSize());
             cartItemsMap.put(productId, newItem);
             if ("buy".equals(action)) {
 				return "redirect:/shopping-cart/view";
