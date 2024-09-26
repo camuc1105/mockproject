@@ -71,9 +71,15 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("/add")
-	public String addCart(@RequestParam Long productId, @RequestParam double price,
-			@RequestParam int quantity, @RequestParam String action, @RequestParam String imgLink,
-			RedirectAttributes redirectAttributes, HttpSession session, Model model) {
+
+	public String addCart(@RequestParam Long productId,
+			@RequestParam double price,
+			@RequestParam int quantity, 
+			@RequestParam String action, 
+			@RequestParam String imgLink,
+			RedirectAttributes redirectAttributes,
+			HttpSession session, Model model) {
+
 		User user = (User) session.getAttribute("user");
 
 		if (user == null) {
@@ -81,6 +87,7 @@ public class ShoppingCartController {
 		}
 
 		// Retrieve cartItems from session
+
 		@SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
 		if (cartItemsMap == null) {
@@ -109,6 +116,7 @@ public class ShoppingCartController {
 		redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng!");
 
 		return "buy".equals(action) ? REDIRECT_CART_VIEW : "redirect:/shop/" + productId;
+
 	}
 
 	@GetMapping("/delete/{id}")
@@ -149,9 +157,6 @@ public class ShoppingCartController {
 			return REDIRECT_CART_VIEW; // Handle error, redirect back to cart
 		}
 		
-//		for (CartItem cartItem : selectedItems) {
-//			System.out.println("Mau sac" + cartItem.getColor());
-//		}
 		List<String> errorMessages = new ArrayList<>();
 
 		// At this point, you have the selected cart items in 'selectedItems'

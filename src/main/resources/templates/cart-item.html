@@ -24,6 +24,7 @@
             </ul>
         </div>
 
+
         <form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
             <table class="table">
                 <thead>
@@ -31,12 +32,12 @@
                         <th><input type="checkbox" id="selectAll"> Chọn tất cả</th>
                         <th>Hình ảnh</th>
                         <th>Tên</th>
-                        <th>Màu sắc</th>
-                        <th>Size</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Thành tiền</th>
-                        <th>Hành động</th>
+                       	<th style="text-align: center;">Màu sắc</th>
+                        <th style="text-align: center;">Kích cỡ</th>
+                        <th style="text-align: center;">Giá</th>
+                        <th style="text-align: center;">Số lượng</th>
+                        <th style="text-align: center;">Thành tiền</th>
+                        <th style="text-align: center;">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,10 +63,10 @@
                                     data-id="${item.productID}">+</button>
                         </td>
                         <td class="item-total" th:text="${item.price * item.quantity}"
-                            th:attr="data-total=${item.price * item.quantity}"></td>
+                            th:attr="data-total=${item.price * item.quantity}" style="text-align: center;" ></td>
                         <td>
-                            <a class="btn btn-sm btn-danger"
-                               th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}">Xoá</a>
+                            <div class="text-center"><a class="btn btn-sm btn-danger"
+							              th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}" >Xoá</a></div>
                         </td>
                     </tr>
                 </tbody>

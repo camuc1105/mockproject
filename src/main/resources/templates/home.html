@@ -25,8 +25,8 @@
 <body>
 	<div th:replace="~{/fragment/navHome :: navHome}"></div>
 	<!-- Slider ngay dưới Navbar -->
-	<div id="bannerCarousel" class="carousel slide mt-5" data-ride="carousel"
-		data-interval="3000">
+	<div id="bannerCarousel" class="carousel slide mt-5"
+		data-ride="carousel" data-interval="3000">
 		<!-- Indicators (dấu chấm dưới slide) -->
 		<ol class="carousel-indicators">
 			<li data-target="#bannerCarousel" data-slide-to="0" class="active"></li>
@@ -104,42 +104,46 @@
 	</div>
 
 	<!-- Phần hiển thị sản phẩm mới -->
-		<div class="container mt-5">
-		    <h2 class="text-center mb-4">Sản phẩm mới</h2>
-		    <div class="row">
-		        <div class="col-md-3 mb-4" th:each="product, productStat : ${newProducts}">
-		            <div class="card product-card">
-		                <img th:src="@{'/images/' + ${product.images[0].imgLink}}"
-		                     class="card-img-top product-img" alt="Product Image" />
-		                <div class="cart-overlay">
-		                    <a th:href="@{'/shop/' + ${product.id}}"
-		                       th:if="${product.quantity > 0}"
-		                       class="btn btn-danger btn-add-cart">Thêm vào giỏ hàng</a>
-		                    <a th:if="${product.quantity <= 0}" class="btn btn-danger btn-add-cart">Đã hết hàng</a>
-		                </div>
-		                <div class="card-body text-center">
-		                    <h5 class="card-title" th:text="${product.productName}">Tên sản phẩm</h5>
-		                    <p class="card-text">
-		                        <span th:if="${productsOnDiscount[productStat.index]}"
-		                              class="original-price"
-		                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
-		                              style="text-decoration: line-through; color: #999;">Giá gốc</span>
-		                        <span th:if="${productsOnDiscount[productStat.index]}"
-		                              class="discounted-price"
-		                              th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
-		                              style="color: #ff0000; font-weight: bold;">Giá mới</span>
-		                        <span th:unless="${productsOnDiscount[productStat.index]}"
-		                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
-		                    </p>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
+	<div class="container mt-5">
+		<h2 class="text-center mb-4">Sản phẩm mới</h2>
+		<div class="row">
+			<div class="col-md-3 mb-4"
+				th:each="product, productStat : ${newProducts}">
+				<div class="card product-card">
+					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
+						class="card-img-top product-img" alt="Product Image" />
+					<div class="cart-overlay">
+						<a th:href="@{'/shop/' + ${product.id}}"
+							th:if="${product.quantity > 0}"
+							class="btn btn-danger btn-add-cart">Thêm vào giỏ hàng</a> <a
+							th:if="${product.quantity <= 0}"
+							class="btn btn-danger btn-add-cart">Đã hết hàng</a>
+					</div>
+					<div class="card-body text-center">
+						<h5 class="card-title" th:text="${product.productName}">Tên
+							sản phẩm</h5>
+						<p class="card-text">
+							<span th:if="${productsOnDiscount[productStat.index]}"
+								class="original-price"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="text-decoration: line-through; color: #999;">Giá
+								gốc</span> <span th:if="${productsOnDiscount[productStat.index]}"
+								class="discounted-price"
+								th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="color: #ff0000; font-weight: bold;">Giá mới</span> <span
+								th:unless="${productsOnDiscount[productStat.index]}"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
+	</div>
 
 	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
 	<div class="container text-center mt-4">
-		<a th:href="@{/shop}" class="btn btn-outline-success btn-lg">Xem Thêm</a>
+		<a th:href="@{/shop}" class="btn btn-outline-success btn-lg">Xem
+			Thêm</a>
 	</div>
 
 	<!-- Ảnh banner -->
@@ -152,38 +156,42 @@
 
 	<!-- Phần hiển thị danh mục áo sơ mi -->
 	<div class="container mt-5">
-        <h2 class="text-center mb-4">Áo sơ mi</h2>
-        <div class="row">
-            <div class="col-md-3 mb-4" th:each="product, productStat : ${aoSoMiProducts}" th:if="${productStat.index < 4}">
-                <div class="card product-card">
-                    <img th:src="@{'/images/' + ${product.images[0].imgLink}}"
-                         class="card-img-top product-img" alt="Product Image" />
-                    <div class="cart-overlay">
-                        <a th:href="@{'/shop/' + ${product.id}}"
-                           class="btn btn-danger btn-add-cart">Thêm vào giỏ hàng</a>
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title" th:text="${product.productName}">Tên sản phẩm</h5>
-                        <p class="card-text">
-                            <span th:if="${productsOnDiscount[productStat.index]}"
-                                  class="original-price"
-                                  th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
-                                  style="text-decoration: line-through; color: #999;">Giá gốc</span>
-                            <span th:if="${productsOnDiscount[productStat.index]}"
-                                  class="discounted-price"
-                                  th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
-                                  style="color: #ff0000; font-weight: bold;">Giá mới</span>
-                            <span th:unless="${productsOnDiscount[productStat.index]}"
-                                  th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Nút Xem Thêm cho tất cả sản phẩm -->
-    <div class="container text-center mt-4">
-    <a th:href="@{/shop(categoryId=${aoSoMiCategory.id})}" class="btn btn-outline-success btn-lg">Xem Thêm</a>
+		<h2 class="text-center mb-4">Áo sơ mi</h2>
+		<div class="row">
+			<div class="col-md-3 mb-4"
+				th:each="product, productStat : ${aoSoMiProducts}"
+				th:if="${productStat.index < 4}">
+				<div class="card product-card">
+					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
+						class="card-img-top product-img" alt="Product Image" />
+					<div class="cart-overlay">
+						<a th:href="@{'/shop/' + ${product.id}}"
+							class="btn btn-danger btn-add-cart">Thêm vào giỏ hàng</a>
+					</div>
+					<div class="card-body text-center">
+						<h5 class="card-title" th:text="${product.productName}">Tên
+							sản phẩm</h5>
+						<p class="card-text">
+							<span th:if="${productsOnDiscount[productStat.index]}"
+								class="original-price"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="text-decoration: line-through; color: #999;">Giá
+								gốc</span> <span th:if="${productsOnDiscount[productStat.index]}"
+								class="discounted-price"
+								th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
+								style="color: #ff0000; font-weight: bold;">Giá mới</span> <span
+								th:unless="${productsOnDiscount[productStat.index]}"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
+	<div class="container text-center mt-4">
+		<a th:href="@{/shop(categoryId=${aoSoMiCategory.id})}"
+			class="btn btn-outline-success btn-lg">Xem Thêm</a>
 	</div>
 	<!-- Footer -->
 	<div th:replace="~{/fragment/footer :: footer}"></div>

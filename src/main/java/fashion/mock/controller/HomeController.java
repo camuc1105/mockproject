@@ -15,6 +15,7 @@ import fashion.mock.model.CartItem;
 import fashion.mock.model.Category;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
+import fashion.mock.service.CartItemService;
 import fashion.mock.service.CategoryService;
 import fashion.mock.service.ProductService;
 import fashion.mock.service.UserService;
@@ -28,7 +29,7 @@ public class HomeController {
 	private UserService userService;
 	private final ProductService productService;
 
-	public HomeController(CategoryService categoryService, UserService userService,ProductService productService) {
+	public HomeController(CategoryService categoryService, CartItemService cartItemService, UserService userService,ProductService productService) {
 		super();
 		this.categoryService = categoryService;
 		this.userService = userService;
@@ -51,8 +52,6 @@ public class HomeController {
 		/**
 		 * Author: Lê Nguyên Minh Quý 27/06/1998
 		 */
-		List<Product> newProducts = productService.getTop4NewProducts();
-		
 		List<Product> aoSoMiProducts = productService.getProductsByCategory("Áo sơ mi");
 		
 		List<Product> products = productService.getAllProducts();
@@ -64,18 +63,15 @@ public class HomeController {
         Category aoSoMiCategory = categories.stream()
             .filter(category -> category.getCategoryName().equalsIgnoreCase("Áo sơ mi"))
             .findFirst().orElse(null);
-        
-        
+
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
-		model.addAttribute("newProducts", newProducts);
+		model.addAttribute("products", aoSoMiProducts);
 		model.addAttribute("products", products);
 	    model.addAttribute("productsOnDiscount", productsOnDiscount);
 	    model.addAttribute("discountedPrices", discountedPrices);
-	    model.addAttribute("aoSoMiProducts", aoSoMiProducts);
 	    model.addAttribute("aoSoMiCategory", aoSoMiCategory);
-
 	
 	    @SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");

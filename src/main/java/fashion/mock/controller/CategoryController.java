@@ -1,7 +1,8 @@
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
+/**
+ * Author: Ngô Văn Quốc Thắng 11/05/1996
+ */
 package fashion.mock.controller;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +31,8 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
-
-    @Autowired
-    private CategoryService categoryService;
+	@Autowired
+	private CategoryService categoryService;
 
     @Autowired
     private UserService userService;
@@ -47,33 +47,7 @@ public class CategoryController {
         model.addAttribute("isAdmin", true);
         return true;
     }
-    
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
-    @GetMapping("/nav")
-    public String listNavigation(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
-        // Lấy tất cả danh mục
-        List<Category> categories = categoryService.getAllCategories();
-
-        // Phân loại danh mục dựa trên tên bắt đầu bằng "Áo" hoặc "Quần"
-        List<Category> aoCategories = categories.stream()
-            .filter(category -> category.getCategoryName().startsWith("Áo"))
-            .collect(Collectors.toList());
-
-        List<Category> quanCategories = categories.stream()
-            .filter(category -> category.getCategoryName().startsWith("Quần"))
-            .collect(Collectors.toList());
-        //phân quyền
-        if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
-        }
-        // Thêm danh sách "Áo" và "Quần" vào model
-        model.addAttribute("aoCategories", aoCategories);
-        model.addAttribute("quanCategories", quanCategories);
-        return "navigation";
-    }
-
+  
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
@@ -107,7 +81,6 @@ public class CategoryController {
         model.addAttribute("category", new Category());
         return "adminformcategory";
     }
-
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
@@ -122,66 +95,66 @@ public class CategoryController {
         model.addAttribute("category", category);
         return "adminformcategory";
     }
+  
+	/**
+	 * Author: Ngô Văn Quốc Thắng 11/05/1996
+	 */
+	// Xử lý thêm category
+	@PostMapping
+	public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			return "adminformcategory";
+		}
+		try {
+			categoryService.addCategory(category);
+			redirectAttributes.addFlashAttribute("successMessage", "Thêm danh mục thành công!");
+			return "redirect:/categories";
+		} catch (IllegalArgumentException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+			redirectAttributes.addFlashAttribute("category", category);
+			return "redirect:/categories/new";
+		}
+	}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
-    // Xử lý thêm category
-    @PostMapping
-    public String addCategory(@Valid @ModelAttribute("category")  Category category,  BindingResult result
-    		, Model model,  RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-        	return "adminformcategory";
-        }
-        try {
-            categoryService.addCategory(category);
-            redirectAttributes.addFlashAttribute("successMessage", "Thêm danh mục thành công!");
-            return "redirect:/categories";
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("category", category);
-            return "redirect:/categories/new";
-        }
-    }
+	// Xử lý cập nhật category
+	@PostMapping("/update")
+	public String updateCategory(@Valid @ModelAttribute("category") Category category, BindingResult result,
+			Model model, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			return "adminformcategory";
+		}
+		try {
+			categoryService.updateCategory(category);
+			redirectAttributes.addFlashAttribute("successMessage", "Cập nhật danh mục thành công!");
+			return "redirect:/categories";
+		} catch (IllegalArgumentException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+			redirectAttributes.addFlashAttribute("category", category);
+			return "redirect:/categories/edit/" + category.getId();
+		}
+	}
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
-    // Xử lý cập nhật category
-    @PostMapping("/update")
-    public String updateCategory(@Valid @ModelAttribute("category")  Category category,  BindingResult result
-    		, Model model,  RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-        	return "adminformcategory";
-        }
-        try {
-            categoryService.updateCategory(category);
-            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật danh mục thành công!");
-            return "redirect:/categories";
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("category", category);
-            return "redirect:/categories/edit/" + category.getId();
-        }
-    }
+	// Xóa category
+	@GetMapping("/delete/{id}")
+	public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		boolean deleted = categoryService.deleteCategory(id);
+		if (!deleted) {
+			redirectAttributes.addFlashAttribute("message", "Category không tồn tại");
+			redirectAttributes.addFlashAttribute("messageType", "error");
+		} else {
+			redirectAttributes.addFlashAttribute("message", "Category đã được xóa thành công");
+			redirectAttributes.addFlashAttribute("messageType", "success");
+		}
+		return "redirect:/categories";
+	}
 
-	/**
-	 * Author: Ngô Văn Quốc Thắng 11/05/1996
-	 */
-    // Xóa category
-    @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        boolean deleted = categoryService.deleteCategory(id);
-        if (!deleted) {
-            redirectAttributes.addFlashAttribute("message", "Category không tồn tại");
-            redirectAttributes.addFlashAttribute("messageType", "error");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "Category đã được xóa thành công");
-            redirectAttributes.addFlashAttribute("messageType", "success");
-        }
-        return "redirect:/categories";
-    }
-    
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996
 	 */
@@ -206,4 +179,5 @@ public class CategoryController {
         model.addAttribute("searchTerm", searchTerm);
         return "adminlistcategory";
     }
+
 }

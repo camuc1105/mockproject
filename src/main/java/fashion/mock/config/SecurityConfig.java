@@ -30,7 +30,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Tắt CSRF để đơn giản hóa (chỉ nên làm điều này khi cần)
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/login/**","/categories/**","/checkout/**","/infomation/**",
+						.requestMatchers("/login/**","/checkout/**","/infomation/**","/categories/**",
 								"/discounts/**","/forget-password/**","/home/**","/orderDetail/**",
 								"/products/**","/shop/**","/information/**","/register/**",
 								"/shopping-cart/**","/users/**", "/css/**", "/js/**", "/aboutus/**","/images/**",

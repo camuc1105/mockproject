@@ -29,7 +29,7 @@ public class CartItem {
 		this.size = size;
 		this.quantity = quantity;
 	}
-
+  
 	public Long getProductID() {
 		return productID;
 	}
