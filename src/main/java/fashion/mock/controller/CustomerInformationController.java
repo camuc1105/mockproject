@@ -68,7 +68,7 @@ public class CustomerInformationController {
     public String changePassword(HttpSession session, @RequestParam("oldPassword") String oldPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmNewPassword") String confirmNewPassword) {
-        // Lấy user từ session
+
         User sessionUser = (User) session.getAttribute("user");
         if (sessionUser == null) {
             return "Bạn cần đăng nhập để thực hiện chức năng này!";
