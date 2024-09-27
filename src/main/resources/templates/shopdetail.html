@@ -34,22 +34,21 @@
 				<div class="col-md-6">
 					<h2 th:text="${product.productName}" class="mt-4">Tên sản phẩm</h2>
 
-					<!-- Input ẩn để gửi tên sản phẩm -->
+					<!-- Hidden input to send product name -->
 					<input type="hidden" name="productName"
 						th:value="${product.productName}" />
 
 					<div class="mb-3">
 						<p class="card-text">
-							<!-- Hiển thị giá gốc nếu sản phẩm có giảm giá -->
+							<!-- Show the original price if the product does not have a discount -->
 							<span th:if="${isOnDiscount}" class="original-price"
 								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
 								style="text-decoration: line-through; color: #999;">Giá
 								gốc</span>
-							<!-- Hiển thị giá mới nếu sản phẩm có giảm giá -->
+							<!-- Show new price if the product has a discount -->
 							<span th:if="${isOnDiscount}" class="discounted-price"
 								th:text="${#numbers.formatDecimal(discountedPrice, 0, 'COMMA', 0, 'POINT') + ' đ'}"
 								style="color: #ff0000; font-weight: bold;">Giá mới</span>
-							<!-- Hiển thị giá bình thường nếu sản phẩm không có giảm giá -->
 							<span th:unless="${isOnDiscount}"
 								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
 						</p>
@@ -63,7 +62,7 @@
 	                <div class="mb-3">
 	                    <a th:each="size : ${product.size}" class="btn btn-outline-secondary size-btn" th:text="${size}">Size</a>
 	                </div>
-					<!-- Input ẩn để gửi giá sản phẩm (nếu có giảm giá thì gửi giá mới) -->
+					<!-- Hidden input to send product price (if there is a discount, send a new price) -->
 					<input type="hidden" name="price"
 						th:value="${isOnDiscount} ? ${discountedPrice} : ${product.price}" />
 
@@ -216,7 +215,6 @@
 	        'Hồng': 'Pink',
 	        'Tím': 'Purple',
 	        'Cam': 'Orange'
-	        // Thêm các màu khác nếu cần
 	    };
 	
 	    document.addEventListener('DOMContentLoaded', function() {

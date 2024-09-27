@@ -57,51 +57,50 @@ public class ProductService {
 	}
 
 	public Product updateProduct(Product product, List<MultipartFile> imageFiles, List<Long> deletedImageIds) {
-        validateProduct(product);
-        Product existingProduct = productRepository.findById(product.getId())
-            .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + product.getId()));
+		validateProduct(product);
+		Product existingProduct = productRepository.findById(product.getId())
+				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + product.getId()));
 
-        existingProduct.setProductName(product.getProductName().trim());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setColor(product.getColor());
-        existingProduct.setSize(product.getSize());
-        existingProduct.setCategory(product.getCategory());
-        existingProduct.setUpdatedDate(LocalDate.now());
+		existingProduct.setProductName(product.getProductName().trim());
+		existingProduct.setDescription(product.getDescription());
+		existingProduct.setPrice(product.getPrice());
+		existingProduct.setQuantity(product.getQuantity());
+		existingProduct.setColor(product.getColor());
+		existingProduct.setSize(product.getSize());
+		existingProduct.setCategory(product.getCategory());
+		existingProduct.setUpdatedDate(LocalDate.now());
 
-        // Xử lý xóa ảnh
-        if (deletedImageIds != null && !deletedImageIds.isEmpty()) {
-            for (Long imageId : deletedImageIds) {
-                Image imageToDelete = imageRepository.findById(imageId)
-                    .orElse(null);
-                if (imageToDelete != null && imageToDelete.getProduct().getId().equals(existingProduct.getId())) {
-                    existingProduct.getImages().remove(imageToDelete);
-                    imageRepository.delete(imageToDelete);
-                    // Xóa file ảnh nếu cần
-                    fileStorageService.deleteFile(imageToDelete.getImgLink());
-                }
-            }
-        }
+		// Handle photo deletion
+		if (deletedImageIds != null && !deletedImageIds.isEmpty()) {
+			for (Long imageId : deletedImageIds) {
+				Image imageToDelete = imageRepository.findById(imageId).orElse(null);
+				if (imageToDelete != null && imageToDelete.getProduct().getId().equals(existingProduct.getId())) {
+					existingProduct.getImages().remove(imageToDelete);
+					imageRepository.delete(imageToDelete);
+					// Delete image files if necessary
+					fileStorageService.deleteFile(imageToDelete.getImgLink());
+				}
+			}
+		}
 
-        Product updatedProduct = productRepository.save(existingProduct);
+		Product updatedProduct = productRepository.save(existingProduct);
 
-        // Xử lý thêm ảnh mới
-        if (imageFiles != null && !imageFiles.isEmpty()) {
-            for (MultipartFile file : imageFiles) {
-                if (!file.isEmpty()) {
-                    String imagePath = fileStorageService.storeFile(file);
-                    Image image = new Image();
-                    image.setImgLink(imagePath);
-                    image.setProduct(updatedProduct);
-                    imageRepository.save(image);
-                    updatedProduct.getImages().add(image);
-                }
-            }
-        }
+		// Process new images
+		if (imageFiles != null && !imageFiles.isEmpty()) {
+			for (MultipartFile file : imageFiles) {
+				if (!file.isEmpty()) {
+					String imagePath = fileStorageService.storeFile(file);
+					Image image = new Image();
+					image.setImgLink(imagePath);
+					image.setProduct(updatedProduct);
+					imageRepository.save(image);
+					updatedProduct.getImages().add(image);
+				}
+			}
+		}
 
-        return productRepository.save(updatedProduct);
-    }
+		return productRepository.save(updatedProduct);
+	}
 
 	private void validateProduct(Product product) {
 		if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
@@ -135,14 +134,14 @@ public class ProductService {
 	public Optional<Product> getProductById(Long id) {
 		return productRepository.findById(id);
 	}
-	
+
 	/**
 	 * @author Tran Thien Thanh 09/04/1996
 	 */
 	public Product updateProduct(Product product) {
-        return productRepository.save(product);
-    }
-	
+		return productRepository.save(product);
+	}
+
 	public Page<Product> searchProducts(String searchTerm, Pageable pageable) {
 		if (searchTerm == null || searchTerm.trim().isEmpty()) {
 			return productRepository.findAll(pageable);
@@ -219,18 +218,18 @@ public class ProductService {
 		}
 		if (priceRange != null && !priceRange.isEmpty()) {
 			String[] range = priceRange.split("-");
-			Double minPrice = parsePrice(range[0]); // Giá trị tối thiểu luôn có
+			Double minPrice = parsePrice(range[0]); // The minimum value is always there
 
 			Double maxPrice;
 			if (range.length > 1 && !range[1].isEmpty()) {
-				// Nếu có giá trị tối đa thì chuyển đổi
+				// If there is a maximum value then convert
 				maxPrice = parsePrice(range[1]);
 			} else {
-				// Nếu không có giá trị tối đa thì đặt là Double.MAX_VALUE
+				// If there is no maximum value, set it to Double.MAX_VALUE
 				maxPrice = Double.MAX_VALUE;
 			}
 
-			// Áp dụng bộ lọc giá
+			// Apply price filter
 			spec = spec.and((root, query, cb) -> cb.between(root.get("price"), minPrice, maxPrice));
 		}
 
@@ -249,7 +248,7 @@ public class ProductService {
 
 	private Double parsePrice(String priceStr) {
 		if (priceStr == null || priceStr.isEmpty()) {
-			return 0.0; // Giá trị mặc định nếu chuỗi rỗng
+			return 0.0; // Default value if string is empty
 		}
 		String cleanedStr = priceStr.replaceAll("[^0-9.]", "").replace(".", "");
 		return Double.parseDouble(cleanedStr);
@@ -283,19 +282,17 @@ public class ProductService {
 		}
 		return product.getPrice();
 	}
-	
-	public List<Product> getProductsByCategory(String categoryName) {
-	    return productRepository.findByCategory_CategoryName(categoryName);
-    }
-	
-	public List<Product> getTop4NewProducts() {
-        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"))
-                                 .stream()
-                                 .limit(4)
-                                 .collect(Collectors.toList());
-    }
 
-//huan
+	public List<Product> getProductsByCategory(String categoryName) {
+		return productRepository.findByCategory_CategoryName(categoryName);
+	}
+
+	public List<Product> getTop4NewProducts() {
+		return productRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate")).stream().limit(4)
+				.collect(Collectors.toList());
+	}
+
+	//huan
 
 	public List<Product> getAllProducts() {
 		return productRepository.findAll();

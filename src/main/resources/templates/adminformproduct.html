@@ -143,7 +143,7 @@
 			
         	 var deletedImageIds = [];
         	    
-        	// Xử lý xóa ảnh
+        	// Handle photo deletion
         	    $(".delete-image").click(function() {
         	        var imageId = $(this).data("image-id");
         	        var imageContainer = $(this).parent();
@@ -152,7 +152,7 @@
         	        deletedImageIds.push(imageId);
         	    });
 
-        	    // Xử lý khi form được submit
+        	    // Handled when the form is submitted
         	    $("form").submit(function(e) {
         	        e.preventDefault();
         	        
