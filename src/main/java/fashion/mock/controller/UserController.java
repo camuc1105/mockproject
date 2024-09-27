@@ -58,7 +58,7 @@ public class UserController {
                             @RequestParam(defaultValue = "0") int page, 
                             @RequestParam(defaultValue = "5") int size) {
     	 if (!checkAdminAccess(session, model, redirectAttributes)) {
-             return "redirect:/home";
+    		 return "403";
          }
         
         Page<User> userPage = userService.getAllUsers(PageRequest.of(page, size));
@@ -75,7 +75,7 @@ public class UserController {
     @GetMapping("/new")
     public String showAddUserForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
@@ -88,7 +88,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String showUpdateUserForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         
         User users = userService.getUserById(id)
@@ -200,7 +200,7 @@ public class UserController {
                               @RequestParam(defaultValue = "5") int size,
                               Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         Page<User> userPage = userService.searchUsers(searchTerm, PageRequest.of(page, size));
         model.addAttribute("users", userPage.getContent());

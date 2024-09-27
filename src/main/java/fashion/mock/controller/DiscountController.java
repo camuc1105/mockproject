@@ -49,7 +49,7 @@ public class DiscountController {
                                 @RequestParam(defaultValue = "5") int size, 
                                 RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         
         Page<Discount> discountPage = discountService.getAllDiscounts(PageRequest.of(page, size));
@@ -63,7 +63,7 @@ public class DiscountController {
     @GetMapping("/new")
     public String showAddDiscountForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         
         model.addAttribute("discount", new Discount());
@@ -74,7 +74,7 @@ public class DiscountController {
     @GetMapping("/edit/{id}")
     public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         
         Discount discount = discountService.getDiscountById(id)
@@ -139,7 +139,7 @@ public class DiscountController {
                                   @RequestParam(defaultValue = "5") int size,
                                   Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         if (page < 0) {
             page = 0;

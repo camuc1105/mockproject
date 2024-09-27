@@ -26,6 +26,7 @@ import fashion.mock.model.Product;
 import fashion.mock.model.User;
 import fashion.mock.service.ProductService;
 import fashion.mock.service.UserService;
+import fashion.mock.util.ShoppingCartUtils;
 import jakarta.servlet.http.HttpSession;
 
 @Controller

@@ -53,7 +53,6 @@ public class ProductController {
 		model.addAttribute("isAdmin", true);
 		return true;
 	}
-
 	// Added new method to handle image paths
 	@ModelAttribute("imagePath")
 	public String imagePath() {
@@ -65,8 +64,8 @@ public class ProductController {
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
 		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, size));
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-			return "redirect:/home";
-		}
+			 return "403";
+        } 
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", productPage.getTotalPages());
@@ -77,8 +76,8 @@ public class ProductController {
 	@GetMapping("/new")
 	public String showAddProductForm(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-			return "redirect:/home";
-		}
+			 return "403";
+        } 
 		model.addAttribute("product", new Product());
 		model.addAttribute("categories", categoryService.getAllCategories());
 		return "adminformproduct";
@@ -88,8 +87,8 @@ public class ProductController {
 	public String showUpdateProductForm(@PathVariable Long id, Model model, HttpSession session,
 			RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-			return "redirect:/home";
-		}
+			 return "403";
+        } 
 		Product product = productService.getProductById(id)
 				.orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
 		model.addAttribute("product", product);

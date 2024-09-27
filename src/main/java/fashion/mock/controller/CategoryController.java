@@ -60,7 +60,7 @@ public class CategoryController {
         Page<Category> categoryPage = categoryService.getAllCategories(PageRequest.of(page, size));
         //phân quyền
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }  
         model.addAttribute("categories", categoryPage.getContent());
         model.addAttribute("currentPage", page);
@@ -76,7 +76,7 @@ public class CategoryController {
     @GetMapping("/new")
     public String showAddCategoryForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         model.addAttribute("category", new Category());
         return "adminformcategory";
@@ -88,7 +88,7 @@ public class CategoryController {
     @GetMapping("/edit/{id}")
     public String showUpdateCategoryForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+        	 return "403";
         }        
         Category category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
@@ -166,7 +166,7 @@ public class CategoryController {
                                    Model model,  RedirectAttributes redirectAttributes) {
    	 //phân quyền
     	   if (!checkAdminAccess(session, model, redirectAttributes)) {
-               return "redirect:/home";
+    		   return "403";
            }        
     	  if (page < 0) {
     	        page = 0;

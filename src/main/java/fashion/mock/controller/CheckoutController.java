@@ -26,6 +26,7 @@ import fashion.mock.service.EmailService;
 import fashion.mock.service.OrderDetailService;
 import fashion.mock.service.OrderService;
 import fashion.mock.service.ProductService;
+import fashion.mock.util.ShoppingCartUtils;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -146,7 +147,7 @@ public CheckoutController(ShoppingCartUtils shoppingCartUtils, CheckoutService c
 		transactionHistory.setPayment(selectedPayment);
 		transactionHistory.setTransactionDate(LocalDate.now());
 		transactionHistory.setTransactionAmount(totalPriceWithShipping);
-		if (!paymentMethod.equalsIgnoreCase("Tiền mặt")) {
+		if (paymentMethod.equalsIgnoreCase("Tiền mặt")) {
 			transactionHistory.setStatus("Chờ thanh toán");
 		} else {
 			transactionHistory.setStatus("Hoàn tất");

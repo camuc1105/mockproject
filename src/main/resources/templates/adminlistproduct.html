@@ -46,7 +46,7 @@
 								<th>Ngày cập nhật</th>
 								<th>Danh mục</th>
 								<th>Ảnh</th>
-								<th>Hành Động</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -74,25 +74,26 @@
 						Không có sản phẩm nào.</div>
 				</div>
 				<!-- Phân trang -->
-				<div th:if="${totalItems > 0}" class="d-flex justify-content-center mt-3">
-					<nav aria-label="Page navigation">
-						<ul class="pagination">
+			<div th:if="${totalItems > 0}"
+					class="d-flex justify-content-center mt-3">
+					<nav aria-label="Page navigation" >
+						<ul class="pagination" id="paginationContainer">
 							<li class="page-item"
-								th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-								<a class="page-link"
-									th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${currentPage - 1}, max=${5}, searchTerm=${searchTerm})}">Previous</a>
+								th:classappend="${currentPage == 0 ? 'disabled' : ''}"><a
+								class="page-link"
+								th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${currentPage - 1}, size=${5}, searchTerm=${searchTerm})}">Previous</a>
 							</li>
 							<li class="page-item"
 								th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
 								th:classappend="${pageNum == currentPage ? 'active' : ''}">
 								<a class="page-link"
-									th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${pageNum}, max=${5}, searchTerm=${searchTerm})}"
-									th:text="${pageNum + 1}"></a>
+								th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${pageNum}, size=${5}, searchTerm=${searchTerm})}"
+								th:text="${pageNum + 1}"></a>
 							</li>
 							<li class="page-item"
 								th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
 								<a class="page-link"
-									th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${currentPage + 1}, max=${5}, searchTerm=${searchTerm})}">Next</a>
+								th:href="@{${searchTerm != null ? '/products/search' : '/products'}(page=${currentPage + 1}, size=${5}, searchTerm=${searchTerm})}">Next</a>
 							</li>
 						</ul>
 					</nav>
@@ -143,6 +144,52 @@
                 });
             });
         });
+        
+        /*<![CDATA[*/
+        $(document).ready(function() {
+            const currentPage = /*[[${currentPage}]]*/ 0;
+            const totalPages = /*[[${totalPages}]]*/ 1;
+            const searchTerm = /*[[${searchTerm}]]*/ null;
+            
+            function generatePaginationHTML(page, text, disabled = false) {
+                const baseUrl = searchTerm ? '/products/search' : '/products';
+                const href = `${baseUrl}?page=${page}&size=5${searchTerm ? '&searchTerm=' + encodeURIComponent(searchTerm) : ''}`;
+                return `
+                    <li class="page-item ${disabled ? 'disabled' : ''} ${page === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="${href}">${text}</a>
+                    </li>
+                `;
+            }
+
+            function renderPagination() {
+                let html = '';
+                
+                // First page
+                html += generatePaginationHTML(0, 'Đầu', currentPage === 0);
+                
+                // Previous
+                html += generatePaginationHTML(Math.max(0, currentPage - 1), 'Trước', currentPage === 0);
+                
+                // Page numbers
+                const startPage = Math.max(0, currentPage - 1);
+                const endPage = Math.min(totalPages - 1, currentPage + 1);
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    html += generatePaginationHTML(i, i + 1);
+                }
+                
+                // Next
+                html += generatePaginationHTML(Math.min(totalPages - 1, currentPage + 1), 'Sau', currentPage === totalPages - 1);
+                
+                // Last page
+                html += generatePaginationHTML(totalPages - 1, 'Cuối', currentPage === totalPages - 1);
+                
+                $('#paginationContainer').html(html);
+            }
+            
+            renderPagination();
+        });
+        /*]]>*/
     </script>
 </body>
 </html>
