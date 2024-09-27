@@ -16,18 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fashion.mock.model.User;
 import fashion.mock.service.CustomerInformationService;
 import fashion.mock.service.UserService;
+import fashion.mock.util.ShoppingCartUtils;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/information")
 public class CustomerInformationController {
 
+    private final ShoppingCartUtils shoppingCartUtils;
     private final CustomerInformationService customerInformationService;
     private final UserService userService;
 
-
-    public CustomerInformationController(CustomerInformationService customerInformationService,
-            UserService userService) {
+    public CustomerInformationController(ShoppingCartUtils shoppingCartUtils,
+            CustomerInformationService customerInformationService, UserService userService) {
+        this.shoppingCartUtils = shoppingCartUtils;
         this.customerInformationService = customerInformationService;
         this.userService = userService;
 
@@ -35,6 +37,14 @@ public class CustomerInformationController {
 
     @GetMapping("")
     public String userProfile(HttpSession session, Model model) {
+        String redirect = shoppingCartUtils.checkLoginAndCart(session, model);
+        // If the utility method returned a redirect path, return it
+        if (redirect != null) {
+            return redirect;
+        }
+        
+        // Prepare category info
+        shoppingCartUtils.prepareCategoryInfo(model);
 
         User user = (User) session.getAttribute("user");
         boolean isAdmin = false; // Initialize isAdmin
@@ -46,7 +56,6 @@ public class CustomerInformationController {
             return "redirect:/login/loginform";
         }
         model.addAttribute("isAdmin", isAdmin);
-
 
         Long userId = user.getId(); // Lấy userId từ đối tượng User trong session
         User user1 = customerInformationService.getUserById(userId);
