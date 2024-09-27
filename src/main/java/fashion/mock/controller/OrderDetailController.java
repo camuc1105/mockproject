@@ -57,7 +57,7 @@ public class OrderDetailController {
 		// Check if the order belongs to the logged-in user
 	    if (!order.getUser().getId().equals(user.getId())) {
 	        model.addAttribute("errorMessage", "You do not have permission to view this order.");
-	        return "404"; // Redirect to a specific error page or a permission-denied page
+	        return "403"; // Redirect to a specific error page or a permission-denied page
 	    }
 		
 		List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);
