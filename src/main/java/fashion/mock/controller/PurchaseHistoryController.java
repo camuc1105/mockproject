@@ -17,27 +17,39 @@ import fashion.mock.model.DTO.TransactionHistoryDTO;
 import fashion.mock.service.CustomerInformationService;
 import fashion.mock.service.PurchaseHistoryService;
 import fashion.mock.service.UserService;
+import fashion.mock.util.ShoppingCartUtils;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/information")
 public class PurchaseHistoryController {
 
+    private final ShoppingCartUtils shoppingCartUtils;
     private final PurchaseHistoryService purchaseHistoryService;
     private final CustomerInformationService customerInformationService;
     private final UserService userService;
 
-    public PurchaseHistoryController(PurchaseHistoryService purchaseHistoryService,
+    public PurchaseHistoryController(ShoppingCartUtils shoppingCartUtils, PurchaseHistoryService purchaseHistoryService,
             CustomerInformationService customerInformationService, UserService userService) {
+        this.shoppingCartUtils = shoppingCartUtils;
         this.purchaseHistoryService = purchaseHistoryService;
         this.customerInformationService = customerInformationService;
 
         this.userService = userService;
 
     }
+
     @GetMapping("purchase-history")
     public String viewPurchaseHistory(HttpSession session, @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size, Model model) {
+        String redirect = shoppingCartUtils.checkLoginAndCart(session, model);
+        // If the utility method returned a redirect path, return it
+        if (redirect != null) {
+            return redirect;
+        }
+
+        // Prepare category info
+        shoppingCartUtils.prepareCategoryInfo(model);
 
         User user = (User) session.getAttribute("user");
         boolean isAdmin = false; // Initialize isAdmin
@@ -49,7 +61,7 @@ public class PurchaseHistoryController {
             return "redirect:/login/loginform";
         }
         model.addAttribute("isAdmin", isAdmin);
-        
+
         Long userId = user.getId(); // Get userId From User in session
 
         User user1 = customerInformationService.getUserById(userId);
