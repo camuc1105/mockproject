@@ -21,18 +21,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/aboutus")
 public class AboutUsController {
     private final CategoryService categoryService;
-    private final CartItemService cartItemService;
     private final UserService userService;
 
     private final ProductService productService;
 
-    public AboutUsController(CategoryService categoryService, CartItemService cartItemService, UserService userService, ProductService productService) {
+    public AboutUsController(CategoryService categoryService, UserService userService, ProductService productService) {
         super();
         this.categoryService = categoryService;
-        this.cartItemService = cartItemService;
         this.userService = userService;
         this.productService = productService;
     }
+
     @GetMapping
     public String viewAboutUs(Model model, HttpSession session) {
         // Lấy tất cả danh mục
@@ -43,9 +42,7 @@ public class AboutUsController {
         List<Category> quanCategories = categories.stream()
                 .filter(category -> category.getCategoryName().startsWith("Quần")).collect(Collectors.toList());
 
-        /**
-         * Author: Lê Nguyên Minh Quý 27/06/1998
-         */
+        //Author: Lê Nguyên Minh Quý 27/06/1998
 
         List<Product> newProducts = productService.getTop4NewProducts();
 
