@@ -64,6 +64,17 @@ public class HomeController {
                 .collect(Collectors.toList());
         List<Double> discountedPrices = products.stream().map(productService::getDiscountedPrice)
                 .collect(Collectors.toList());
+        
+        Map<Long, Boolean> randomProductsOnDiscount = new HashMap<>();
+        Map<Long, Double> randomDiscountedPrices = new HashMap<>();
+
+        for (Product product : randomCategoryProducts) {
+            boolean isOnDiscount = productService.isProductOnDiscount(product);
+            randomProductsOnDiscount.put(product.getId(), isOnDiscount);
+            if (isOnDiscount) {
+                randomDiscountedPrices.put(product.getId(), productService.getDiscountedPrice(product));
+            }
+        }
 
 		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
@@ -74,6 +85,8 @@ public class HomeController {
 	    model.addAttribute("discountedPrices", discountedPrices);
 	    model.addAttribute("randomCategoryProducts", randomCategoryProducts);
         model.addAttribute("randomCategory", randomCategory);
+        model.addAttribute("randomProductsOnDiscount", randomProductsOnDiscount);
+        model.addAttribute("randomDiscountedPrices", randomDiscountedPrices);
 	
 	    @SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");

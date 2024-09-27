@@ -103,7 +103,7 @@
 		</div>
 	</div>
 
-	<!-- Phần hiển thị sản phẩm mới -->
+	<!-- New product display section -->
 	<div class="container mt-5">
 		<h2 class="text-center mb-4">Sản phẩm mới</h2>
 		<div class="row">
@@ -154,7 +154,7 @@
 		</a>
 	</div>
 
-	<!-- Phần hiển thị danh mục áo sơ mi -->
+	<!-- The section displays random product categories -->
 	<div class="container mt-5">
 		<h2 class="text-center mb-4" th:text="${randomCategory.categoryName}">Sản phẩm ngẫu nhiên</h2>
 		<div class="row">
@@ -170,17 +170,17 @@
 						<h5 class="card-title" th:text="${product.productName}">Tên
 							sản phẩm</h5>
 						<p class="card-text">
-							<span th:if="${productsOnDiscount[productStat.index]}"
-								class="original-price"
-								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
-								style="text-decoration: line-through; color: #999;">Giá
-								gốc</span> <span th:if="${productsOnDiscount[productStat.index]}"
-								class="discounted-price"
-								th:text="${#numbers.formatDecimal(discountedPrices[productStat.index], 0, 'COMMA', 0, 'POINT') + ' đ'}"
-								style="color: #ff0000; font-weight: bold;">Giá mới</span> <span
-								th:unless="${productsOnDiscount[productStat.index]}"
-								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
-						</p>
+	                        <span th:if="${randomProductsOnDiscount[product.id]}"
+	                              class="original-price"
+	                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"
+	                              style="text-decoration: line-through; color: #999;">Giá gốc</span>
+	                        <span th:if="${randomProductsOnDiscount[product.id]}"
+	                              class="discounted-price"
+	                              th:text="${#numbers.formatDecimal(randomDiscountedPrices[product.id], 0, 'COMMA', 0, 'POINT') + ' đ'}"
+	                              style="color: #ff0000; font-weight: bold;">Giá mới</span>
+	                        <span th:unless="${randomProductsOnDiscount[product.id]}"
+	                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' đ'}">Giá</span>
+	                    </p>
 					</div>
 				</div>
 			</div>

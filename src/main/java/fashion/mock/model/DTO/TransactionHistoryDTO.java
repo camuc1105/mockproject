@@ -24,6 +24,10 @@ public class TransactionHistoryDTO {
         this.transactionStatus = transactionStatus;
     }
 
+    public TransactionHistoryDTO() {
+        // TODO Auto-generated constructor stub
+    }
+
     // Getters và setters cho các trường
     public Long getOrderId() {
         return orderId;

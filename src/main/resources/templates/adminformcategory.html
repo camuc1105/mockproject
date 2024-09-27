@@ -47,7 +47,7 @@
             <input class="form-control" type="date" id="updatedDate" name="updatedDate" th:value="${category.updatedDate}" readonly />
         </div>
         <div>
-            <button  type="submit" class="btn btn-success" th:text="${category.id == null ? 'Thêm' : 'Cập Nhật'}"></button>
+            <button  type="submit" class="btn btn-success" th:text="${category.id == null ? 'Thêm Danh mục' : 'Cập Nhật'}"></button>
             <a href="/categories" class="btn btn-secondary">Hủy</a>
         </div>
     </form>

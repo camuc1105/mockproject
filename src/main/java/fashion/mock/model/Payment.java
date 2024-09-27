@@ -20,13 +20,13 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "paymentMethod", nullable = false, unique = true, length = 50)
+	@Column(name = "paymentMethod", nullable = false, unique = true, columnDefinition = "NVARCHAR(255)")
 	private String paymentMethod;
 
 	@Column(columnDefinition = "NVARCHAR(1000)")
 	private String description;
 
-	@Column(columnDefinition = "NVARCHAR(25)")
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String status;
 
 	@Column(name = "createdDate", nullable = false)
@@ -54,7 +54,7 @@ public class Payment {
 
 	public void setId(Long id) {
 		this.id = id;
-	}  
+	}
 
 	public String getPaymentMethod() {
 		return paymentMethod;

@@ -1,5 +1,12 @@
 /* @author Tran Thien Thanh 09/04/1996 */
 $(document).ready(function() {
+	// Function to format numbers as currency
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+            .format(value)
+            .replace(/\D00(?=\D*$)/, ' đ');  // Replace unwanted decimals with ' đ'
+    }
+	
     // Calculate delivery dates
     const today = new Date();
     const standardDeliveryDate = new Date(today);
@@ -13,15 +20,35 @@ $(document).ready(function() {
     // Update total price with shipping cost
     function updateTotalPrice() {
         const shippingCost = parseInt($('input[name="shippingMethod"]:checked').val());
-        const orderTotal = parseFloat($('#orderTotalPrice').text().replace(/[^\d.]/g, ''));
+        const orderTotal = parseFloat($('#orderTotalPrice').data('total')); // Use data attribute instead of raw text
+        
         const totalPrice = orderTotal + shippingCost;
 
-        $('#shippingCost').text(shippingCost.toLocaleString() + ' đ');
-        $('#totalPriceWithShipping').text(totalPrice.toLocaleString() + ' đ');
+        // Use formatCurrency function to format the displayed values
+        $('#shippingCost').text(formatCurrency(shippingCost));
+        $('#totalPriceWithShipping').text(formatCurrency(totalPrice));
 
         // Set hidden input values
-        $('#shippingMethodInput').val($('input[name="shippingMethod"]:checked').val());
+        $('#shippingMethodInput').val(shippingCost);
         $('#totalPriceInput').val(totalPrice);
+    }
+    
+    // Format prices on page load
+    function formatAllPrices() {
+        // Format order total price
+        const orderTotal = parseFloat($('#orderTotalPrice').data('total'));
+        $('#orderTotalPrice').text(formatCurrency(orderTotal));
+
+        // Format each item's price and total
+        $('.item-price').each(function() {
+            const itemPrice = parseFloat($(this).data('price'));
+            $(this).text(formatCurrency(itemPrice));
+        });
+
+        $('.item-total').each(function() {
+            const itemTotal = parseFloat($(this).data('total'));
+            $(this).text(formatCurrency(itemTotal));
+        });
     }
 
     // Handle shipping method change
@@ -38,5 +65,6 @@ $(document).ready(function() {
     });
 
     // Initial calculation
+    formatAllPrices();
     updateTotalPrice();
 });

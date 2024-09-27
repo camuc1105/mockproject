@@ -29,22 +29,18 @@ public class Product {
 
 	@NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(min = 6, message = "Tên sản phẩm phải có ít nhất 6 ký tự")
-		@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(100)")
-
+	@Column(name = "productName", nullable = false,columnDefinition = "NVARCHAR(255)")
 	private String productName;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false)
 	private Category category;
 
-	
 	@NotBlank(message = "Màu sắc không được để trống")
-
-  	@Column(nullable = false,columnDefinition = "NVARCHAR(100)")
-
+  	@Column(nullable = false,columnDefinition = "NVARCHAR(255)")
 	private String color;
 
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false,columnDefinition = "NVARCHAR(10)")
 	private String size;
 	
 	@NotNull(message = "Giá không được để trống")

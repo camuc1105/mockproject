@@ -41,28 +41,27 @@ public class ProductController {
 	@Autowired
 	private CartItemService cartItemService;
 	@Autowired
-    private UserService userService;
-	
-	private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        User user = (User) session.getAttribute("user");
-        if (user == null || !userService.isAdmin(user.getId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
-            return false;
-        }
-        model.addAttribute("user", user);
-        model.addAttribute("isAdmin", true);
-        return true;
-    }
+	private UserService userService;
 
-	// Thêm phương thức mới để xử lý đường dẫn ảnh
+	private boolean checkAdminAccess(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+		User user = (User) session.getAttribute("user");
+		if (user == null || !userService.isAdmin(user.getId())) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+			return false;
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("isAdmin", true);
+		return true;
+	}
+	// Added new method to handle image paths
 	@ModelAttribute("imagePath")
 	public String imagePath() {
 		return "/images/";
 	}
 
 	@GetMapping
-	public String listProducts(Model model, HttpSession session,RedirectAttributes redirectAttributes, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size) {
+	public String listProducts(Model model, HttpSession session, RedirectAttributes redirectAttributes,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
 		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, size));
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
 			 return "403";
@@ -75,7 +74,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/new")
-	public String showAddProductForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+	public String showAddProductForm(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
 			 return "403";
         } 
@@ -85,7 +84,8 @@ public class ProductController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String showUpdateProductForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+	public String showUpdateProductForm(@PathVariable Long id, Model model, HttpSession session,
+			RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
 			 return "403";
         } 
@@ -100,11 +100,11 @@ public class ProductController {
 	public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult,
 			@RequestParam("imageFiles") List<MultipartFile> imageFiles, RedirectAttributes redirectAttributes,
 			Model model) {
-	    if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
-            return "adminformproduct";
-        }
-	    try {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", categoryService.getAllCategories());
+			return "adminformproduct";
+		}
+		try {
 			productService.addProduct(product, imageFiles);
 			redirectAttributes.addFlashAttribute("successMessage", "Thêm sản phẩm thành công!");
 			return "redirect:/products";
@@ -116,32 +116,31 @@ public class ProductController {
 	}
 
 	@PostMapping("/update")
-	public String updateProduct(@Valid @ModelAttribute Product product, 
-	                            BindingResult bindingResult,
-	                            @RequestParam("imageFiles") List<MultipartFile> imageFiles,
-	                            @RequestParam(value = "deletedImageIds", required = false) String deletedImageIdsJson,
-	                            RedirectAttributes redirectAttributes,
-	                            Model model) {
-	    if (bindingResult.hasErrors()) {
-	        model.addAttribute("categories", categoryService.getAllCategories());
-	        return "adminformproduct";
-	    }
+	public String updateProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult,
+			@RequestParam("imageFiles") List<MultipartFile> imageFiles,
+			@RequestParam(value = "deletedImageIds", required = false) String deletedImageIdsJson,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", categoryService.getAllCategories());
+			return "adminformproduct";
+		}
 
-	    try {
-	        List<Long> deletedImageIds = new ArrayList<>();
-	        if (deletedImageIdsJson != null && !deletedImageIdsJson.isEmpty()) {
-	            ObjectMapper objectMapper = new ObjectMapper();
-	            deletedImageIds = objectMapper.readValue(deletedImageIdsJson, new TypeReference<List<Long>>() {});
-	        }
+		try {
+			List<Long> deletedImageIds = new ArrayList<>();
+			if (deletedImageIdsJson != null && !deletedImageIdsJson.isEmpty()) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				deletedImageIds = objectMapper.readValue(deletedImageIdsJson, new TypeReference<List<Long>>() {
+				});
+			}
 
-	        productService.updateProduct(product, imageFiles, deletedImageIds);
-	        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật sản phẩm thành công!");
-	        return "redirect:/products";
-	    } catch (IllegalArgumentException | JsonProcessingException e) {
-	        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-	        redirectAttributes.addFlashAttribute("product", product);
-	        return "redirect:/products/edit/" + product.getId();
-	    }
+			productService.updateProduct(product, imageFiles, deletedImageIds);
+			redirectAttributes.addFlashAttribute("successMessage", "Cập nhật sản phẩm thành công!");
+			return "redirect:/products";
+		} catch (IllegalArgumentException | JsonProcessingException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+			redirectAttributes.addFlashAttribute("product", product);
+			return "redirect:/products/edit/" + product.getId();
+		}
 	}
 
 	@GetMapping("/delete/{id}")
@@ -159,13 +158,11 @@ public class ProductController {
 
 	@GetMapping("/search")
 	public String searchProducts(@RequestParam(value = "searchTerm", required = false) String searchTerm,
-			@RequestParam(defaultValue = "0") int page, 
-			@RequestParam(defaultValue = "5") int size, 
-			Model model) {
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
 		if (page < 0) {
 			page = 0;
 		}
-		
+
 		Page<Product> productPage = productService.searchProducts(searchTerm, PageRequest.of(page, size));
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("currentPage", page);
@@ -181,7 +178,7 @@ public class ProductController {
 		boolean deleted = productService.deleteImage(imageId);
 		return "{\"success\":" + deleted + "}";
 	}
-  
+
 	@GetMapping("/view")
 	public String viewProducts(Model model) {
 		model.addAttribute("products", productService.getAllProducts());
