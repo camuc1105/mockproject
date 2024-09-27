@@ -214,110 +214,110 @@ body, html {
 		</div>
 	</div>
 
+
 	<div th:replace="~{/fragment/footer :: footer}"></div>
-
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-	
+	<!-- <script th:src="@{/js/jquery-3.7.1.js}"></script>
+ -->	
 	<script>
-	
-		$('.btn-edit').on('click', function() {
-		    var field = $(this).data('field');
-		    var button = $(this);
-		    var input = $('#' + field);
-		
-		    
-		    if (field !== 'password') {
-		
-		        if (input.prop('readonly') || input.prop('disabled')) {
-		            input.prop('readonly', false);
-		            input.prop('disabled', false);
-		            button.html('<i class="fas fa-save"></i>');
-		            button.removeClass('btn-outline-info').addClass('btn-success');
-		        }
-		
-		        else {
-		            var updatedValue = input.val(); 
-		
-		            $.ajax({
-		                type: "POST",
-		                url: "/information/update-info",
-		                data: {
-		                    field: field,
-		                    value: updatedValue 
-		                },
-		                success: function(response) {
-		                    alert('Cập nhật thành công!');
-		                    
-		                    if (field === 'name') {
-		                        $('#username').text(updatedValue);
-		                    }
-		                    
-		                    input.prop('readonly', true);
-		                    input.prop('disabled', true);
-		                    button.html('<i class="fas fa-edit"></i>');
-		                    button.removeClass('btn-success').addClass('btn-outline-info');
-		                },
-		                error: function(xhr, status, error) {
-		                    alert('Có lỗi xảy ra khi cập nhật: ' + error);
-		                }
-		            });
-		        }
-		    }
-		    else {
-		        $('#passwordModal').modal('show');
-		    }
-		});
+		$('.btn-edit').on(
+				'click',
+				function() {
+					event.stopPropagation();
+					var field = $(this).data('field');
+					var button = $(this);
+					var input = $('#' + field);
 
-		$('#savePassword').on('click', function(event) {
-		    event.preventDefault();
-		
-		    var oldPassword = $('#oldPassword').val();
-		    var newPassword = $('#newPassword').val();
-		    var confirmNewPassword = $('#confirmNewPassword').val();
-		
-		    if (newPassword !== confirmNewPassword) {
-		        alert('Mật khẩu mới không khớp!');
-		        return;
-		    }
-		
-		    $.ajax({
-		        type: "POST",
-		        url: "/information/change-password",
-		        data: {
-		            oldPassword: oldPassword,
-		            newPassword: newPassword,
-		            confirmNewPassword: confirmNewPassword
-		        },
-		        success: function(response) {
-		            if (response === 'Mật khẩu cũ không đúng!') {
-		                alert('Mật khẩu cũ không đúng!');
-		            } else if (response === 'Mật khẩu mới không khớp!') {
-		                alert('Mật khẩu mới không khớp!');
-		            } else if (response === 'Mật khẩu đã được thay đổi thành công!') {
-		                alert('Mật khẩu đã được thay đổi thành công!');
-		                $('#passwordModal').modal('hide');
-		                
-		                $('#oldPassword').val('');
-		                $('#newPassword').val('');
-		                $('#confirmNewPassword').val('');
-		            }
-		        },
-		        error: function(xhr, status, error) {
-		            alert('Có lỗi xảy ra: ' + xhr.responseText);
-		        }
-		    });
-		});
+					if (field !== 'password') {
 
+						if (input.prop('readonly') || input.prop('disabled')) {
+							input.prop('readonly', false);
+							input.prop('disabled', false);
+							button.html('<i class="fas fa-save"></i>');
+							button.removeClass('btn-outline-info').addClass(
+									'btn-success');
+						}
+
+						else {
+							var updatedValue = input.val();
+
+							$.ajax({
+								type : "POST",
+								url : "/information/update-info",
+								data : {
+									field : field,
+									value : updatedValue
+								},
+								success : function(response) {
+									alert('Cập nhật thành công!');
+
+									if (field === 'name') {
+										$('#username').text(updatedValue);
+									}
+
+									input.prop('readonly', true);
+									input.prop('disabled', true);
+									button.html('<i class="fas fa-edit"></i>');
+									button.removeClass('btn-success').addClass(
+											'btn-outline-info');
+								},
+								error : function(xhr, status, error) {
+									alert('Có lỗi xảy ra khi cập nhật: '
+											+ error);
+								}
+							});
+						}
+					} else {
+						$('#passwordModal').modal('show');
+					}
+				});
+
+		$('#savePassword')
+				.on(
+						'click',
+						function(event) {
+							event.preventDefault();
+
+							var oldPassword = $('#oldPassword').val();
+							var newPassword = $('#newPassword').val();
+							var confirmNewPassword = $('#confirmNewPassword')
+									.val();
+
+							if (newPassword !== confirmNewPassword) {
+								alert('Mật khẩu mới không khớp!');
+								return;
+							}
+
+							$
+									.ajax({
+										type : "POST",
+										url : "/information/change-password",
+										data : {
+											oldPassword : oldPassword,
+											newPassword : newPassword,
+											confirmNewPassword : confirmNewPassword
+										},
+										success : function(response) {
+											if (response === 'Mật khẩu cũ không đúng!') {
+												alert('Mật khẩu cũ không đúng!');
+											} else if (response === 'Mật khẩu mới không khớp!') {
+												alert('Mật khẩu mới không khớp!');
+											} else if (response === 'Mật khẩu đã được thay đổi thành công!') {
+												alert('Mật khẩu đã được thay đổi thành công!');
+												$('#passwordModal').modal(
+														'hide');
+
+												$('#oldPassword').val('');
+												$('#newPassword').val('');
+												$('#confirmNewPassword')
+														.val('');
+											}
+										},
+										error : function(xhr, status, error) {
+											alert('Có lỗi xảy ra: '
+													+ xhr.responseText);
+										}
+									});
+						});
 	</script>
 </body>
 
