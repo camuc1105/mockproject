@@ -88,7 +88,6 @@ public class ShoppingCartController {
 		}
 
 		// Retrieve cartItems from session
-
 		@SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
 		if (cartItemsMap == null) {

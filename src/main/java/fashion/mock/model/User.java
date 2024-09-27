@@ -28,17 +28,17 @@ public class User {
 	private Long id;
 	@Email(message = "Email phải đúng định dạng.")
 	@NotBlank(message = "Email không được để trống.")
-	@Column(nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@NotBlank(message = "Mật khẩu không được để trống.")
 	@Size(min = 8, message = "Mật khẩu phải có ít nhất 8 ký tự.")
 	@Pattern(regexp = ".*[A-Z].*", message = "Mật khẩu phải có ít nhất 1 ký tự viết hoa.")
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false)
 	private String password;
 
 	@NotBlank(message = "Tên người dùng không được để trống.")
-	@Column(name = "userName", nullable = false, columnDefinition = "NVARCHAR(100)")
+	@Column(name = "userName", nullable = false, columnDefinition = "NVARCHAR(255)")
 	private String userName;
 
 	@NotBlank(message = "Số điện thoại không được để trống.")
@@ -47,10 +47,10 @@ public class User {
 	private String phone;
 
 	@NotBlank(message = "Địa chỉ không được để trống.")
-	@Column(nullable = false,columnDefinition = "NVARCHAR(255)")
+	@Column(nullable = false, columnDefinition = "NVARCHAR(255)")
 	private String address;
 
-	@Column(length = 20)
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String status;
 
 	@Column(name = "createdDate", nullable = false)
