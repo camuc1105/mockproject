@@ -13,8 +13,6 @@
 <link rel="stylesheet" th:href="@{/css/shop.css}">
 <link rel="stylesheet"
 	th:href="@{/fontawesome-free-5.15.4-web/css/all.min.css}">
-<link href="/fontawesome-free-5.15.4-web/css/all.min.css"
-	rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 	integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
@@ -26,9 +24,9 @@
 
 <body>
 	<div class="mb-1" th:replace="~{/fragment/navHome :: navHome}"></div>
-	<div class="mt-1 container-fluid">
+	<div class="mt-5 container-fluid">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 mt-3">
 				<img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/media/collections/BANNER%20COLLECTION%201800X600px.png" style="width: 100%; height: auto"
 					alt="" />
 			</div>
@@ -119,13 +117,13 @@
 			<div class="col-md-9">
 				<div class="d-flex justify-content-end align-items-center mb-4">
 					<form th:action="@{/shop}" method="get" class="form-inline">
-						<input type="hidden" name="color" th:value="${color}"> <input
-							type="hidden" name="size" th:value="${size}"> <input
-							type="hidden" name="priceRange" th:value="${priceRange}">
+						<input type="hidden" name="color" th:value="${color}">
+			            <input type="hidden" name="size" th:value="${size}">
+			            <input type="hidden" name="priceRange" th:value="${priceRange}">
+			            <input type="hidden" name="categoryId" th:value="${categoryId}">
+			            <input type="hidden" name="searchTerm" th:value="${searchTerm}">
 						<select name="sortBy" class="form-control">
 							<option value="">Sắp xếp theo</option>
-							<option value="popular" th:selected="${sortBy == 'popular'}">Phổ
-								biến nhất</option>
 							<option value="priceAsc" th:selected="${sortBy == 'priceAsc'}">Giá
 								tăng dần</option>
 							<option value="priceDesc" th:selected="${sortBy == 'priceDesc'}">Giá
@@ -172,22 +170,15 @@
 					class="d-flex justify-content-center mt-3">
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
-							<li class="page-item"
-								th:classappend="${currentPage == 0 ? 'disabled' : ''}"><a
-								class="page-link"
-								th:href="@{/shop(page=${currentPage - 1}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy})}">&laquo;</a>
-							</li>
-							<li class="page-item"
-								th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-								th:classappend="${currentPage == i ? 'active' : ''}"><a
-								class="page-link"
-								th:href="@{/shop(page=${i}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy})}"
-								th:text="${i + 1}"></a></li>
-							<li class="page-item"
-								th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-								<a class="page-link"
-								th:href="@{/shop(page=${currentPage + 1}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy})}">&raquo;</a>
-							</li>
+							<li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+				                <a class="page-link" th:href="@{/shop(page=${currentPage - 1}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy}, categoryId=${categoryId})}">&laquo;</a>
+				            </li>
+				            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i ? 'active' : ''}">
+				                <a class="page-link" th:href="@{/shop(page=${i}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy}, categoryId=${categoryId})}" th:text="${i + 1}"></a>
+				            </li>
+				            <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+				                <a class="page-link" th:href="@{/shop(page=${currentPage + 1}, max=${9}, searchTerm=${searchTerm}, sortBy=${sortBy}, categoryId=${categoryId})}">&raquo;</a>
+				            </li>
 						</ul>
 					</nav>
 				</div>
@@ -254,7 +245,7 @@
 		        element.addEventListener('click', function() {
 		            const color = this.getAttribute('data-color');
 		            document.getElementById('colorFilter').value = color;
-		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn màu
+		            document.getElementById('filterForm').submit(); // Submit form after selecting color
 		        });
 		    });
 
@@ -263,7 +254,7 @@
 		        element.addEventListener('click', function() {
 		            const size = this.getAttribute('data-size');
 		            document.getElementById('sizeFilter').value = size;
-		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn size
+		            document.getElementById('filterForm').submit(); // Submit form after selecting size
 		        });
 		    });
 
@@ -272,7 +263,7 @@
 		        element.addEventListener('click', function() {
 		            const priceRange = this.getAttribute('data-price-range');
 		            document.getElementById('priceRangeFilter').value = priceRange;
-		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn price range
+		            document.getElementById('filterForm').submit(); // Submit form after selecting pricerange
 		        });
 		    });
 
