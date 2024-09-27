@@ -40,10 +40,10 @@ public class AboutUsController {
         List<Category> aoCategories = categories.stream()
                 .filter(category -> category.getCategoryName().startsWith("Áo")).collect(Collectors.toList());
         List<Category> quanCategories = categories.stream()
-                .filter(category -> category.getCategoryName().startsWith("Quần")).collect(Collectors.toList());
-
-        //Author: Lê Nguyên Minh Quý 27/06/1998
-
+                .filter(category -> category.getCategoryName().startsWith("Quần")).collect(Collectors.toList());    
+        /**
+         * Author: Lê Nguyên Minh Quý 27/06/1998
+         */
         List<Product> newProducts = productService.getTop4NewProducts();
 
         Random random = new Random();
