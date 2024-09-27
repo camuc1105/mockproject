@@ -55,6 +55,7 @@ $(document).ready(function() {
     });
 });
 
+
 function saveQuantityState() {
     var quantityState = {};
     $('.quantity-input').each(function() {
