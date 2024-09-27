@@ -113,58 +113,59 @@ body, html {
 									toán</td>
 								<td th:text="${history.transactionAmount}">Tổng tiền</td>
 								<td><a
-									th:href="@{/orderDetail/{id}(id=${history.orderId})}"
-									class="">Xem</a></td>
+									th:href="@{/orderDetail/{id}(id=${history.orderId})}" class="">Xem</a></td>
 							</tr>
 						</tbody>
 					</table>
 
 					<!-- Hiển thị phân trang -->
-					<nav>
-						<ul class="pagination justify-content-end">
-							<!-- Nút "Đầu" -->
-							<li class="page-item"
-								th:classappend="${transactionHistoriesPage.first} ? 'disabled'">
-								<a class="page-link"
-								th:href="@{/information/purchase-history(page=0, size=${transactionHistoriesPage.size})}">Đầu</a>
-							</li>
+					<div th:if="${transactionHistoriesPage.totalPages > 1}">
+						<nav>
+							<ul class="pagination justify-content-end">
+								<!-- Nút "Đầu" -->
+								<li class="page-item"
+									th:classappend="${transactionHistoriesPage.first} ? 'disabled'">
+									<a class="page-link"
+									th:href="@{/information/purchase-history(page=0, size=${transactionHistoriesPage.size})}">Đầu</a>
+								</li>
 
-							<!-- Nút "Trước" -->
-							<li class="page-item"
-								th:classappend="${!transactionHistoriesPage.hasPrevious()} ? 'disabled'">
-								<a class="page-link"
-								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number - 1}, size=${transactionHistoriesPage.size})}">Trước</a>
-							</li>
+								<!-- Nút "Trước" -->
+								<li class="page-item"
+									th:classappend="${!transactionHistoriesPage.hasPrevious()} ? 'disabled'">
+									<a class="page-link"
+									th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number - 1}, size=${transactionHistoriesPage.size})}">Trước</a>
+								</li>
 
-							<!-- Hiển thị các trang liền kề -->
-							<li class="page-item"
-								th:each="pageNum : ${#numbers.sequence(
+								<!-- Hiển thị các trang liền kề -->
+								<li class="page-item"
+									th:each="pageNum : ${#numbers.sequence(
         transactionHistoriesPage.number == 0 ? 0 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number - 2 : transactionHistoriesPage.number - 1),
         transactionHistoriesPage.totalPages <= 3 ? transactionHistoriesPage.totalPages - 1 : (transactionHistoriesPage.number == 0 ? 2 : (transactionHistoriesPage.number == transactionHistoriesPage.totalPages - 1 ? transactionHistoriesPage.number : transactionHistoriesPage.number + 1))
     )}"
-								th:if="${transactionHistoriesPage.totalPages > 1 && pageNum >= 0}"
-								th:classappend="${pageNum == transactionHistoriesPage.number} ? 'active'">
-								<a class="page-link"
-								th:href="@{/information/purchase-history(page=${pageNum}, size=${transactionHistoriesPage.size})}"
-								th:text="${pageNum + 1}">1</a>
-							</li>
+									th:if="${transactionHistoriesPage.totalPages > 1 && pageNum >= 0}"
+									th:classappend="${pageNum == transactionHistoriesPage.number} ? 'active'">
+									<a class="page-link"
+									th:href="@{/information/purchase-history(page=${pageNum}, size=${transactionHistoriesPage.size})}"
+									th:text="${pageNum + 1}">1</a>
+								</li>
 
+								<!-- Nút "Sau" -->
+								<li class="page-item"
+									th:classappend="${!transactionHistoriesPage.hasNext()} ? 'disabled'">
+									<a class="page-link"
+									th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number + 1}, size=${transactionHistoriesPage.size})}">Sau</a>
+								</li>
 
-							<!-- Nút "Sau" -->
-							<li class="page-item"
-								th:classappend="${!transactionHistoriesPage.hasNext()} ? 'disabled'">
-								<a class="page-link"
-								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.number + 1}, size=${transactionHistoriesPage.size})}">Sau</a>
-							</li>
+								<!-- Nút "Cuối" -->
+								<li class="page-item"
+									th:classappend="${transactionHistoriesPage.last} ? 'disabled'">
+									<a class="page-link"
+									th:href="@{/information/purchase-history(page=${transactionHistoriesPage.totalPages - 1}, size=${transactionHistoriesPage.size})}">Cuối</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
 
-							<!-- Nút "Cuối" -->
-							<li class="page-item"
-								th:classappend="${transactionHistoriesPage.last} ? 'disabled'">
-								<a class="page-link"
-								th:href="@{/information/purchase-history(page=${transactionHistoriesPage.totalPages - 1}, size=${transactionHistoriesPage.size})}">Cuối</a>
-							</li>
-						</ul>
-					</nav>
 
 				</div>
 			</div>
