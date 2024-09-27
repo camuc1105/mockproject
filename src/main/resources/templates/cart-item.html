@@ -13,30 +13,23 @@
     <div th:replace="~{/fragment/navHome :: navHome}"></div>
     <div class="container" style="margin-top: 5rem">
         <h2>Giỏ hàng</h2>
-
-        <!-- Thông báo số sản phẩm đã chọn -->
+        <div th:if="${cartItems.size() == 0}">
+                <h6>Giỏ hàng của bạn trống.</h6>
+            </div>
         <div class="alert alert-info font-weight-bold">
-            Số sản phẩm đã chọn: <span id="selected-count"></span>
+            Chọn: <span id="selected-count"></span>
         </div>
-
-        <!-- Hiển thị lỗi nếu có -->
         <div th:if="${errorMessages}" class="alert alert-danger" role="alert">
             <ul>
                 <li th:each="message : ${errorMessages}" th:text="${message}"></li>
             </ul>
         </div>
-
-        <!-- Form giỏ hàng -->
         <form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
-            <!-- Kiểm tra nếu giỏ hàng trống -->
-            <div th:if="${cartItems.size() == 0}">
-                <p>Giỏ hàng của bạn trống.</p>
-            </div>
-            <!-- Bảng sản phẩm trong giỏ hàng -->
+            
             <table class="table" th:if="${cartItems.size() > 0}">
                 <thead>
                     <tr class="bg-light">
-                        <th><input type="checkbox" id="selectAll"> Chọn tất cả</th>
+                        <th><input type="checkbox" id="selectAll"> Tất cả</th>
                         <th>Hình ảnh</th>
                         <th>Tên</th>
                         <th style="text-align: center;">Màu sắc</th>
@@ -79,22 +72,17 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- Tổng tiền -->
             <p th:if="${cartItems.size() > 0}">
                 Tổng tiền: <span id="cart-total"></span>
             </p>
-
             <hr />
-
-            <!-- Nút thanh toán -->
             <input type="hidden" name="cartItems" id="cart-items">
-            <button type="submit" class="btn btn-primary btn-sm" id="checkout-button" disabled>Thanh toán</button>
+            <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" id="checkout-button" disabled>Thanh toán</button></div>
         </form>
     </div>
 <div th:replace="~{/fragment/footer :: footer}"></div>
 <script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
-  
 </body>
 
 </html>
