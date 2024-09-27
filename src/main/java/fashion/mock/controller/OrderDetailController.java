@@ -50,14 +50,14 @@ public class OrderDetailController {
 		Optional<Order> orderOptional = orderService.getOrderById(id);
 		if (orderOptional.isEmpty()) {
 			model.addAttribute("errorMessage", "Order not found.");
-			return "error"; // Or a specific error page
+			return "404"; // Redirect to PageNotFound page
 		}
 		Order order = orderOptional.get();
 		
 		// Check if the order belongs to the logged-in user
 	    if (!order.getUser().getId().equals(user.getId())) {
 	        model.addAttribute("errorMessage", "You do not have permission to view this order.");
-	        return "403"; // Redirect to a specific error page or a permission-denied page
+	        return "403"; // Redirect to permission-denied page
 	    }
 		
 		List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByOrderId(id);

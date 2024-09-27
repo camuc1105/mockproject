@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fashion.mock.exception.NotEnoughInStockException;
 import fashion.mock.model.CartItem;
 import fashion.mock.model.Order;
 import fashion.mock.model.OrderDetail;
@@ -125,7 +126,7 @@ public CheckoutController(ShoppingCartUtils shoppingCartUtils, CheckoutService c
 			// Calculate new quantity for the product in stock
 			int newQuantity = product.getQuantity() - cartItem.getQuantity();
 			if (newQuantity < 0) {
-				throw new RuntimeException("Số lượng sản phẩm trong kho không đủ: " + product.getProductName());
+				throw new NotEnoughInStockException("Số lượng sản phẩm trong kho không đủ: " + product.getProductName());
 			}
 
 			// Update the product quantity in the database
