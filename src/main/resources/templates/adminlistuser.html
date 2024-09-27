@@ -170,7 +170,7 @@
                 html += generatePaginationHTML(0, 'Đầu', currentPage === 0);
                 
                 // Previous
-                html += generatePaginationHTML(Math.max(0, currentPage - 1), 'Sau', currentPage === 0);
+                html += generatePaginationHTML(Math.max(0, currentPage - 1), 'Trước', currentPage === 0);
                 
                 // Page numbers
                 const startPage = Math.max(0, currentPage - 1);
@@ -181,7 +181,7 @@
                 }
                 
                 // Next
-                html += generatePaginationHTML(Math.min(totalPages - 1, currentPage + 1), 'Trước', currentPage === totalPages - 1);
+                html += generatePaginationHTML(Math.min(totalPages - 1, currentPage + 1), 'Sau', currentPage === totalPages - 1);
                 
                 // Last page
                 html += generatePaginationHTML(totalPages - 1, 'Cuối', currentPage === totalPages - 1);

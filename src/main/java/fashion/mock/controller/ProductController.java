@@ -65,7 +65,7 @@ public class ProductController {
 			@RequestParam(defaultValue = "5") int size) {
 		Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, size));
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+			 return "403";
         } 
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("currentPage", page);
@@ -77,7 +77,7 @@ public class ProductController {
 	@GetMapping("/new")
 	public String showAddProductForm(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+			 return "403";
         } 
 		model.addAttribute("product", new Product());
 		model.addAttribute("categories", categoryService.getAllCategories());
@@ -87,7 +87,7 @@ public class ProductController {
 	@GetMapping("/edit/{id}")
 	public String showUpdateProductForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
 		if (!checkAdminAccess(session, model, redirectAttributes)) {
-            return "redirect:/home";
+			 return "403";
         } 
 		Product product = productService.getProductById(id)
 				.orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
