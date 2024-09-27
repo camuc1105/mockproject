@@ -35,7 +35,7 @@ public class Order {
 	@Column(name = "totalPrice", nullable = false)
 	private Double totalPrice;
 
-	@Column(columnDefinition = "NVARCHAR(25)")
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String status;
 
 	@Column(name = "updatedDate")
