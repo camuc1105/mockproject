@@ -72,13 +72,14 @@ public class DiscountController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+    public String showUpdateDiscountForm(@PathVariable Long id, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
-        	 return "403";
+            return "403";
         }        
-        
+         
         Discount discount = discountService.getDiscountById(id)
                 .orElseThrow(() -> new RuntimeException("Discount không tồn tại"));
+        discount.setProductName(discount.getProduct().getProductName());
         model.addAttribute("discount", discount);
         model.addAttribute("products", productService.getAllProducts());
         return "adminformdiscount";
