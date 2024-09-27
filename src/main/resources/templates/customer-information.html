@@ -230,44 +230,41 @@ body, html {
 	
 	<script>
 	
-		// Khi nhấn nút Edit, hiện modal để đổi mật khẩu hoặc bật chỉnh sửa các trường khác
-		// Sự kiện cho các nút "Edit" của các trường thông tin
 		$('.btn-edit').on('click', function() {
 		    var field = $(this).data('field');
 		    var button = $(this);
 		    var input = $('#' + field);
 		
-		    // Nếu nhấn vào nút chỉnh sửa của các trường thông tin (không phải mật khẩu)
+		    
 		    if (field !== 'password') {
-		        // Nếu đang ở chế độ chỉ đọc, chuyển sang chỉnh sửa
+		
 		        if (input.prop('readonly') || input.prop('disabled')) {
 		            input.prop('readonly', false);
 		            input.prop('disabled', false);
-		            button.html('<i class="fas fa-save"></i>'); // Đổi nút thành Save
-		            button.removeClass('btn-outline-info').addClass('btn-success'); // Đổi màu thành xanh
+		            button.html('<i class="fas fa-save"></i>');
+		            button.removeClass('btn-outline-info').addClass('btn-success');
 		        }
-		        // Nếu đang ở chế độ chỉnh sửa, lưu dữ liệu
-		        else {
-		            var updatedValue = input.val(); // Lấy giá trị mới từ input
 		
-		            // Gửi dữ liệu cập nhật qua AJAX
+		        else {
+		            var updatedValue = input.val(); 
+		
 		            $.ajax({
 		                type: "POST",
-		                url: "/information/update-info", // Endpoint xử lý cập nhật thông tin người dùng
+		                url: "/information/update-info",
 		                data: {
-		                    field: field, // Trường thông tin cần cập nhật
-		                    value: updatedValue // Giá trị mới
+		                    field: field,
+		                    value: updatedValue 
 		                },
 		                success: function(response) {
-		                    alert('Cập nhật thành công!'); // Hiển thị thông báo thành công
+		                    alert('Cập nhật thành công!');
 		                    
 		                    if (field === 'name') {
-		                        $('#username').text(updatedValue);  // Chỉ cập nhật trường 'username' nếu đang chỉnh sửa tên
+		                        $('#username').text(updatedValue);
 		                    }
 		                    
-		                    input.prop('readonly', true); // Chuyển về chế độ chỉ đọc
+		                    input.prop('readonly', true);
 		                    input.prop('disabled', true);
-		                    button.html('<i class="fas fa-edit"></i>'); // Đổi lại nút thành Edit
+		                    button.html('<i class="fas fa-edit"></i>');
 		                    button.removeClass('btn-success').addClass('btn-outline-info');
 		                },
 		                error: function(xhr, status, error) {
@@ -276,15 +273,13 @@ body, html {
 		            });
 		        }
 		    }
-		    // Nếu là trường mật khẩu, hiển thị modal để đổi mật khẩu
 		    else {
 		        $('#passwordModal').modal('show');
 		    }
 		});
 
-// Xử lý sự kiện lưu mật khẩu trong modal
 		$('#savePassword').on('click', function(event) {
-		    event.preventDefault(); // Ngăn không cho form submit ngay lập tức
+		    event.preventDefault();
 		
 		    var oldPassword = $('#oldPassword').val();
 		    var newPassword = $('#newPassword').val();
@@ -295,10 +290,9 @@ body, html {
 		        return;
 		    }
 		
-		    // Gửi yêu cầu AJAX để thay đổi mật khẩu
 		    $.ajax({
 		        type: "POST",
-		        url: "/information/change-password", // Đúng đường dẫn của controller cho đổi mật khẩu
+		        url: "/information/change-password",
 		        data: {
 		            oldPassword: oldPassword,
 		            newPassword: newPassword,
@@ -311,7 +305,11 @@ body, html {
 		                alert('Mật khẩu mới không khớp!');
 		            } else if (response === 'Mật khẩu đã được thay đổi thành công!') {
 		                alert('Mật khẩu đã được thay đổi thành công!');
-		                $('#passwordModal').modal('hide'); // Ẩn modal khi thành công
+		                $('#passwordModal').modal('hide');
+		                
+		                $('#oldPassword').val('');
+		                $('#newPassword').val('');
+		                $('#confirmNewPassword').val('');
 		            }
 		        },
 		        error: function(xhr, status, error) {

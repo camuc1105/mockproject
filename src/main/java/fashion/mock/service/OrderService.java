@@ -70,6 +70,12 @@ public class OrderService {
                 transactionHistory.setTransactionDate(LocalDate.now());
                 transactionHistoryRepository.save(transactionHistory);
             }
+            
+            if ("Đã hủy".equals(order.getStatus()) && "Hoàn tất".equals(transactionHistory.getStatus())) {
+                transactionHistory.setStatus("Chờ thanh toán");
+                transactionHistory.setTransactionDate(LocalDate.now());
+                transactionHistoryRepository.save(transactionHistory);
+            }
         }
     }
 
