@@ -52,7 +52,7 @@
 						name="priceRange" id="priceRangeFilter" th:value="${priceRange}">
 					<input type="hidden" name="page" value="0">
 
-					<!-- Màu sắc -->
+					<!-- Color -->
 					<div class="filter-section border-bottom">
 						<div class="has-submenu mt-4 d-flex justify-content-between">
 							<h6>Màu sắc</h6>
@@ -80,7 +80,7 @@
 						</div>
 					</div>
 
-					<!-- Kích thước -->
+					<!-- Size -->
 					<div class="filter-section border-bottom">
 						<div class="has-submenu mt-4 d-flex justify-content-between">
 							<h6>Kích thước</h6>
@@ -96,7 +96,7 @@
 						</div>
 					</div>
 
-					<!-- Theo giá -->
+					<!-- Price -->
 					<div class="filter-section border-bottom">
 						<div class="has-submenu mt-4 d-flex justify-content-between">
 							<h6>Theo giá</h6>
@@ -214,7 +214,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<!-- (Thêm nội dung chi tiết sản phẩm vào đây) -->
+					<!-- (Add detailed product content here) -->
 					<img th:src="@{'/images/' + ${product.images[0].imgLink}}"
 						class="img-fluid mb-4" alt="Product Image">
 					<p th:text="${product.description}">Mô tả sản phẩm</p>
@@ -248,90 +248,45 @@
 			"Đen" : "Black"
 		};
 
-		document
-				.addEventListener(
-						'DOMContentLoaded',
-						function() {
-							// Lưu màu sắc khi được chọn
-							document
-									.querySelectorAll(
-											'.size-option[data-color]')
-									.forEach(
-											function(element) {
-												element
-														.addEventListener(
-																'click',
-																function() {
-																	const color = this
-																			.getAttribute('data-color');
-																	document
-																			.getElementById('colorFilter').value = color;
-																	document
-																			.getElementById(
-																					'filterForm')
-																			.submit(); // Submit form sau khi chọn màu
-																});
-											});
+		document.addEventListener('DOMContentLoaded', function() {
+		    // Saves color when selected
+		    document.querySelectorAll('.size-option[data-color]').forEach(function(element) {
+		        element.addEventListener('click', function() {
+		            const color = this.getAttribute('data-color');
+		            document.getElementById('colorFilter').value = color;
+		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn màu
+		        });
+		    });
 
-							// Lưu kích thước khi được chọn
-							document
-									.querySelectorAll('.size-option[data-size]')
-									.forEach(
-											function(element) {
-												element
-														.addEventListener(
-																'click',
-																function() {
-																	const size = this
-																			.getAttribute('data-size');
-																	document
-																			.getElementById('sizeFilter').value = size;
-																	document
-																			.getElementById(
-																					'filterForm')
-																			.submit(); // Submit form sau khi chọn size
-																});
-											});
+		    // Save size when selected
+		    document.querySelectorAll('.size-option[data-size]').forEach(function(element) {
+		        element.addEventListener('click', function() {
+		            const size = this.getAttribute('data-size');
+		            document.getElementById('sizeFilter').value = size;
+		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn size
+		        });
+		    });
 
-							// Lưu giá khi được chọn
-							document
-									.querySelectorAll('li[data-price-range]')
-									.forEach(
-											function(element) {
-												element
-														.addEventListener(
-																'click',
-																function() {
-																	const priceRange = this
-																			.getAttribute('data-price-range');
-																	document
-																			.getElementById('priceRangeFilter').value = priceRange;
-																	document
-																			.getElementById(
-																					'filterForm')
-																			.submit(); // Submit form sau khi chọn price range
-																});
-											});
+		    // Save price when selected
+		    document.querySelectorAll('li[data-price-range]').forEach(function(element) {
+		        element.addEventListener('click', function() {
+		            const priceRange = this.getAttribute('data-price-range');
+		            document.getElementById('priceRangeFilter').value = priceRange;
+		            document.getElementById('filterForm').submit(); // Submit form sau khi chọn price range
+		        });
+		    });
 
-							// Xóa bộ lọc khi nhấn nút "Xóa bộ lọc"
-							document
-									.getElementById('resetFilters')
-									.addEventListener(
-											'click',
-											function() {
-												// Xóa các giá trị bộ lọc
-												document
-														.getElementById('colorFilter').value = '';
-												document
-														.getElementById('sizeFilter').value = '';
-												document
-														.getElementById('priceRangeFilter').value = '';
+		    // Clear filter at the press of a button "Xóa bộ lọc"
+		    document.getElementById('resetFilters').addEventListener('click', function() {
+		        // Xóa các giá trị bộ lọc
+		        document.getElementById('colorFilter').value = '';
+		        document.getElementById('sizeFilter').value = '';
+		        document.getElementById('priceRangeFilter').value = '';
 
-												// Submit form để tải lại trang mà không có các bộ lọc
-												document.getElementById(
-														'filterForm').submit();
-											});
-						});
+		        // Submit form to reload the page without filters
+		        document.getElementById('filterForm').submit();
+		    });
+		});
 	</script>
 </body>
 
