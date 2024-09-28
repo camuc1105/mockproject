@@ -94,7 +94,7 @@
 								<p class="size">Kích cỡ: <span th:text="${detail.product.size}"></span></p>
 								<p class="color">Màu sắc: <span th:text="${detail.product.color}"></span></p>
 							</td>
-							<td th:text="${detail.product.price} + ' đ'"></td>
+							<td th:text="${detail.subTotal / detail.quantity} + ' đ'"></td>
 							<td th:text="${detail.quantity}"></td>
 							<td th:text="${detail.subTotal} + ' đ'"></td>
 						</tr>
