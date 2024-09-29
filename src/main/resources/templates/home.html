@@ -138,12 +138,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
-	<div class="container text-center mt-4">
-		<a th:href="@{/shop}" class="btn btn-outline-success btn-lg">Xem
-			Thêm</a>
+		<div class="container text-center mt-4">
+			<a th:href="@{/shop}" class="btn btn-outline-success btn-lg">Xem
+				Thêm</a>
+		</div>
 	</div>
 
 	<!-- Ảnh banner -->
@@ -155,7 +153,7 @@
 	</div>
 
 	<!-- The section displays random product categories -->
-	<div class="container mt-5">
+	<div th:if="${hasProducts}" class="container mt-5">
 		<h2 class="text-center mb-4" th:text="${randomCategory.categoryName}">Sản phẩm ngẫu nhiên</h2>
 		<div class="row">
 			<div class="col-md-3 mb-4" th:each="product, productStat : ${randomCategoryProducts}" th:if="${productStat.index < 4}">
@@ -185,11 +183,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Nút Xem Thêm cho tất cả sản phẩm -->
-	<div class="container text-center mt-4">
-	    <a th:href="@{/shop(categoryId=${randomCategory.id})}"
-	       class="btn btn-outline-success btn-lg">Xem Thêm</a>
+		<!-- Nút Xem Thêm cho tất cả sản phẩm -->
+		<div class="container text-center mt-4">
+		    <a th:href="@{/shop(categoryId=${randomCategory.id})}"
+		       class="btn btn-outline-success btn-lg">Xem Thêm</a>
+		</div>
 	</div>
 	<!-- Footer -->
 	<div th:replace="~{/fragment/footer :: footer}"></div>

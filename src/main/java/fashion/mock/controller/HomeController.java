@@ -1,5 +1,6 @@
 package fashion.mock.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -56,10 +57,17 @@ public class HomeController {
 		
 		List<Product> newProducts = productService.getTop4NewProducts();
 		
+		List<Category> categoriesWithProducts = new ArrayList<>();
+        for (Category category : categories) {
+            if (!productService.getProductsByCategory(category.getCategoryName()).isEmpty()) {
+                categoriesWithProducts.add(category);
+            }
+        }
+        
 		Random random = new Random();
         Category randomCategory = categories.get(random.nextInt(categories.size()));
 
-        // Lấy sản phẩm của danh mục ngẫu nhiên
+        // Get random products from the category
         List<Product> randomCategoryProducts = productService.getProductsByCategory(randomCategory.getCategoryName());
 		
 		List<Product> products = productService.getAllProducts();
@@ -79,7 +87,6 @@ public class HomeController {
             }
         }
 
-		// Thêm danh sách "Áo" và "Quần" vào model
 		model.addAttribute("aoCategories", aoCategories);
 		model.addAttribute("quanCategories", quanCategories);
 		model.addAttribute("newProducts", newProducts);
@@ -90,6 +97,7 @@ public class HomeController {
         model.addAttribute("randomCategory", randomCategory);
         model.addAttribute("randomProductsOnDiscount", randomProductsOnDiscount);
         model.addAttribute("randomDiscountedPrices", randomDiscountedPrices);
+        model.addAttribute("hasProducts", !randomCategoryProducts.isEmpty());
 	
 	    @SuppressWarnings("unchecked")
 		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute("cartItems");
