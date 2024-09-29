@@ -3,6 +3,7 @@
  */
 package fashion.mock.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fashion.mock.model.CartItem;
+import fashion.mock.model.Discount;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
 import fashion.mock.service.ProductService;
@@ -67,6 +69,25 @@ public class ShoppingCartController {
 		} else {
 			return "redirect:/login/loginform";
 		}
+		@SuppressWarnings("unchecked")
+	    Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
+	    if (cartItemsMap != null && !cartItemsMap.isEmpty()) {
+	        for (Map.Entry<Long, CartItem> entry : cartItemsMap.entrySet()) {
+	            CartItem cartItem = entry.getValue();
+	            Product product = productService.findProductById(cartItem.getProductID());
+
+	            double currentPrice = product.getPrice();
+	            if (isOnDiscount(product)) { 
+	                currentPrice = getDiscountedPrice(product); 
+	            }
+
+	            if (cartItem.getPrice() != currentPrice) {
+	                cartItem.setPrice(currentPrice);
+	            }
+	        }
+
+	        session.setAttribute(CART_ITEMS, cartItemsMap);
+	    }
 		model.addAttribute("isAdmin", isAdmin);
 		return "cart-item";
 	}
@@ -189,5 +210,33 @@ public class ShoppingCartController {
 
 		return "redirect:/checkout"; // Redirect to checkout page
 	}
+	
+	// thêm
+	public boolean isOnDiscount(Product product) {
+	    LocalDate currentDate = LocalDate.now();
+	    if (product.getDiscounts() != null) {
+	        for (Discount discount : product.getDiscounts()) {
+	            if (discount.getStartDate().isBefore(currentDate) && discount.getEndDate().isAfter(currentDate)) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false; 
+	}
+	public double getDiscountedPrice(Product product) {
+	    LocalDate currentDate = LocalDate.now();
+	    double finalPrice = product.getPrice(); 
+
+	    if (product.getDiscounts() != null) {
+	        for (Discount discount : product.getDiscounts()) {
+	            if (discount.getStartDate().isBefore(currentDate) && discount.getEndDate().isAfter(currentDate)) {
+	                finalPrice = product.getPrice() * (1 - discount.getDiscountPercent() / 100);
+	                break; 
+	            }
+	        }
+	    }
+	    return finalPrice; 
+	}
+
 
 }

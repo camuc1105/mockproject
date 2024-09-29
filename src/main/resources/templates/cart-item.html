@@ -65,7 +65,8 @@
                             th:attr="data-total=${item.price * item.quantity}" style="text-align: center;"></td>
                         <td>
                             <div class="text-center">
-                                <a class="btn btn-sm btn-danger" th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}">Xoá</a>
+							  <a class="btn btn-sm btn-danger" th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}" 
+							   th:data-name="${item.name}" onclick="return confirmDelete(this);">Xoá</a>
                             </div>
                         </td>
                     </tr>
@@ -80,8 +81,52 @@
             <button type="submit" class="btn btn-primary" id="checkout-button" disabled>Thanh toán</button></div>
         </form>
     </div>
+    <!-- Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Xác nhận xóa sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm <strong id="product-name"></strong> không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Khônng</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">Có, đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
 <div th:replace="~{/fragment/footer :: footer}"></div>
 <script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
+<script>
+    let deleteUrl = '';
+
+    function confirmDelete(element) {
+        const productName = element.getAttribute('data-name');
+        deleteUrl = element.getAttribute('href'); // Lưu URL để xóa sản phẩm
+        
+        // Cập nhật tên sản phẩm trong modal
+        document.getElementById('product-name').innerText = productName;
+        
+        // Hiển thị modal
+        $('#deleteConfirmModal').modal('show');
+        
+        return false; // Ngăn chặn hành vi mặc định của thẻ a
+    }
+
+    // Khi người dùng xác nhận xóa
+    document.getElementById('confirm-delete').addEventListener('click', function() {
+        window.location.href = deleteUrl; // Chuyển hướng đến URL xóa
+    });
+</script>
+
+
 </body>
 
 </html>
