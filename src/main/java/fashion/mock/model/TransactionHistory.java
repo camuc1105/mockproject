@@ -27,7 +27,7 @@ public class TransactionHistory {
 	@JoinColumn(name = "paymentId", nullable = false)
 	private Payment payment;
 
-	@Column(name = "transactionDate", nullable = false)
+	@Column(name = "transactionDate")
 	private LocalDate transactionDate;
 
 	@Column(name = "transactionAmount", nullable = false)

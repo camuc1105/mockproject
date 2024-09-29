@@ -28,6 +28,11 @@ public class CheckoutService {
 		return checkoutRepository.findAll();
 	}
 
+	// Method to retrieve only "Hoạt động" (Active) payments
+	public List<Payment> getAllPaymentsAvailable() {
+		return checkoutRepository.findByStatus("Hoạt động");
+	}
+
 	public Payment findPaymentByMethod(String paymentMethod) {
 		return checkoutRepository.findByPaymentMethod(paymentMethod);
 	}
