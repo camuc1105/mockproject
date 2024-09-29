@@ -28,7 +28,6 @@
             transition: all 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-5px);
             box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
         }
         .card-header {
@@ -120,7 +119,7 @@
                     <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="name@example.com" required>
                     <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
                     <div id="emailError" class="text-danger"></div>
-                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                     <div class="text-danger" th:if="${emailError != null}" th:text="${emailError}"></div>
                 </div>
 
@@ -174,6 +173,28 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        let isPasswordValid = false;
+        let isRePasswordValid = false;
+        let isPhoneValid = false;
+        let isEmailValid = false;
+        let hasEmailInput = false;
+
+        // Vô hiệu hóa nút submit ban đầu
+        $('button[type="submit"]').prop('disabled', true);
+
+        function validateEmail() {
+            const email = $('#email').val();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (hasEmailInput && email.length > 0 && !emailRegex.test(email)) {
+                $('#emailError').text('Email không hợp lệ.');
+                isEmailValid = false;
+            }
+            if (email.length > 0)  {
+                $('#emailError').text('');
+                isEmailValid = true;
+            }
+        }
+
         function validatePassword() {
             const password = $('#password').val();
             const upperCaseRegex = /[A-Z]/;
@@ -181,69 +202,79 @@
             const digitRegex = /\d/;
 
             if (password.length < 8) {
-                return 'Password phải có ít nhất 8 ký tự.';
+                $('#passwordError').text('Mật khẩu phải có ít nhất 8 ký tự.');
+                isPasswordValid = false;
             } else if (!upperCaseRegex.test(password) || !lowerCaseRegex.test(password) || !digitRegex.test(password)) {
-                return 'Password phải chứa ít nhất 1 chữ hoa, 1 chữ thường, và 1 số';
+                $('#passwordError').text('Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, và 1 số');
+                isPasswordValid = false;
+            } else {
+                $('#passwordError').text('');
+                isPasswordValid = true;
             }
-            return '';
         }
 
         function validateRePassword() {
             const password = $('#password').val();
             const rePassword = $('#rePassword').val();
             if (password !== rePassword) {
-                return 'Password nhập lại không khớp.';
+                $('#rePasswordError').text('Mật khẩu nhập lại không khớp.');
+                isRePasswordValid = false;
+            } else {
+                $('#rePasswordError').text('');
+                isRePasswordValid = true;
             }
-            return '';
         }
 
-        $('#password, #rePassword').on('input', function() {
-            const passwordError = validatePassword();
-            $('#passwordError').text(passwordError);
-
-            const rePasswordError = validateRePassword();
-            $('#rePasswordError').text(rePasswordError);
-        });
-
-        $('#registerForm').on('submit', function (e) {
-            let isValid = true;
-
-            // Validate email
-            const email = $('#email').val();
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-            if (!emailPattern.test(email)) {
-                $('#emailError').text('Email không hợp lệ!');
-                isValid = false;
-            } else {
-                $('#emailError').text('');
-            }
-
-            // Validate password
-            const passwordError = validatePassword();
-            if (passwordError) {
-                $('#passwordError').text(passwordError);
-                isValid = false;
-            }
-
-            // Validate confirm password
-            const rePasswordError = validateRePassword();
-            if (rePasswordError) {
-                $('#rePasswordError').text(rePasswordError);
-                isValid = false;
-            }
-
-            // Validate phone number
+        function validatePhone() {
             const phone = $('#phoneNumber').val();
             const phonePattern = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
             if (!phonePattern.test(phone)) {
                 $('#phoneNumberError').text('Số điện thoại không hợp lệ.');
-                isValid = false;
+                isPhoneValid = false;
             } else {
                 $('#phoneNumberError').text('');
+                isPhoneValid = true;
             }
+        }
 
-            // Prevent form submission if there are errors
-            if (!isValid) {
+        function toggleSubmitButton() {
+            if (isPasswordValid && isRePasswordValid && isPhoneValid && isEmailValid) {
+                $('button[type="submit"]').prop('disabled', false);
+            } else {
+                $('button[type="submit"]').prop('disabled', true);
+            }
+        }
+
+        $('#email').on('input', function () {
+            hasEmailInput = true;
+            validateEmail();
+            toggleSubmitButton();
+        });
+
+        $('#password').on('input', function () {
+            validatePassword();
+            validateRePassword();
+            toggleSubmitButton();
+        });
+
+        $('#rePassword').on('input', function () {
+            validateRePassword();
+            toggleSubmitButton();
+        });
+
+        $('#phoneNumber').on('input', function () {
+            validatePhone();
+            toggleSubmitButton();
+        });
+
+        $('#registerForm').on('submit', function (e) {
+            hasEmailInput = true;
+            validateEmail();
+            validatePassword();
+            validateRePassword();
+            validatePhone();
+
+            if (!(isPasswordValid && isRePasswordValid && isPhoneValid && isEmailValid)) {
                 e.preventDefault();
             }
         });
