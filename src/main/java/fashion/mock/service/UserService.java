@@ -89,6 +89,11 @@ public class UserService {
 	 * Author: Nguyễn Viết Hoàng Phúc 22/11/1997
 	 */
 	public User activeUser(User user) {
+		UserRole userRole = new UserRole();
+		Optional<Role> role = roleRepository.findById(2l);
+		userRole.setUser(user);
+		userRole.setRole(role.orElseGet(null));
+		userRoleRepository.save(userRole);
 		user.setStatus("Active");
 		return userRepository.save(user);
 	}

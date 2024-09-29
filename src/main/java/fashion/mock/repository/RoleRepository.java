@@ -12,7 +12,7 @@ import fashion.mock.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Optional<Role> findByRole(String role);
+    Optional<Role> findById(Long id);
   /**
    * Author: Ngô Văn Quốc Thắng 11/05/1996
  */
