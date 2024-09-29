@@ -3,7 +3,6 @@
  */
 package fashion.mock.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,7 +22,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fashion.mock.model.CartItem;
-import fashion.mock.model.Discount;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
 import fashion.mock.service.ProductService;
@@ -59,85 +57,65 @@ public class ShoppingCartController {
 		
 		// Prepare category info
         shoppingCartUtils.prepareCategoryInfo(model);
-
 		User user = (User) session.getAttribute("user");
 		boolean isAdmin = false; // Initialize isAdmin
-
 		if (user != null) {
 			isAdmin = userService.isAdmin(user.getId());
 			model.addAttribute("user", user);
 		} else {
 			return "redirect:/login/loginform";
 		}
-		@SuppressWarnings("unchecked")
-	    Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
-	    if (cartItemsMap != null && !cartItemsMap.isEmpty()) {
-	        for (Map.Entry<Long, CartItem> entry : cartItemsMap.entrySet()) {
-	            CartItem cartItem = entry.getValue();
-	            Product product = productService.findProductById(cartItem.getProductID());
-
-	            double currentPrice = product.getPrice();
-	            if (isOnDiscount(product)) { 
-	                currentPrice = getDiscountedPrice(product); 
-	            }
-
-	            if (cartItem.getPrice() != currentPrice) {
-	                cartItem.setPrice(currentPrice);
-	            }
-	        }
-
-	        session.setAttribute(CART_ITEMS, cartItemsMap);
-	    }
 		model.addAttribute("isAdmin", isAdmin);
 		return "cart-item";
 	}
+	
 
 	@PostMapping("/add")
-
 	public String addCart(@RequestParam Long productId,
-			@RequestParam double price,
-			@RequestParam int quantity, 
-			@RequestParam String action, 
-			@RequestParam String imgLink,
-			RedirectAttributes redirectAttributes,
-			HttpSession session, Model model) {
+	                      @RequestParam double price, 
+	                      @RequestParam int quantity, 
+	                      @RequestParam String action, 
+	                      @RequestParam String imgLink,
+	                      RedirectAttributes redirectAttributes,
+	                      HttpSession session) {
 
-		User user = (User) session.getAttribute("user");
+	    User user = (User) session.getAttribute("user");
+	    if (user == null) {
+	        return "redirect:/login/loginform";
+	    }
 
-		if (user == null) {
-			return "redirect:/login/loginform";
-		}
+	    // Retrieve cartItems from session
+	    @SuppressWarnings("unchecked")
+	    Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
+	    if (cartItemsMap == null) {
+	        cartItemsMap = new HashMap<>();
+	        session.setAttribute(CART_ITEMS, cartItemsMap);
+	    }
 
-		// Retrieve cartItems from session
-		@SuppressWarnings("unchecked")
-		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
-		if (cartItemsMap == null) {
-			cartItemsMap = new HashMap<>();
-			session.setAttribute(CART_ITEMS, cartItemsMap);
-		}
+	    // Check if the product already exists in the cart
+	    CartItem existingItem = cartItemsMap.get(productId);
+	    if (existingItem != null) {
+	        if (existingItem.getPrice() != price) {
+	            existingItem.setPrice(price);
+	        }
+	        existingItem.setQuantity(existingItem.getQuantity() + quantity);
+	    } else {
+	        Product product = productService.findProductById(productId);
+	        CartItem newItem = new CartItem();
+	        newItem.setProductID(productId);
+	        newItem.setName(product.getProductName());
+	        double roundedPrice = Math.round(price * 100.0) / 100.0; 
+	        newItem.setPrice(roundedPrice); 
+	        newItem.setImgLink(imgLink);
+	        newItem.setColor(product.getColor());
+	        newItem.setSize(product.getSize());
+	        newItem.setQuantity(quantity);
 
-		// Check if the product already exists in the cart
-		CartItem existingItem = cartItemsMap.get(productId);
-		if (existingItem != null) {
-			existingItem.setQuantity(existingItem.getQuantity() + quantity);
-		} else {
-			Product product = productService.findProductById(productId);
-			CartItem newItem = new CartItem();
-			newItem.setProductID(productId);
-			newItem.setName(product.getProductName());
-			newItem.setPrice(price);
-			newItem.setImgLink(imgLink);
-			newItem.setColor(product.getColor());
-			newItem.setSize(product.getSize());
-			newItem.setQuantity(quantity);
-			
-			cartItemsMap.put(productId, newItem);
-		}
+	        cartItemsMap.put(productId, newItem);
+	    }
 
-		redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng!");
-
-		return "buy".equals(action) ? REDIRECT_CART_VIEW : "redirect:/shop/" + productId;
-
+	    redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng!");
+	    return "buy".equals(action) ? REDIRECT_CART_VIEW : "redirect:/shop/" + productId;
 	}
 
 	@GetMapping("/delete/{id}")
@@ -211,32 +189,4 @@ public class ShoppingCartController {
 		return "redirect:/checkout"; // Redirect to checkout page
 	}
 	
-	// thêm
-	public boolean isOnDiscount(Product product) {
-	    LocalDate currentDate = LocalDate.now();
-	    if (product.getDiscounts() != null) {
-	        for (Discount discount : product.getDiscounts()) {
-	            if (discount.getStartDate().isBefore(currentDate) && discount.getEndDate().isAfter(currentDate)) {
-	                return true;
-	            }
-	        }
-	    }
-	    return false; 
-	}
-	public double getDiscountedPrice(Product product) {
-	    LocalDate currentDate = LocalDate.now();
-	    double finalPrice = product.getPrice(); 
-
-	    if (product.getDiscounts() != null) {
-	        for (Discount discount : product.getDiscounts()) {
-	            if (discount.getStartDate().isBefore(currentDate) && discount.getEndDate().isAfter(currentDate)) {
-	                finalPrice = product.getPrice() * (1 - discount.getDiscountPercent() / 100);
-	                break; 
-	            }
-	        }
-	    }
-	    return finalPrice; 
-	}
-
-
 }
