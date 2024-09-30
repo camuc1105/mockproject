@@ -169,7 +169,7 @@
         	    $("#productForm").submit(function(event) {
         	        event.preventDefault();
 
-        	        // Xóa các thông báo lỗi trước đó
+        	        // Clear previous error messages
         	        $(".error-message").text("");
 
         	        var productName = $("#productName").val().trim();
@@ -180,7 +180,6 @@
         	        var size = $("#size").val();
         	        var isValid = true;
 
-        	        // Xác thực Tên Sản phẩm
         	        if (productName === "") {
         	            $("#productNameError").text("Vui lòng nhập tên sản phẩm.");
         	            isValid = false;
@@ -189,7 +188,6 @@
         	            isValid = false;
         	        }
 
-        	        // Xác thực Giá
         	        if (price === "") {
         	            $("#priceError").text("Vui lòng nhập giá.");
         	            isValid = false;
@@ -198,7 +196,6 @@
         	            isValid = false;
         	        }
 
-        	        // Xác thực Số lượng
         	        if (quantity === "") {
         	            $("#quantityError").text("Vui lòng nhập số lượng.");
         	            isValid = false;
@@ -207,19 +204,16 @@
         	            isValid = false;
         	        }
 
-        	        // Xác thực Màu sắc
         	        if (color === "") {
         	            $("#colorError").text("Vui lòng chọn màu sắc.");
         	            isValid = false;
         	        }
 
-        	        // Xác thực Danh mục
         	        if (category === "") {
         	            $("#categoryError").text("Vui lòng chọn danh mục.");
         	            isValid = false;
         	        }
 
-        	        // Xác thực Kích thước
         	        if (size === "") {
         	            $("#sizeError").text("Vui lòng chọn kích thước.");
         	            isValid = false;
