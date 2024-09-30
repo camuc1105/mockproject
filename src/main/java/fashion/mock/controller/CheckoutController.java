@@ -70,7 +70,7 @@ public CheckoutController(ShoppingCartUtils shoppingCartUtils, CheckoutService c
 		// Retrieve the selected cart items from session
 		@SuppressWarnings("unchecked")
 		List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute(SELECTED_CART_ITEMS);
-		List<Payment> payments = checkoutService.getAllPayments();
+		List<Payment> payments = checkoutService.getAllPaymentsAvailable();
 
 		// Ensure items were selected
 		if (selectedCartItems == null || selectedCartItems.isEmpty()) {
@@ -146,11 +146,11 @@ public CheckoutController(ShoppingCartUtils shoppingCartUtils, CheckoutService c
 		TransactionHistory transactionHistory = new TransactionHistory();
 		transactionHistory.setOrder(savedOrder);
 		transactionHistory.setPayment(selectedPayment);
-		transactionHistory.setTransactionDate(LocalDate.now());
 		transactionHistory.setTransactionAmount(totalPriceWithShipping);
 		if (paymentMethod.equalsIgnoreCase("Tiền mặt")) {
 			transactionHistory.setStatus("Chờ thanh toán");
 		} else {
+			transactionHistory.setTransactionDate(LocalDate.now());
 			transactionHistory.setStatus("Hoàn tất");
 		}
 		checkoutService.saveTransactionHistory(transactionHistory);

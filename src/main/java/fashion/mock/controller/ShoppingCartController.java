@@ -3,6 +3,7 @@
  */
 package fashion.mock.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fashion.mock.model.CartItem;
+import fashion.mock.model.Discount;
 import fashion.mock.model.Product;
 import fashion.mock.model.User;
 import fashion.mock.service.ProductService;
@@ -54,35 +56,62 @@ public class ShoppingCartController {
 		if (redirect != null) {
 			return redirect;
 		}
-		
-		// Prepare category info
-        shoppingCartUtils.prepareCategoryInfo(model);
 
+		// Prepare category info
+		shoppingCartUtils.prepareCategoryInfo(model);
 		User user = (User) session.getAttribute("user");
 		boolean isAdmin = false; // Initialize isAdmin
-
 		if (user != null) {
 			isAdmin = userService.isAdmin(user.getId());
 			model.addAttribute("user", user);
 		} else {
 			return "redirect:/login/loginform";
 		}
+
+		@SuppressWarnings("unchecked")
+		Map<Long, CartItem> cartItemsMap = (Map<Long, CartItem>) session.getAttribute(CART_ITEMS);
+		if (cartItemsMap != null) {
+			LocalDate currentDate = LocalDate.now(); 
+			for (CartItem cartItem : cartItemsMap.values()) {
+				Product product = productService.findProductById(cartItem.getProductID());
+				if (product != null) {
+					double currentPrice = product.getPrice(); 
+					Discount validDiscount = null;
+					for (Discount discount : product.getDiscounts()) {
+						if (!discount.getStartDate().isAfter(currentDate) && !discount.getEndDate().isBefore(currentDate)) {
+							validDiscount = discount;
+							break;
+						}
+					}
+
+					if (validDiscount != null) {
+						double discountPercent = validDiscount.getDiscountPercent();
+						currentPrice = product.getPrice() * (1 - discountPercent / 100);
+					}
+
+					double roundedPrice = Math.round(currentPrice * 100.0) / 100.0;
+					if (cartItem.getPrice() != roundedPrice) {
+						cartItem.setPrice(roundedPrice);
+					}
+				}
+			}
+		}
+
 		model.addAttribute("isAdmin", isAdmin);
 		return "cart-item";
 	}
 
 	@PostMapping("/add")
-
-	public String addCart(@RequestParam Long productId,
-			@RequestParam double price,
-			@RequestParam int quantity, 
+	public String addCart(
+			@RequestParam Long productId, 
+			@RequestParam double price, 
+			@RequestParam int quantity,
 			@RequestParam String action, 
-			@RequestParam String imgLink,
+			@RequestParam String imgLink, 
 			RedirectAttributes redirectAttributes,
-			HttpSession session, Model model) {
+			HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
-
 		if (user == null) {
 			return "redirect:/login/loginform";
 		}
@@ -96,27 +125,28 @@ public class ShoppingCartController {
 		}
 
 		// Check if the product already exists in the cart
+		double roundedPrice = Math.round(price * 100.0) / 100.0;
 		CartItem existingItem = cartItemsMap.get(productId);
 		if (existingItem != null) {
 			existingItem.setQuantity(existingItem.getQuantity() + quantity);
+			if (existingItem.getPrice() != price) {
+				existingItem.setPrice(roundedPrice);
+			}
 		} else {
 			Product product = productService.findProductById(productId);
 			CartItem newItem = new CartItem();
 			newItem.setProductID(productId);
 			newItem.setName(product.getProductName());
-			newItem.setPrice(price);
+			newItem.setPrice(roundedPrice);
 			newItem.setImgLink(imgLink);
 			newItem.setColor(product.getColor());
 			newItem.setSize(product.getSize());
 			newItem.setQuantity(quantity);
-			
+
 			cartItemsMap.put(productId, newItem);
 		}
-
 		redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng!");
-
 		return "buy".equals(action) ? REDIRECT_CART_VIEW : "redirect:/shop/" + productId;
-
 	}
 
 	@GetMapping("/delete/{id}")
@@ -131,9 +161,6 @@ public class ShoppingCartController {
 
 			// Update the session attribute
 			session.setAttribute(CART_ITEMS, cartItemsMap);
-
-			// Add a message confirming the item was removed
-			redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được xóa khỏi giỏ hàng!");
 		}
 
 		// Redirect back to the cart view
@@ -156,7 +183,7 @@ public class ShoppingCartController {
 			e.printStackTrace();
 			return REDIRECT_CART_VIEW; // Handle error, redirect back to cart
 		}
-		
+
 		List<String> errorMessages = new ArrayList<>();
 
 		// At this point, you have the selected cart items in 'selectedItems'

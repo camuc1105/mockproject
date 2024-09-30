@@ -1,21 +1,25 @@
 package fashion.mock.controller;
 
-import fashion.mock.model.CartItem;
-import fashion.mock.model.Category;
-import fashion.mock.model.Product;
-import fashion.mock.model.User;
-import fashion.mock.service.CartItemService;
-import fashion.mock.service.CategoryService;
-import fashion.mock.service.ProductService;
-import fashion.mock.service.UserService;
-import jakarta.servlet.http.HttpSession;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import fashion.mock.model.CartItem;
+import fashion.mock.model.Category;
+import fashion.mock.model.Product;
+import fashion.mock.model.User;
+import fashion.mock.service.CategoryService;
+import fashion.mock.service.ProductService;
+import fashion.mock.service.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/aboutus")

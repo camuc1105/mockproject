@@ -78,6 +78,11 @@
             $("#nameError").text("Tên danh mục không được để trống.");
             isValid = false;
           }
+          
+          if (categoryName.length <= 3) {
+              $("#nameError").text("Tên danh mục phải lơn hơn 3 ký tự.");
+              isValid = false;
+            }
 
           if (categoryName.length > 25) {
             $("#nameError").text("Tên danh mục không được dài quá 25 ký tự.");
