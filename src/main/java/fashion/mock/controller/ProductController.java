@@ -157,9 +157,12 @@ public class ProductController {
 	}
 
 	@GetMapping("/search")
-	public String searchProducts(@RequestParam(value = "searchTerm", required = false) String searchTerm,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
-		if (page < 0) {
+	public String searchProducts(@RequestParam(required = false) String searchTerm,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model,HttpSession session, RedirectAttributes redirectAttributes) {
+	    if (!checkAdminAccess(session, model, redirectAttributes)) {
+            return "403";
+	    }
+	    if (page < 0) {
 			page = 0;
 		}
 

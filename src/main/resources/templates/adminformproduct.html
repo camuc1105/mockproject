@@ -61,7 +61,17 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="color">Màu sắc:</label>
-                                <input class="form-control" type="text" id="color" name="color" th:value="${product.color}" required />
+                                <select class="form-control" id="color" name="color" required>
+								    <option value="Trắng" th:selected="${product.color == 'Trắng'}">Trắng</option>
+								    <option value="Vàng" th:selected="${product.color == 'Vàng'}">Vàng</option>
+								    <option value="Đỏ" th:selected="${product.color == 'Đỏ'}">Đỏ</option>
+								    <option value="Xanh lá" th:selected="${product.color == 'Xanh lá'}">Xanh lá</option>
+								    <option value="Xanh dương" th:selected="${product.color == 'Xanh dương'}">Xanh dương</option>
+								    <option value="Tím" th:selected="${product.color == 'Tím'}">Tím</option>
+								    <option value="Cam" th:selected="${product.color == 'Cam'}">Cam</option>
+								    <option value="Hồng" th:selected="${product.color == 'Hồng'}">Hồng</option>
+								    <option value="Đen" th:selected="${product.color == 'Đen'}">Đen</option>
+								</select>
                                 <span class="text-danger" th:if="${#fields.hasErrors('product.color')}" th:errors="*{product.color}"></span>
                             </div>
                         </div>
