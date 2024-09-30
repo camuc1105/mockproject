@@ -104,7 +104,7 @@
 	</div>
 
 	<!-- New product display section -->
-	<div class="container mt-5">
+	<div class="container mt-5" id="new-products">
 		<h2 class="text-center mb-4">Sản phẩm mới</h2>
 		<div class="row">
 			<div class="col-md-3 mb-4"
@@ -191,6 +191,20 @@
 	</div>
 	<!-- Footer -->
 	<div th:replace="~{/fragment/footer :: footer}"></div>
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Kích hoạt cuộn mượt khi click vào anchor link
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
 </body>
+
 
 </html>
