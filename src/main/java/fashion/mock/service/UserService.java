@@ -161,7 +161,7 @@ public class UserService {
 	        userRoleRepository.saveAll(userRoles);
 
 	        return userRepository.save(existingUser);
-	    }
+	    } 
 
 	/**
 	 * Author: Ngô Văn Quốc Thắng 11/05/1996  

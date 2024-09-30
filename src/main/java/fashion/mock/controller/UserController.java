@@ -43,7 +43,7 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         if (user == null || !userService.isAdmin(user.getId())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
-            return false;
+            return false; 
         }
         model.addAttribute("user", user);
         model.addAttribute("isAdmin", true);

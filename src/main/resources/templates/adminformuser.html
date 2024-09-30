@@ -27,7 +27,7 @@
 					<span th:text="${errorMessage}"></span>
 				</div>
 
-				<form id="userForm"
+				<form id="userForm" 
 					th:action="@{${user.id == null ? '/users' : '/users/update'}}"
 					th:object="${user}" method="post">
 					<input type="hidden" name="id" th:value="${user.id}" />
