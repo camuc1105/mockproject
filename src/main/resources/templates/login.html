@@ -3,54 +3,55 @@
 <!---->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: head}">
-
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng Nhập</title>
+	<!-- Liên kết đến file CSS -->
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<!-- Thêm Bootstrap CSS nếu cần -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- Thêm Font Awesome nếu cần cho biểu tượng 'X' -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<head><link rel="stylesheet" th:href="@{/css/login.css}"></head>
 <body>
-<div
-		class="login-container d-flex align-items-center justify-content-center">
+<div class="login-container d-flex align-items-center justify-content-center">
 	<div class="login-box">
 		<!-- Nút "X" để quay lại trang trước đó -->
 		<a class="close-btn" onclick="goBack()"><i class="fas fa-times"></i></a>
 		<h2 class="text-center mb-4">Đăng Nhập</h2>
-		<form th:action="@{/login/loginsuccess}" method="post"
-			  th:object="${user}">
-			<!-- Thêm CSRF token -->
-			<input type="hidden" name="${_csrf.parameterName}"
-				   value="${_csrf.token}">
+		<form th:action="@{/login/loginsuccess}" method="post" th:object="${user}">
 
 			<div class="form-group">
 				<label for="email">Email</label>
-				<!-- Thay đổi name từ "email" thành "username" -->
 				<input type="email" class="form-control" id="email" name="username"
 					   placeholder="Nhập email" th:field="*{email}">
 				<!-- Hiển thị lỗi nếu email đã tồn tại -->
-				<div style="color: red;" th:if="${errorEmail != null}"
-					 th:text="${errorEmail}"></div>
+				<div style="color: red;" th:if="${errorEmail != null}" th:text="${errorEmail}"></div>
 			</div>
+
 			<div class="form-group">
 				<label for="password">Mật khẩu</label>
 				<input type="password" class="form-control" id="password" name="password"
 					   placeholder="Nhập mật khẩu" th:field="*{password}">
 				<!-- Hiển thị lỗi nếu sai mật khẩu -->
-				<div style="color: red;" th:if="${errorPassword != null}"
-					 th:text="${errorPassword}"></div>
+				<div style="color: red;" th:if="${errorPassword != null}" th:text="${errorPassword}"></div>
 				<!-- Hiển thị lỗi nếu chưa xác thực -->
-				<div style="color: red;" th:if="${errorStatus != null}"
-					 th:text="${errorStatus}"></div>
+				<div style="color: red;" th:if="${errorStatus != null}" th:text="${errorStatus}"></div>
 				<!-- Thêm nút "Xác thực ngay" nếu tài khoản chưa được xác thực -->
 				<div th:if="${errorStatus != null}">
-					<a href="/verification" class="btn btn-black btn-block">Xác thực ngay</a>
+					<a href="#" onclick="reVerify(event)" class="btn btn-black btn-block">Xác thực ngay</a>
 				</div>
 			</div>
+
 			<!-- Checkbox hiển thị mật khẩu -->
 			<div class="form-group form-check">
 				<input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePassword()">
 				<label class="form-check-label" for="showPassword">Hiển thị mật khẩu</label>
 			</div>
-			<button type="submit" class="btn btn-black btn-block">Đăng
-				Nhập</button>
+
+			<button type="submit" class="btn btn-black btn-block">Đăng Nhập</button>
+
 			<div class="text-center mt-3">
 				<a href="/forget-password">Quên mật khẩu?</a>
 			</div>
@@ -58,22 +59,38 @@
 				<a href="/register/register">Chưa có tài khoản? Đăng ký ngay</a>
 			</div>
 		</form>
+
+		<!-- Form ẩn để xác thực lại email -->
+		<form id="reVerifyForm" th:action="@{/register/reVeryfi}" method="post" style="display: none;">
+			<input type="hidden" id="reVerifyEmail" name="email">
+		</form>
 	</div>
 </div>
+
 <!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
-<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
 		crossorigin="anonymous"></script>
-<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+
 <!-- JavaScript để xử lý hiển thị mật khẩu -->
 <script th:inline="javascript" th:src="@{/js/login.js}"></script>
+
+<!-- JavaScript để xử lý gửi form khi bấm "Xác thực ngay" -->
+<script>
+	function reVerify(event) {
+		event.preventDefault();  // Ngăn chặn tải lại trang khi bấm vào nút
+		var email = document.getElementById('email').value;  // Lấy email từ input
+		document.getElementById('reVerifyEmail').value = email;  // Đặt giá trị email vào form ẩn
+		document.getElementById('reVerifyForm').submit();  // Gửi form
+	}
+</script>
+
 </body>
 </html>
+
