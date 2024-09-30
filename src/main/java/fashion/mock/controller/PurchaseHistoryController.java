@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -75,6 +77,27 @@ public class PurchaseHistoryController {
         return "purchase-history";
     }
 
+    @PostMapping("/cancel-order/{orderId}")
+    public String cancelOrder(@PathVariable Long orderId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        
+        if (user == null) {
+            model.addAttribute("error", "Bạn cần đăng nhập để hủy đơn hàng.");
+            return "redirect:/login/loginform";
+        }
+
+        boolean success = purchaseHistoryService.cancelOrder(orderId, user.getId());
+
+        if (success) {
+            model.addAttribute("message", "Đơn hàng đã được hủy thành công.");
+        } else {
+            model.addAttribute("error", "Không thể hủy đơn hàng.");
+        }
+
+        return "redirect:/information/purchase-history";  
+    }
+
+    
     @GetMapping("customer-information")
     public String viewCustomerInformation(HttpSession session, Model model) {
         return "customer-information";
