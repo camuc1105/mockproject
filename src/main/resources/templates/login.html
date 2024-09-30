@@ -41,8 +41,11 @@
 					 th:text="${errorStatus}"></div>
 				<!-- Thêm nút "Xác thực ngay" nếu tài khoản chưa được xác thực -->
 				<div th:if="${errorStatus != null}">
-					<a href="/verification" class="btn btn-black btn-block">Xác thực ngay</a>
+					<a th:href="@{/register/inputCode(email=${email})}" class="btn btn-black btn-block">Xác thực ngay</a>
 				</div>
+				<!-- Hiển thị thông báo lỗi validate  -->
+				<div id="error-message" style="color: red; display: none;"></div>
+
 			</div>
 			<!-- Checkbox hiển thị mật khẩu -->
 			<div class="form-group form-check">
