@@ -42,6 +42,9 @@
 				<div th:if="${errorStatus != null}">
 					<a href="#" onclick="reVerify(event)" class="btn btn-black btn-block">Xác thực ngay</a>
 				</div>
+				<!-- Hiển thị thông báo lỗi validate  -->
+				<div id="error-message" style="color: red; display: none;"></div>
+
 			</div>
 
 			<!-- Checkbox hiển thị mật khẩu -->
