@@ -139,7 +139,7 @@ public class UserService {
 	  @Transactional
 	    public User updateUserWithRoles(User user, List<Long> roleIds) {
 	        User existingUser = userRepository.findById(user.getId())
-	                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + user.getId()));
+	                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng có ID: " + user.getId()));
 	        validateUserUpdate(user, existingUser, roleIds);
 	        
 	        existingUser.setEmail(user.getEmail().trim());
@@ -149,9 +149,9 @@ public class UserService {
 	        existingUser.setStatus(user.getStatus());
 	        existingUser.setUpdatedDate(LocalDate.now());
 	        
-	        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-	            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-	        }
+//	        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+//	            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+//	        }
 
 	        userRoleRepository.deleteByUser(existingUser);
 	        List<Role> roles = roleRepository.findAllById(roleIds);
@@ -206,11 +206,6 @@ public class UserService {
 	        throw new IllegalArgumentException("Vui lòng chọn ít nhất một vai trò....");
 	    }
 
-//		String trimmedEmail = user.getEmail().trim();
-//		User userWithSameEmail = userRepository.findByEmail(trimmedEmail);
-//		if (userWithSameEmail != null && !userWithSameEmail.getId().equals(existingUser.getId())) {
-//			throw new IllegalArgumentException("Email đã tồn tại");
-//		}
 	}
 
 	/**

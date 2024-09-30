@@ -28,23 +28,23 @@
 				</div>
 
 				<form id="userForm"
-					th:action="@{${user.id == null ? '/users' : '/users/update'}}"
-					th:object="${user}" method="post">
-					<input type="hidden" name="id" th:value="${user.id}" />
+					th:action="@{${user1.id == null ? '/users' : '/users/update'}}"
+					th:object="${user1}" method="post">
+					<input type="hidden" name="id" th:value="${user1.id}" />
 
 					<!-- Basic Information -->
 					<div class="form-section">
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="email">Email:</label> 
-								<input class="form-control" type="email" id="email" name="email" th:value="${user.email}" th:readonly="${user.id != null}" /> 
+								<input class="form-control" type="email" id="email" name="email" th:value="${user1.email}" th:readonly="${user1.id != null}" /> 
 								<small id="emailError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="password">Mật khẩu:</label> <input class="form-control" type="password" id="password" name="password" th:value="${user.password}" th:readonly="${user.id != null}" /> <small id="passwordError"
+								<label for="password">Mật khẩu:</label> <input class="form-control" type="password" id="password" name="password" th:value="${user1.password}" th:readonly="${user1.id != null}" /> <small id="passwordError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('password')}"
@@ -55,7 +55,7 @@
 							<div class="form-group col-md-6">
 								<label for="userName">Tên người dùng:</label> <input
 									class="form-control" type="text" id="userName" name="userName"
-									th:value="${user.userName}" /> <small id="userNameError"
+									th:value="${user1.userName}" /> <small id="userNameError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('userName')}"
@@ -82,7 +82,7 @@
 							<div class="form-group col-md-6">
 								<label for="phone">Số điện thoại:</label> <input
 									class="form-control" type="tel" id="phone" name="phone"
-									th:value="${user.phone}" /> <small id="phoneError"
+									th:value="${user1.phone}" /> <small id="phoneError"
 									class="form-text text-danger"></small> <small
 									class="form-text text-danger"
 									th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
@@ -106,7 +106,7 @@
 						<label for="address">Địa chỉ:</label>
 						<div class="form-group">
 							<textarea class="form-control" id="address" name="address"
-								rows="3" th:text="${user.address}"></textarea>
+								rows="3" th:text="${user1.address}"></textarea>
 							<small id="addressError" class="form-text text-danger"></small> <small
 								class="form-text text-danger"
 								th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></small>
@@ -114,20 +114,20 @@
 					</div>
 
 					<!-- Metadata -->
-					<div class="form-section" th:if="${user.id != null}">
+					<div class="form-section" th:if="${user1.id != null}">
 						<h4>Thông Tin Khác</h4>
 						<div class="form-row">
 							<div class="form-group col-md-6"
-								th:if="${user.createdDate != null}">
+								th:if="${user1.createdDate != null}">
 								<label for="createdDate">Ngày Tạo:</label> <input
 									class="form-control" type="date" id="createdDate"
-									name="createdDate" th:value="${user.createdDate}" readonly />
+									name="createdDate" th:value="${user1.createdDate}" readonly />
 							</div>
 							<div class="form-group col-md-6"
-								th:if="${user.updatedDate != null}">
+								th:if="${user1.updatedDate != null}">
 								<label for="updatedDate">Ngày Cập Nhật:</label> <input
 									class="form-control" type="date" id="updatedDate"
-									name="updatedDate" th:value="${user.updatedDate}" readonly />
+									name="updatedDate" th:value="${user1.updatedDate}" readonly />
 							</div>
 						</div>
 					</div>
@@ -135,7 +135,7 @@
 					<!-- Submit Buttons -->
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary"
-							th:text="${user.id == null ? 'Thêm Người Dùng' : 'Cập Nhật Người Dùng'}"></button>
+							th:text="${user1.id == null ? 'Thêm Người Dùng' : 'Cập Nhật Người Dùng'}"></button>
 						<a href="/users" class="btn btn-secondary">Hủy</a>
 					</div>
 				</form>
