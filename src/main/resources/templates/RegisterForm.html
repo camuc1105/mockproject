@@ -120,7 +120,7 @@
                     <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
                     <div id="emailError" class="text-danger"></div>
                     <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                    <div class="text-danger" th:if="${emailError != null}" th:text="${emailError}"></div>
+                    <div id="errorExist" class="text-danger" th:if="${emailError != null}" th:text="${emailError}"></div>
                 </div>
 
                 <div class="mb-4 form-floating">
@@ -179,8 +179,7 @@
         let isEmailValid = false;
         let hasEmailInput = false;
 
-        // Vô hiệu hóa nút submit ban đầu
-        $('button[type="submit"]').prop('disabled', true);
+
 
         function validateEmail() {
             const email = $('#email').val();
@@ -194,6 +193,12 @@
                 isEmailValid = true;
             }
         }
+
+        // Đúng cú pháp jQuery
+        $('#email').on('focus', function () {
+            $('#errorExist').text(''); // Sử dụng .text() để xóa nội dung bên trong thẻ
+        });
+
 
         function validatePassword() {
             const password = $('#password').val();
@@ -237,13 +242,6 @@
             }
         }
 
-        function toggleSubmitButton() {
-            if (isPasswordValid && isRePasswordValid && isPhoneValid && isEmailValid) {
-                $('button[type="submit"]').prop('disabled', false);
-            } else {
-                $('button[type="submit"]').prop('disabled', true);
-            }
-        }
 
         $('#email').on('input', function () {
             hasEmailInput = true;
