@@ -88,4 +88,22 @@ public class RegisterController {
 		}
 		return "login";
 	}
+
+	@PostMapping("/reVeryfi")
+	public String getInputCode(@RequestParam String email, Model model) {
+		// Lấy thông tin người dùng qua email
+		User user = userService.getByEmail(email);
+
+		// Kiểm tra nếu user tồn tại
+		if (user != null) {
+			model.addAttribute("email", user.getEmail());
+			String code = verificationService.generateAndStoreCode(user.getEmail());
+			emailService.sendVerificationCode(user.getEmail(), code);
+			return "redirect:/register/inputCode?email=" + user.getEmail();
+		}
+
+		// Nếu email không tồn tại, quay lại trang đăng nhập với thông báo lỗi
+		model.addAttribute("errorStatus", "Email không tồn tại");
+		return "login";  // Trả về trang login kèm lỗi
+	}
 }
