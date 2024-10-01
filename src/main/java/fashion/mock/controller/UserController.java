@@ -11,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,7 +75,7 @@ public class UserController {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
         	 return "403";
         }        
-        model.addAttribute("user", new User());
+        model.addAttribute("user1", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminformuser";
     }
@@ -93,7 +91,7 @@ public class UserController {
         
         User users = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
-        model.addAttribute("user", users);
+        model.addAttribute("user1", users);
         model.addAttribute("allRoles", roleService.getAllRoles());
         
         // Lấy danh sách các roleId đã chọn của user
@@ -144,16 +142,16 @@ public class UserController {
 
         // Đặt email và mật khẩu về giá trị hiện có
         user.setEmail(existingUser.getEmail());
-        user.setPassword(existingUser.getPassword());
-
-        // Loại bỏ lỗi email và mật khẩu khỏi BindingResult
-        List<FieldError> errorsToKeep = bindingResult.getFieldErrors().stream()
-                .filter(fe -> !fe.getField().equals("email") && !fe.getField().equals("password"))
-                .collect(Collectors.toList());
-        bindingResult = new BeanPropertyBindingResult(user, "user");
-        for (FieldError error : errorsToKeep) {
-            bindingResult.addError(error);
-        }
+//        user.setPassword(existingUser.getPassword());
+//
+//        // Loại bỏ lỗi email và mật khẩu khỏi BindingResult
+//        List<FieldError> errorsToKeep = bindingResult.getFieldErrors().stream()
+//                .filter(fe -> !fe.getField().equals("email") && !fe.getField().equals("password"))
+//                .collect(Collectors.toList());
+//        bindingResult = new BeanPropertyBindingResult(user, "user");
+//        for (FieldError error : errorsToKeep) {
+//            bindingResult.addError(error);
+//        }
 
         if (bindingResult.hasErrors() || roleIds == null || roleIds.isEmpty()) {
             if (roleIds == null || roleIds.isEmpty()) {

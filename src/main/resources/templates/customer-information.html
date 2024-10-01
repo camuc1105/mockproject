@@ -230,7 +230,6 @@
 				} else {
 					var updatedValue = input.val().trim();
 
-					// Validate thông tin người dùng
 					if (field === 'name' && updatedValue === '') {
 						errorMessage
 							.text('Tên không được để trống!');
@@ -248,12 +247,9 @@
 							.text('Số điện thoại không được để trống!');
 						return;
 					}
-					if (field === 'phone'
-						&& !/^(090|091|\(84\)\+90|\(84\)\+91)\d{7}$/
-							.test(updatedValue)) {
-						errorMessage
-							.text('Số điện thoại không đúng định dạng!');
-						return;
+					if (field === 'phone' && !/^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/.test(updatedValue)) {
+					    errorMessage.text('Số điện thoại không đúng định dạng!');
+					    return;
 					}
 
 					$.ajax({
@@ -265,7 +261,7 @@
 						},
 						success: function (response) {
 							alert('Cập nhật thành công!');
-							// Cập nhật giá trị hiển thị
+
 							if (field === 'name') {
 								$('#username').text(
 									updatedValue);
@@ -295,8 +291,6 @@
 				$('#passwordModal').modal('show');
 			}
 		});
-
-		// Xử lý sự kiện cho nút lưu mật khẩu
 		$('#savePassword').on('click', function (event) {
 			event.preventDefault();
 
@@ -304,12 +298,10 @@
 			var newPassword = $('#newPassword').val().trim();
 			var confirmNewPassword = $('#confirmNewPassword').val().trim();
 
-			// Reset thông báo lỗi
 			$('#passwordError').text('');
 			$('#newPasswordError').text('');
 			$('#confirmPasswordError').text('');
 
-			// Validate mật khẩu
 			if (oldPassword === '') {
 				$('#passwordError').text('Mật khẩu cũ không được để trống!');
 				return;
@@ -323,11 +315,10 @@
 				return;
 			}
 
-			// Kiểm tra định dạng mật khẩu mới
-			var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+			var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 			if (!passwordPattern.test(newPassword)) {
-				$('#newPasswordError').text('Mật khẩu mới phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và ít nhất 8 ký tự!');
-				return;
+    			$('#newPasswordError').text('Mật khẩu mới phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và ít nhất 8 ký tự!');
+    			return;
 			}
 
 			$.ajax({

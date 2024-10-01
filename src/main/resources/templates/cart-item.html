@@ -4,129 +4,115 @@
 
 <head th:replace="~{/fragment/head :: head}"></head>
 <style>
-    nav.navbar.navbar-expand-lg.navbar-light {
-        position: fixed;
-    }
+nav.navbar.navbar-expand-lg.navbar-light {
+	position: fixed;
+}
 </style>
 
 <body>
-    <div th:replace="~{/fragment/navHome :: navHome}"></div>
-    <div class="container" style="margin-top: 5rem">
-        <h2>Giỏ hàng</h2>
-        <div th:if="${cartItems.size() == 0}">
-                <h6>Giỏ hàng của bạn trống.</h6>
-            </div>
-        <div class="alert alert-info font-weight-bold">
-            Chọn: <span id="selected-count"></span>
-        </div>
-        <div th:if="${errorMessages}" class="alert alert-danger" role="alert">
-            <ul>
-                <li th:each="message : ${errorMessages}" th:text="${message}"></li>
-            </ul>
-        </div>
-        <form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
-            <table class="table" th:if="${cartItems.size() > 0}">
-                <thead>
-                    <tr class="bg-light">
-                        <th><input type="checkbox" id="selectAll"> Tất cả</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên</th>
-                        <th style="text-align: center;">Màu sắc</th>
-                        <th style="text-align: center;">Kích cỡ</th>
-                        <th style="text-align: center;">Giá</th>
-                        <th style="text-align: center;">Số lượng</th>
-                        <th style="text-align: center;">Thành tiền</th>
-                        <th style="text-align: center;">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item : ${cartItems}">
-                        <td>
-                            <input type="checkbox" class="product-checkbox"
-                                   th:attr="data-id=${item.productID}, data-name=${item.name}">
-                        </td>
-                        <td>
-                            <img th:src="@{'/images/' + ${item.imgLink}}" th:alt=${item.name} width="50" height="50" />
-                        </td>
-                        <td th:text="${item.name}"></td>
-                        <td th:text="${item.color}" style="text-align: center;"></td>
-                        <td th:text="${item.size}" style="text-align: center;"></td>
-                        <td th:text="${item.price}" th:attr="data-price=${item.price}" style="text-align: center;"></td>
-                        <td style="text-align: center;">
-                            <button type="button" class="btn btn-danger btn-sm decrease-quantity"
-                                    data-id="${item.productID}">-</button>
-                            <input type="number" class="quantity-input" name="quantity"
-                                   th:value="${item.quantity}" th:attr="data-id=${item.productID}"
-                                   style="width: 50px; text-align: center;" min="1" readonly>
-                            <button type="button" class="btn btn-success btn-sm increase-quantity"
-                                    data-id="${item.productID}">+</button>
-                        </td>
-                        <td class="item-total" th:text="${item.price * item.quantity}"
-                            th:attr="data-total=${item.price * item.quantity}" style="text-align: center;"></td>
-                        <td>
-                            <div class="text-center">
-							  <a class="btn btn-sm btn-danger" th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}" 
-							   th:data-name="${item.name}" onclick="return confirmDelete(this);">Xoá</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p th:if="${cartItems.size() > 0}">
-                Tổng tiền: <span id="cart-total"></span>
-            </p>
-            <hr />
-            <input type="hidden" name="cartItems" id="cart-items">
-            <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" id="checkout-button" disabled>Thanh toán</button></div>
-        </form>
-    </div>
-    <!-- Modal -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">Xác nhận xóa sản phẩm</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc chắn muốn xóa sản phẩm <strong id="product-name"></strong> không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-                <button type="button" class="btn btn-danger" id="confirm-delete">Có, đồng ý</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
-<div th:replace="~{/fragment/footer :: footer}"></div>
-<script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
-<script>
-    let deleteUrl = '';
+	<div th:replace="~{/fragment/navHome :: navHome}"></div>
+	<div class="container" style="margin-top: 5rem">
+		<h2>Giỏ hàng</h2>
+		<div th:if="${cartItems.size() == 0}">
+			<h6>Giỏ hàng của bạn không có sản phẩm nào.</h6>
+		</div>
+		<div class="alert alert-info font-weight-bold"> Chọn: <span id="selected-count"></span></div>
+		<div th:if="${errorMessages}" class="alert alert-danger" role="alert">
+			<ul>
+				<li th:each="message : ${errorMessages}" th:text="${message}"></li>
+			</ul>
+		</div>
+		<form id="checkout-form" th:action="@{/shopping-cart/submit}" method="post">
+			<table class="table" th:if="${cartItems.size() > 0}">
+				<thead>
+					<tr class="bg-light">
+						<th><input type="checkbox" id="selectAll"> Tất cả</th>
+						<th>Hình ảnh</th>
+						<th>Tên</th>
+						<th style="text-align: center;">Màu sắc</th>
+						<th style="text-align: center;">Kích cỡ</th>
+						<th style="text-align: center;">Giá</th>
+						<th style="text-align: center;">Số lượng</th>
+						<th style="text-align: center;">Thành tiền</th>
+						<th style="text-align: center;">Hành động</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${cartItems}">
+						<td><input type="checkbox" class="product-checkbox" th:attr="data-id=${item.productID}, data-name=${item.name}">
+						</td>
+						<td>
+							<img th:src="@{'/images/' + ${item.imgLink}}" th:alt=${item.name} width="50" height="50" /></td>
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.color}" style="text-align: center;"></td>
+						<td th:text="${item.size}" style="text-align: center;"></td>
+						<td th:text="${item.price}" th:attr="data-price=${item.price}" style="text-align: center;"></td>
+						<td style="text-align: center;">
+							<button type="button" class="btn btn-danger btn-sm decrease-quantity" data-id="${item.productID}">-</button> 
+							<input type="number" class="quantity-input" name="quantity" th:value="${item.quantity}" 
+								th:attr="data-id=${item.productID}" style="width: 50px; text-align: center;" min="1" readonly>
+							<button type="button" class="btn btn-success btn-sm increase-quantity" data-id="${item.productID}">+</button>
+						</td>
+						<td class="item-total" th:text="${item.price * item.quantity}" th:attr="data-total=${item.price * item.quantity}"
+							style="text-align: center;"></td>
+						<td>
+							<div class="text-center">
+								<a class="btn btn-sm btn-danger" th:href="@{/shopping-cart/delete/{id}(id=${item.productID})}"
+									th:data-name="${item.name}" onclick="return confirmDelete(this);">Xoá</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p th:if="${cartItems.size() > 0}"> Tổng tiền: <span id="cart-total"></span> </p><hr/>
+			<input type="hidden" name="cartItems" id="cart-items">
+			<div class="d-flex justify-content-end">
+				<button type="submit" class="btn btn-primary" id="checkout-button" disabled>Thanh toán</button>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteConfirmModalLabel">Xác nhận xóa sản phẩm</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body"> Bạn có chắc chắn muốn xóa sản phẩm <strong id="product-name"></strong> không? </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">Không</button>
+					<button type="button" class="btn btn-danger" id="confirm-delete">Có, đồng ý</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    function confirmDelete(element) {
-        const productName = element.getAttribute('data-name');
-        deleteUrl = element.getAttribute('href'); // Lưu URL để xóa sản phẩm
-        
-        // Cập nhật tên sản phẩm trong modal
-        document.getElementById('product-name').innerText = productName;
-        
-        // Hiển thị modal
-        $('#deleteConfirmModal').modal('show');
-        
-        return false; // Ngăn chặn hành vi mặc định của thẻ a
-    }
+	<div th:replace="~{/fragment/footer :: footer}"></div>
+	<script th:inline="javascript" th:src="@{/js/cart-item.js}"></script>
+	<script>
+		let deleteUrl = '';
 
-    // Khi người dùng xác nhận xóa
-    document.getElementById('confirm-delete').addEventListener('click', function() {
-        window.location.href = deleteUrl; // Chuyển hướng đến URL xóa
-    });
-</script>
+		function confirmDelete(element) {
+			const productName = element.getAttribute('data-name');
+			deleteUrl = element.getAttribute('href');
 
+			// update product name in modal
+			document.getElementById('product-name').innerText = productName;
 
+			// Display modal
+			$('#deleteConfirmModal').modal('show');
+
+			return false; 
+		}
+
+		// confirm delete
+		document.getElementById('confirm-delete').addEventListener('click',
+				function() {
+					window.location.href = deleteUrl; 
+				});
+	</script>
 </body>
-
 </html>
