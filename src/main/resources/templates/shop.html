@@ -49,7 +49,7 @@
 						id="sizeFilter" th:value="${size}"> <input type="hidden"
 						name="priceRange" id="priceRangeFilter" th:value="${priceRange}">
 					<input type="hidden" name="page" value="0">
-
+					<h4 class="text-center">Bộ Lọc</h4>
 					<!-- Color -->
 					<div class="filter-section border-bottom">
 						<div class="has-submenu mt-4 d-flex justify-content-between">
@@ -266,7 +266,21 @@
 		            document.getElementById('filterForm').submit(); // Submit form after selecting pricerange
 		        });
 		    });
+			
+		    const selectedColor = document.getElementById('colorFilter').value;
+		    const selectedSize = document.getElementById('sizeFilter').value;
+		    const selectedPriceRange = document.getElementById('priceRangeFilter').value;
 
+		    if (selectedColor) {
+		        document.querySelector(`.size-option[data-color="${selectedColor}"]`).classList.add('selected');
+		    }
+		    if (selectedSize) {
+		        document.querySelector(`.size-option[data-size="${selectedSize}"]`).classList.add('selected');
+		    }
+		    if (selectedPriceRange) {
+		        document.querySelector(`li[data-price-range="${selectedPriceRange}"]`).classList.add('selected');
+		    }
+		    
 		    // Clear filter at the press of a button "Xóa bộ lọc"
 		    document.getElementById('resetFilters').addEventListener('click', function() {
 		        // Xóa các giá trị bộ lọc

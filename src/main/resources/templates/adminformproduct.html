@@ -40,6 +40,7 @@
                                 <label for="productName">Tên Sản phẩm:</label>
                                 <input class="form-control" type="text" id="productName" name="productName" th:value="${product.productName}" required />
                                 <span id="productNameError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.productName')}" th:errors="*{product.productName}"></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="category">Danh mục:</label>
@@ -54,15 +55,18 @@
                                 <label for="price">Giá:</label>
                                 <input class="form-control" type="number" id="price" name="price" th:value="${product.price}" required />
                                 <span id="priceError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.price')}" th:errors="*{product.price}"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="quantity">Số lượng:</label>
                                 <input class="form-control" type="number" id="quantity" name="quantity" th:value="${product.quantity}" required />
                                 <span id="quantityError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.quantity')}" th:errors="*{product.quantity}"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="color">Màu sắc:</label>
                                 <select class="form-control" id="color" name="color" required>
+                                	<option value="">Chọn màu sắc</option>
 								    <option value="Trắng" th:selected="${product.color == 'Trắng'}">Trắng</option>
 								    <option value="Vàng" th:selected="${product.color == 'Vàng'}">Vàng</option>
 								    <option value="Đỏ" th:selected="${product.color == 'Đỏ'}">Đỏ</option>
@@ -74,11 +78,13 @@
 								    <option value="Đen" th:selected="${product.color == 'Đen'}">Đen</option>
 								</select>
                                 <span id="colorError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.color')}" th:errors="*{product.color}"></span>
                             </div>
                         </div>
                         <div class="form-group">
 						    <label for="size">Size:</label>
 						    <select class="form-control" id="size" name="size" required>
+						    	<option value="">Chọn size</option>
 						        <option value="S" th:selected="${product.size == 'S'}">S</option>
 						        <option value="M" th:selected="${product.size == 'M'}">M</option>
 						        <option value="L" th:selected="${product.size == 'L'}">L</option>
