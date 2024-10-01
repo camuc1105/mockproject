@@ -39,7 +39,7 @@
                             <div class="form-group col-md-6">
                                 <label for="productName">Tên Sản phẩm:</label>
                                 <input class="form-control" type="text" id="productName" name="productName" th:value="${product.productName}" required />
-                                <span id="productNameError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.productName')}" th:errors="*{product.productName}"></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="category">Danh mục:</label>
@@ -53,27 +53,17 @@
                             <div class="form-group col-md-4">
                                 <label for="price">Giá:</label>
                                 <input class="form-control" type="number" id="price" name="price" th:value="${product.price}" required />
-                                <span id="priceError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.price')}" th:errors="*{product.price}"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="quantity">Số lượng:</label>
                                 <input class="form-control" type="number" id="quantity" name="quantity" th:value="${product.quantity}" required />
-                                <span id="quantityError" class="text-danger error-message"></span>
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.quantity')}" th:errors="*{product.quantity}"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="color">Màu sắc:</label>
-                                <select class="form-control" id="color" name="color" required>
-								    <option value="Trắng" th:selected="${product.color == 'Trắng'}">Trắng</option>
-								    <option value="Vàng" th:selected="${product.color == 'Vàng'}">Vàng</option>
-								    <option value="Đỏ" th:selected="${product.color == 'Đỏ'}">Đỏ</option>
-								    <option value="Xanh lá" th:selected="${product.color == 'Xanh lá'}">Xanh lá</option>
-								    <option value="Xanh dương" th:selected="${product.color == 'Xanh dương'}">Xanh dương</option>
-								    <option value="Tím" th:selected="${product.color == 'Tím'}">Tím</option>
-								    <option value="Cam" th:selected="${product.color == 'Cam'}">Cam</option>
-								    <option value="Hồng" th:selected="${product.color == 'Hồng'}">Hồng</option>
-								    <option value="Đen" th:selected="${product.color == 'Đen'}">Đen</option>
-								</select>
-                                <span id="colorError" class="text-danger error-message"></span>
+                                <input class="form-control" type="text" id="color" name="color" th:value="${product.color}" required />
+                                <span class="text-danger" th:if="${#fields.hasErrors('product.color')}" th:errors="*{product.color}"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -86,7 +76,6 @@
 						        <option value="2XL" th:selected="${product.size == '2XL'}">2XL</option>
 						        <option value="3XL" th:selected="${product.size == '3XL'}">3XL</option>
 						    </select>
-						    <span id="sizeError" class="text-danger error-message"></span>
 						</div>
                     </div>
                     
@@ -110,7 +99,6 @@
                             <div class="d-flex flex-wrap">
                                 <div th:each="image : ${product.images}" class="position-relative mr-2 mb-2">
                                     <img th:src="@{${'/images/' + image.imgLink}}" alt="Product Image" class="image-preview">
-                                    <!-- <input type="file" id="image" name="image" class="form-control-file" accept="image/*"> -->
                                     <button type="button" class="btn btn-sm btn-danger position-absolute delete-image" style="top: 5px; right: 5px;" th:data-image-id="${image.id}">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -165,79 +153,48 @@
         	        deletedImageIds.push(imageId);
         	    });
 
-        	    // Handled when the form is submitted
-        	    $("#productForm").submit(function(event) {
-        	        event.preventDefault();
-
-        	        // Clear previous error messages
-        	        $(".error-message").text("");
-
-        	        var productName = $("#productName").val().trim();
-        	        var price = $("#price").val().trim();
-        	        var quantity = $("#quantity").val().trim();
-        	        var color = $("#color").val();
-        	        var category = $("#category").val();
-        	        var size = $("#size").val();
-        	        var isValid = true;
-
-        	        if (productName === "") {
-        	            $("#productNameError").text("Vui lòng nhập tên sản phẩm.");
-        	            isValid = false;
-        	        } else if (productName.length < 6) {
-        	            $("#productNameError").text("Tên sản phẩm phải có ít nhất 6 ký tự.");
-        	            isValid = false;
-        	        }
-
-        	        if (price === "") {
-        	            $("#priceError").text("Vui lòng nhập giá.");
-        	            isValid = false;
-        	        } else if (isNaN(price) || parseFloat(price) <= 0) {
-        	            $("#priceError").text("Vui lòng nhập một số hợp lệ lớn hơn 0.");
-        	            isValid = false;
-        	        }
-
-        	        if (quantity === "") {
-        	            $("#quantityError").text("Vui lòng nhập số lượng.");
-        	            isValid = false;
-        	        } else if (isNaN(quantity) || parseInt(quantity) < 1) {
-        	            $("#quantityError").text("Vui lòng nhập một số nguyên hợp lệ lớn hơn hoặc bằng 1.");
-        	            isValid = false;
-        	        }
-
-        	        if (color === "") {
-        	            $("#colorError").text("Vui lòng chọn màu sắc.");
-        	            isValid = false;
-        	        }
-
-        	        if (category === "") {
-        	            $("#categoryError").text("Vui lòng chọn danh mục.");
-        	            isValid = false;
-        	        }
-
-        	        if (size === "") {
-        	            $("#sizeError").text("Vui lòng chọn kích thước.");
-        	            isValid = false;
-        	        }
-
-        	        if (isValid) {
-        	            var formData = new FormData(this);
-        	            formData.append('deletedImageIds', JSON.stringify(deletedImageIds));
-        	            
-        	            $.ajax({
-        	                url: $(this).attr('action'),
-        	                type: 'POST',
-        	                data: formData,
-        	                processData: false,
-        	                contentType: false,
-        	                success: function(response) {
-        	                    window.location.href = '/products';
-        	                },
-        	                error: function(xhr, status, error) {
-        	                    alert('Có lỗi xảy ra khi cập nhật sản phẩm. Vui lòng thử lại.');
-        	                }
-        	            });
-        	        }
-        	    }); 
+        	    $("#productForm").validate({
+                    rules: {
+                        productName: {
+                            required: true,
+                            minlength: 6
+                        },
+                        price: {
+                            required: true,
+                            number: true,
+                            min: 0.01
+                        },
+                        quantity: {
+                            required: true,
+                            number: true,
+                            min: 1
+                        },
+                        color: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        productName: {
+                            required: "Vui lòng nhập tên sản phẩm.",
+                            minlength: "Tên sản phẩm phải có ít nhất 6 ký tự."
+                        },
+                        price: {
+                            required: "Vui lòng nhập giá.",
+                            number: "Vui lòng nhập một số hợp lệ lớn hơn 0",
+                            min: "Giá phải lớn hơn 0"
+                        },
+                        quantity: {
+                            required: "Vui lòng nhập số lượng",
+                            number: "Vui lòng nhập một số nguyên hợp lệ lớn hơn hoặc bằng 1.",
+                            min: "Số lượng phải lớn hơn 0"
+                        },
+                        color: {
+                            required: "Vui lòng nhập màu sắc"
+                        }
+                    },
+                    errorElement: "span",
+                    errorClass: "text-danger"
+                });
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

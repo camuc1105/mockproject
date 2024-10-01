@@ -119,3 +119,9 @@
 .size-btn {
 	width: 50px;
 }
+.size-option.selected {
+    border: 2px solid blue;
+}
+.submenu li.selected {
+    color: red;
+}
