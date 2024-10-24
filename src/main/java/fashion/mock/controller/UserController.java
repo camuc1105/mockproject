@@ -88,19 +88,22 @@ public class UserController {
         if (!checkAdminAccess(session, model, redirectAttributes)) {
         	 return "403";
         }        
-        
+        //Lấy thông tin người dùng: Lấy người dùng từ cơ sở dữ liệu dựa trên ID. Nếu không tồn tại, ném ra ngoại lệ.
+        //Thêm thông tin người dùng (user1) và danh sách vai trò (allRoles) vào Model.
         User users = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         model.addAttribute("user1", users);
         model.addAttribute("allRoles", roleService.getAllRoles());
         
         // Lấy danh sách các roleId đã chọn của user
+        //Lấy danh sách vai trò đã chọn: Lấy danh sách vai trò của người dùng để hiển thị trên form.
         List<Long> selectedRoleIds = users.getUserRoles().stream()
                 .map(userRole -> userRole.getRole().getId())
                 .collect(Collectors.toList());
         model.addAttribute("selectedRoleIds", selectedRoleIds);
         
         model.addAttribute("selectedStatus", users.getStatus());
+        //Trả về trang adminformuser để hiển thị form chỉnh sửa.
         return "adminformuser";
     }
 

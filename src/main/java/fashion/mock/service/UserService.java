@@ -120,11 +120,13 @@ public class UserService {
 	 @Transactional
 	    public User addUserWithRoles(User user, List<Long> roleIds) {
 	        validateUser(user, roleIds);
+	        //Mã hóa mật khẩu của người dùng trước khi lưu vào cơ sở dữ liệu để đảm bảo an toàn.
 	        user.setPassword(passwordEncoder.encode(user.getPassword()));
 	        user.setCreatedDate(LocalDate.now());
 	        User savedUser = userRepository.save(user);
-
+	        // Lấy danh sách các vai trò dựa trên danh sách roleIds từ cơ sở dữ liệu.
 	        List<Role> roles = roleRepository.findAllById(roleIds);
+	        //Tạo một danh sách các đối tượng UserRole bằng cách kết hợp mỗi vai trò với người dùng đã lưu (savedUser).
 	        List<UserRole> userRoles = roles.stream()
 	                .map(role -> new UserRole(savedUser, role))
 	                .collect(Collectors.toList());
@@ -138,10 +140,12 @@ public class UserService {
 	 */
 	  @Transactional
 	    public User updateUserWithRoles(User user, List<Long> roleIds) {
+		  //: Lấy người dùng hiện có từ cơ sở dữ liệu dựa trên ID của họ.
 	        User existingUser = userRepository.findById(user.getId())
+	        		// Nếu không tìm thấy người dùng, ném ra ngoại lệ với thông báo "Không tìm thấy người dùng".
 	                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng có ID: " + user.getId()));
 	        validateUserUpdate(user, existingUser, roleIds);
-	        
+	        //Cập nhật các thông tin của người dùng như email, tên, số điện thoại, địa chỉ, trạng thái và ngày cập nhật.
 	        existingUser.setEmail(user.getEmail().trim());
 	        existingUser.setUserName(user.getUserName().trim());
 	        existingUser.setPhone(user.getPhone());
@@ -152,9 +156,11 @@ public class UserService {
 //	        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
 //	            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
 //	        }
-
+	        //Xóa tất cả các vai trò liên kết với người dùng hiện tại.
 	        userRoleRepository.deleteByUser(existingUser);
+	        //: Lấy danh sách vai trò từ cơ sở dữ liệu.
 	        List<Role> roles = roleRepository.findAllById(roleIds);
+	        //Tạo danh sách mới các đối tượng UserRole dựa trên người dùng hiện tại và vai trò mới.
 	        List<UserRole> userRoles = roles.stream()
 	                .map(role -> new UserRole(existingUser, role))
 	                .collect(Collectors.toList());
